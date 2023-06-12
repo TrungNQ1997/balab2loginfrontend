@@ -1,0 +1,162 @@
+
+<div class="div-body-container-all" >
+
+  <!-- div bao news, login -->
+  <div class="slideshow-container max-size slide-container-all"  >
+
+    <!-- Full-width images with number and caption text -->
+    <div *ngFor="let ban of listBanner" class="mySlides max-size"  >
+       
+      <img class="img-news"
+           src="{{ban.linkImg}}"/>
+      
+      <div class="col-6 div-content-news "
+           style="">
+        <div class="p-rela" style="">
+          <div class="title-news">{{ban.title}}</div>
+        
+          <div class="des-news">
+            {{ban.description}}
+            <!--<textarea [(ngModel)]="ban.description" maxlength="200" ></textarea>-->
+          </div>
+           
+          <div class="div-detail"  >
+            <a class="a-detail"
+               href="{{ban.linkTopic}}"
+               target="_blank"
+               rel="noopener noreferrer">{{'detail' | translate}}</a>
+            <i  class="fa-solid fa-xs fa-arrow-right icon-detail"></i>
+            
+          </div>
+          
+        </div>
+      </div>
+       
+    </div>
+    
+    <div class="div-login"  >
+      <img id="img"
+           draggable="false"
+           class="style-scope yt-img-shadow"
+           alt=""
+           width="80"
+           src="https://yt3.googleusercontent.com/ytc/AGIKgqNNq8pz2UWbfitGJUwAULnJZIwZnDUdSS_Pdcol=s176-c-k-c0x00ffffff-no-rj" />
+      <div class="div-username">
+        <input type="text"
+               class="form-control border-radius-20 margin-tb-5 p-left-30"
+               maxlength="50"
+               [(ngModel)]="username"
+               id="exampleInputEmail1"
+               placeholder="{{'login.username' | translate}}"
+               aria-describedby="emailHelp"/>
+        <i class="fa-solid fa-user icon-login"></i>
+           </div>
+      <div class="div-pass"  >
+        <input type="password"
+               class="form-control border-radius-20 margin-tb-5 p-left-right-30"
+               maxlength="200"
+               [(ngModel)]="pass"
+               placeholder="{{'login.pass' | translate}}"
+               id="exampleInputPassword1" />
+        <i class="fa-solid fa-lock icon-login"></i>
+        <i (click)="showPass()"
+           class="fa-regular fa-eye icon-login-end"></i>
+         </div>
+
+        <div class="margin-tb-5 d-flex"  >
+
+          <mat-checkbox color="primary" [(ngModel)]="is_remember" 
+          (checked)="is_remember"
+               >{{'login.remember_pass'|translate}}</mat-checkbox>
+
+          <!-- <input type="checkbox" id="cb1" class="mar-right-5 mar-bottom-10"   />
+          <label for="cb1"
+                 class="mar-right-20">
+          {{'login.remember_pass'|translate}}
+          </label> -->
+          <label class="font-menu" >{{'login.forgot_pass'|translate}}</label>
+
+        </div>
+      <div *ngIf="showMes" class="div-notis">
+        <label>{{notis}}</label>
+      </div>
+
+        <button type="submit"
+                (click)="login()"
+                class="btn btn-primary border-radius-20 margin-tb-5 btn-login">
+          {{ 'login.login' | translate }}
+        </button>
+
+        <img id="img"  
+             draggable="false"
+             class="style-scope yt-img-shadow mar-top-25"
+             alt=""
+             width="100"
+             src="/assets/img/M5GK-qrcode.png" />
+
+        <label>{{'login.qr_code' | translate}}</label>
+      </div>
+      <div *ngIf="listBanner.length > 0"
+           class="div-dot">
+        <span *ngFor="let banner of listBanner;let indexBan = index"
+              class="dot"
+              (click)="currentSlide(indexBan + 1)">
+          <span class="inside-active"  ></span>
+        </span>
+          </div>
+
+    </div>
+   
+</div>
+ 
+<div class="d-flex div-container-footer"  >
+  <!--div chi nhánh-->
+  <div class="div-container-brans"   >
+    <div class="col-xl-2 col-lg-md-3 col-sm-4 col-12 div-bran"
+         *ngFor="let branch of listBranch"  >
+
+      <div class="title-bran">
+      {{branch.title}}</div>
+      <br />
+      <div class="des-bran">
+      {{branch.address}}</div>
+       
+    </div>
+  </div>
+  <div class="div-link-social">
+    <!--div link social-->
+
+    <a href="https://play.google.com/store/apps/details?id=vn.bagps.gpsmobile"
+       target="_blank"
+       rel="noopener noreferrer">
+    <img class="img-app"
+         src="/assets/img/google-play.jpg" /></a>
+    <a href="https://itunes.apple.com/us/app/ba-gps/id1466206178?ls=1&mt=8"
+       target="_blank"
+       rel="noopener noreferrer">
+    <img class="img-app"
+         src="/assets/img/app-store.jpg" /></a>
+    <div class="d-flex">
+      <a href="https://www.facebook.com/giamsathanhtrinhbinhanh/"
+         target="_blank"
+         rel="noopener noreferrer">
+      <img class="img-social"
+           src="/assets/img/Facebook.png.webp" /></a>
+      <a href="https://zalo.me/1958838581480438876"
+         target="_blank"
+         rel="noopener noreferrer">
+      <img class="img-social"
+           src="/assets/img/Zalo.webp" /></a>
+
+      <a href="https://www.youtube.com/@BAGPS"
+         target="_blank"
+         rel="noopener noreferrer">
+      <img class="img-social"
+           src="/assets/img/youtube.jpg" /></a>
+    </div>
+  </div>
+
+</div>
+
+ 
+

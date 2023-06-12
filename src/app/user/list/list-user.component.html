@@ -1,0 +1,272 @@
+﻿<div>
+    <div class="div-container-user" style="padding-top:10px">
+        <div class="d-flex row-common">
+            <div class="col-6">Quản trị nhân viên</div>
+             
+            <div class="col-6 d-flex justify-content-end"><button class="border-normal margin-lr-10 button-theme" (click)="logout()" >Đăng xuất</button></div>
+        </div>
+        <div class="d-flex row-common">
+            <div class="col-7 d-flex">
+                <div class="col-2">
+                    <label class=" col-form-label">Ngày sinh từ</label>
+                </div>
+                <div class="col-10">
+
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="birthdayFrom" name="birthdayFrom" [matDatepicker]="picker1" placeholder=" ">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <!--<input class="border-normal" type="date" name="ngaySinhTu" [(ngModel)]="ngaySinhTu" />-->
+
+
+                    <label class="margin-lr-10">Đến</label>
+
+
+
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="birthdayTo" name="birthdayTo" [matDatepicker]="picker" placeholder=" ">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <!--<input class="border-normal" type="date" name="ngaySinhDen" [(ngModel)]="ngaySinhDen" />-->
+
+
+
+                </div>
+            </div>
+            <div class="col-5">
+                <label class="margin-lr-10">Giới tính</label>
+
+
+
+                <mat-form-field>
+
+                    <mat-select [(value)]="gioiTinhSearch" [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch" >
+                        <mat-option *ngFor="let itemgt of gioiTinhList" [value]="itemgt.value">
+                            {{itemgt.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!--<select class="form-select border-normal" style="width: auto" name="pageSize1" [(ngModel)]="gioiTinhSearch">
+
+                    <option [ngValue]="1">Tất cả </option>
+                    <option [ngValue]="2">Nam </option>
+                    <option [ngValue]="3">Nữ  </option>
+                    <option [ngValue]="4">khác  </option>
+                </select>-->
+
+
+
+            </div>
+
+
+        </div>
+        <div class="d-flex row-common" style="margin-bottom:10px">
+            <div class="d-flex col-7 ">
+                <div class="col-2">
+                    <label for="table-complete-search" class=" col-form-label">Tìm kiếm</label>
+                </div>
+
+                <div class="col-10  ">
+                    <!--<input id="table-complete-search"
+                           type="text"
+                           placeholder="Tìm theo email, họ tên"
+                           class="w-100per border-normal"
+                           name="searchTerm"
+                           [(ngModel)]="textSearch" />-->
+
+
+                    <mat-form-field class="example-full-width" style="width: 100%;">
+                        <input matInput [(ngModel)]="textSearch" 
+                               placeholder="Tìm theo email, họ tên" value="">
+                    </mat-form-field>
+
+                </div>
+
+                <!--<span class="col col-form-label" *ngIf="service">Loading...</span>-->
+            </div>
+            <div class="col-5 d-flex">
+                <button *ngIf="isRoleAdd" class="border-normal margin-lr-10 button-theme" (click)="add()">Thêm</button>
+                <button  *ngIf="isRoleEdit"  class="border-normal margin-lr-10 button-theme" (click)="search()">Tìm</button>
+                <button  *ngIf="isRoleDelete" class="border-normal margin-lr-10 button-theme" (click)="deleteList()">Xóa</button>
+            </div>
+        </div>
+
+
+
+        <table class="table table-striped" style="max-height: 500px;
+    height: 500px;
+    overflow-y: scroll;
+    display: block;">
+            <thead style="position: sticky; top: 0; z-index: 1;background-color:white">
+                <tr>
+                    <th class="text text-alig-center" scope="col" sortable="name" (sort)="onSort($event)">Chọn</th>
+                    <th class="text text-alig-center" scope="col" sortable="name" (sort)="onSort($event)">ID</th>
+                    <th class="text" scope="col" sortable="name" (sort)="onSort($event)">Họ tên</th>
+                    <th class="text text-alig-center"  scope="col" sortable="name" (sort)="onSort($event)">Tên đăng nhập</th>
+                    <th scope="col" class="text-alig-center" sortable="area" (sort)="onSort($event)">Ngày sinh</th>
+                    <th scope="col" class="text-alig-center" sortable="population" (sort)="onSort($event)">Giới tính</th>
+                    <th scope="col" class="text-alig-center" sortable="population" (sort)="onSort($event)">Điện thoại</th>
+                    <th scope="col" sortable="population" (sort)="onSort($event)">Email</th>
+                    <th scope="col" class="text-alig-center" sortable="population" (sort)="onSort($event)">Sửa</th>
+                    <th scope="col" class="text-alig-center" sortable="population" (sort)="onSort($event)">Xóa</th>
+                </tr>
+            </thead>
+            <tbody style="height:500px;overflow:auto;max-height:500px">
+                <tr height="40px" *ngFor="let user of users">
+                    <td class="text-alig-center">
+
+                        <mat-checkbox color="primary" 
+                        [(ngModel)]="user.selected" (checked)="user.selected" 
+                            > </mat-checkbox>
+                    </td>
+                    <td class="text-alig-center">
+
+                        <label>{{user.id}}</label>
+                    </td>
+                    <td>
+
+                        <label>{{user.ho_ten}}</label>
+                    </td>
+                    <td class="text-alig-center">
+
+                        <label>{{user.username}}</label>
+                    </td>
+                    <td class="text-alig-center"><label>{{user.ngay_sinh_text}}</label></td>
+                    <td class="text-alig-center"><label>{{user.gioi_tinh_text}}</label></td>
+                    <td class="text-alig-center"><label>{{user.sdt}}</label></td>
+                    <td><label>{{user.email}}</label></td>
+                    <td class="text-alig-center"><i  *ngIf="isRoleEdit"  class="fa-regular fa-pen-to-square" (click)="editUser($event,user)"></i></td>
+                    <td class="text-alig-center"><i  *ngIf="isRoleDelete"  class="fa-solid fa-trash-can" (click)="deleteUser($event,user)" accesskey=""></i></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-start p-2">
+
+            <div class="d-flex col-6">
+                <i class="fa-solid fa-backward-fast margin-lr-10 pad-top-4" (click)="minPage()"></i>
+                <i style="transform:rotate(180deg);padding-top:12px" (click)="prePage()" class="fa-solid fa-play margin-lr-10"></i>
+                <div *ngFor="let item of arrayPage">
+                    <button class="no-border button-white" [ngClass]="{'active-page': pageNumber === item}" (click)="selectPage(item)">{{item}}</button>
+
+                </div>
+                <i class="fa-solid fa-play margin-lr-10 pad-top-4" (click)="nextPage()"></i>
+                <i class="fa-solid fa-forward-fast margin-lr-10 pad-top-4" (click)="maxPage()"></i>
+
+
+
+
+
+                <mat-form-field height="7px" class="paging" style="height:7px;width:80px; "  >
+
+                    <mat-select      name="pageSize"   [(ngModel)]="pageSize" (ngModelChange)="getListUser()" >
+                        <mat-option *ngFor="let item of listPaging" [value]="item.value">
+                            {{item.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!--<select class="form-select border-normal margin-lr-10" style="width: auto;margin-bottom:6px" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="getListUser()">
+
+                    <option [ngValue]="5">5 </option>
+                    <option [ngValue]="10">10 </option>
+                    <option [ngValue]="20">20  </option>
+                </select>-->
+
+
+
+
+                <label class="margin-lr-10">dòng mỗi trang</label>
+            </div>
+
+            <div class="col-6  d-flex justify-content-end">
+                <label>Tổng số nhân viên: {{totalCountListAll}}</label>
+            </div>
+
+        </div>
+
+
+<!-- test bảng mat table -->
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    
+    <ng-container matColumnDef="selected">
+      <th mat-header-cell class="select-column" *matHeaderCellDef> Chọn </th>
+      <td mat-cell *matCellDef="let element">  <mat-checkbox color="primary" 
+        [(ngModel)]="element.selected" (checked)="element.selected" 
+            > </mat-checkbox> </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="id">
+      <th mat-header-cell class="id-column" *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="ho_ten">
+      <th mat-header-cell *matHeaderCellDef> Họ tên </th>
+      <td mat-cell *matCellDef="let element"> {{element.ho_ten}} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Tên đăng nhập </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ngay_sinh_text">
+        <th mat-header-cell *matHeaderCellDef> Ngày sinh </th>
+        <td mat-cell *matCellDef="let element"> {{element.ngay_sinh_text}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="gioi_tinh_text">
+        <th mat-header-cell *matHeaderCellDef> Giới tính </th>
+        <td mat-cell *matCellDef="let element"> {{element.gioi_tinh_text}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sdt">
+        <th mat-header-cell *matHeaderCellDef> Điện thoại	 </th>
+        <td mat-cell *matCellDef="let element"> {{element.sdt}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Sửa </th>
+        <td mat-cell *matCellDef="let element"> <i  *ngIf="isRoleEdit"  class="fa-regular fa-pen-to-square"
+             (click)="editUser($event,user)"></i> </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Xóa </th>
+        <td mat-cell *matCellDef="let element">
+             <i  *ngIf="isRoleDelete"  class="fa-solid fa-trash-can" (click)="deleteUser($event,user)" accesskey="">
+
+             </i> </td>
+      </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator 
+  [length]="totalCountListAll"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageEvent = $event; onPaginateChange($event)"
+  showFirstLastButtons></mat-paginator>
+</div>
+
+
+<!-- end test bảng mat table -->
+
+    </div>
+</div>

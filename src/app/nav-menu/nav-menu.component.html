@@ -1,0 +1,109 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 margin-bot-0">
+    <div class="container  div-container-menu-all margin-div-container padding-lr-10 ">
+
+      <button class="navbar-toggler button-toggler button-toggler1 font-menu"
+              type="button"
+              (click)="toggleMenu()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+       
+      <div class="" style="">
+         
+          <img id="img"
+               draggable="false"
+               class="style-scope yt-img-shadow"
+               alt=""
+               width="80"
+               src="/assets/img/logoBA.jpg">
+        
+      </div>
+       
+      <div class="phone-lang div-phone">
+        <a class=" div-tel color-phone"
+           href="tel:1900 6464"  >
+          <i   class="fa-solid fa-phone color-phone"></i>  1900 6464
+        </a>
+      </div>
+      <div class="phone-lang  div-lang">
+        <div class="dropdown">
+          <button class="dropbtn">
+            <img width="20"
+                 height="20"
+                 class="img-flag"
+                 src="{{langModel.img}}" />
+            <div class="div-dropbtn font-menu">
+              {{langModel.text}}
+            </div>
+            <i style=""
+               class="fa-solid fa-caret-down icon-dropbtn"></i>
+          </button>
+          <div class="dropText font-menu">
+            <div class="div-item-lang"
+                 *ngFor="let lang of dropDownData;let indexOfelement=index;">
+              <a (click)="setLanguage(lang.val,indexOfelement)">
+                <img class="img-flag" src="{{lang.img}}"
+                     width="20" height="20"> {{lang.text}}
+              </a>
+            </div>
+
+          </div>
+        </div>
+         
+      </div>
+      <div class="collapse navbar-collapse font-menu w-100per justify-content-center div-mobile-menu "
+           style="" id="div-container-menu">
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'home_page' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/san-pham-va-giai-phap"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'product' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/tin-tuc-c10"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'news' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/huong-dan-dong-phi-dich-vu-ba-gps-d610"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'fee' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://badoc.bagroup.vn/display/GPS/1.+HDSD+WEB+GPS"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'tutorial' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/mang-luoi"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'mang_luoi' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               href="https://bagps.vn/gioi-thieu/"
+               target="_blank"
+               rel="noopener noreferrer">{{ 'about_us' | translate }}</a>
+          </li>
+           
+        </ul>
+      </div>
+       
+    </div>
+     
+  </nav>
+</header>
+

@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+/* Provide sufficient contrast against white background */
+ 
+
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+.margin-div-container {
+  margin-left: 30px !important;
+  margin-right: 30px !important;
+  width: 100%;
+  max-width: unset !important;
+} 
+* {
+    font-size:16px;
+    font-family:Arial;
+}
+.dp-block {
+  display: block!important;
+}
+
+.dp-none {
+  display: none!important;
+}
+.font-menu * {
+  color: rgb(97,148,194) !important;
+}
+
+.font-menu {
+  color: rgb(97,148,194) !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-form-field-infix {
+    border-top-width: 0px;
+    padding-top: 0px!important;
+}

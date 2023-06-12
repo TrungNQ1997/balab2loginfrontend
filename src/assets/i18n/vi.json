@@ -1,0 +1,25 @@
+{
+  "HELLO_WORLD": "Xin chào, thế giới!22",
+  "home_page": "Trang chủ",
+  "product": "Sản phẩm dịch vụ",
+  "news": "Tin tức",
+  "fee": "Đóng phí",
+  "tutorial": "Hướng dẫn",
+  "mang_luoi": "Mạng lưới",
+  "about_us": "Về chúng tôi",
+  "login": {
+    "login": "Đăng nhập",
+    "pass": "Mật khẩu",
+    "username": "Tên đăng nhập",
+    "qr_code": "Quét mã QR để cài app",
+    "forgot_pass": "Quên mật khẩu?",
+    "remember_pass": "Nhớ mật khẩu"
+  },
+  "user": {
+    "title_modal": "Thêm nhân viên"
+  },
+  "detail": "Chi tiết",
+  "not_login": "Không thể đăng nhập lúc này",
+  "wrong_acc": "Tài khoản hoặc mật khẩu không đúng",
+  "title_page": "Đăng nhập hệ thống"
+}

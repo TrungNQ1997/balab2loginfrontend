@@ -1,0 +1,12 @@
+﻿<h2 mat-dialog-title>{{data.title}}</h2>
+
+<mat-dialog-content >
+    <label>{{data.content}}</label>
+</mat-dialog-content>
+ 
+
+<mat-dialog-actions style="justify-content: center;margin-bottom: 30px;">
+    <button class="mat-raised-button mat-primary" style="background-color: rgb(97,148,194); margin-right:20px" (click)="save()">Đồng ý</button>
+    <button class="mat-raised-button" (click)="close()">Đóng</button>
+
+</mat-dialog-actions>
