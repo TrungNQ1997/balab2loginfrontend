@@ -28,12 +28,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from "@angular/material";
 import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
+import { CustomPaginatorIntl } from './CustomPaginatorIntl';
+import { MatPaginatorIntl } from '@angular/material';
 
 
-
-//import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-// Function for setting up the translation loader
-export function HttpLoaderFactory(http: HttpClient) {
+ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
@@ -82,7 +81,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalComfirmComponent,
     EditUserComponent
   ],
-  providers: [],
+  providers: [
+     
+      { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
+     
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

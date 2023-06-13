@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent {
   title = 'app';
-  
+
   private curLang: string = 'vi';
 
   getCurLang(): string {
@@ -27,10 +27,9 @@ export class AppComponent {
         this.titleService.setTitle(successMessage);
       });
 
-    
   }
-  constructor(private translate: TranslateService, 
-        private dateAdapter: DateAdapter<Date>,
+  constructor(private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>,
     private titleService: Title) {
     translate.setDefaultLang('vi');
     this.dateAdapter.setLocale('en-GB');

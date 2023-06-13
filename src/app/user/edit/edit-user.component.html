@@ -6,25 +6,26 @@
             <label>Tên đăng nhập</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.username" placeholder=" " >
+            <input [disabled]="data.statusForm == 'edit'"  matInput maxlength="50" [(ngModel)]="user.username" placeholder=" " >
         </mat-form-field>
-        <!--<input [(ngModel)]="user.id" />-->
+        
     </div>
     <div class="d-flex">
         <div class="div-flex-center col-3 ">
             <label>Họ tên nhân viên</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.ho_ten" placeholder=" "  >
+            <input matInput maxlength="200" [(ngModel)]="user.ho_ten" placeholder=" "  >
         </mat-form-field>
-        <!--<input [(ngModel)]="user.ho_ten" />-->
+        
     </div>
     <div class="d-flex">
         <div class="div-flex-center col-3 ">
             <label>Ngày sinh</label>
         </div>
         <mat-form-field>
-            <input matInput [(ngModel)]="user.ngay_sinh" [matDatepicker]="picker" placeholder=" ">
+            <input matInput [(ngModel)]="user.ngay_sinh" [matDatepicker]="picker"
+             placeholder=" ">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -42,14 +43,13 @@
             </mat-select>
         </mat-form-field>
     </div>
-
-
+ 
     <div class="d-flex">
         <div class="div-flex-center col-3 ">
             <label>Email</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.email" placeholder=" " value="Sushi">
+            <input matInput [(ngModel)]="user.email" maxlength="200" placeholder=" "  >
         </mat-form-field>
     </div>
 
@@ -59,7 +59,7 @@
             <label>Điện thoại</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.sdt" placeholder=" " value="Sushi">
+            <input matInput maxlength="10" [(ngModel)]="user.sdt" placeholder=" "  >
         </mat-form-field>
     </div>
 
@@ -68,7 +68,8 @@
             <label>Mật khẩu</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.password" type="password" placeholder=" " value="Sushi">
+            <input matInput [(ngModel)]="user.password" maxlength="100" type="password"
+             placeholder=" "  >
         </mat-form-field>
     </div>
 
@@ -77,11 +78,11 @@
             <label>Nhập lại mật khẩu</label>
         </div>
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.rePassword" type="password" placeholder=" " value="Sushi">
+            <input matInput [(ngModel)]="user.rePassword" maxlength="100" type="password" 
+            placeholder=" "  >
         </mat-form-field>
     </div>
-
-
+ 
     <div class="d-flex">
         <div class="div-flex-center col-3">
             
@@ -95,7 +96,8 @@
             
         </div>
         
-            <mat-checkbox color="primary" [(ngModel)]="user.is_active" (checked)="user.is_active" name="isActive"    >Hoạt động</mat-checkbox>
+            <mat-checkbox color="primary" [(ngModel)]="user.is_active"
+             (checked)="user.is_active" name="isActive"    >Hoạt động</mat-checkbox>
  
     </div>
 
@@ -105,7 +107,9 @@
   </div>
 
 <mat-dialog-actions style="justify-content: center;margin-bottom: 30px;">
-    <button class="mat-raised-button mat-primary" style="background-color: rgb(97,148,194); margin-right:20px" (click)="save()">Lưu</button>
+    <button class="mat-raised-button mat-primary"
+     style="background-color: rgb(97,148,194); margin-right:20px" 
+     (click)="save()">Lưu</button>
     <button class="mat-raised-button" (click)="close()">Đóng</button>
 
 </mat-dialog-actions>

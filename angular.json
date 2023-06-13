@@ -56,6 +56,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "Projecttesthost:build",
+            "port": 4200,
+            "host": "0.0.0.0",
             "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {

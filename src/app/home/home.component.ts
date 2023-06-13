@@ -150,9 +150,7 @@ export class HomeComponent {
       this.translate
         .get('not_login')
         .subscribe((successMessage: string) => {
-           
-          // this.notis = successMessage;
-          // this.showMes = true;
+            
         });
 
     } else {
@@ -160,9 +158,7 @@ export class HomeComponent {
       this.translate
         .get('wrong_acc')
         .subscribe((successMessage: string) => {
-           
-          // this.notis = successMessage;
-          // this.showMes = true;
+            
         });
       
        
@@ -186,7 +182,7 @@ export class HomeComponent {
           }
 
 
-          this.http.post<any>('http://localhost:5017/' + 'user/login',
+          this.http.post<any>('http://10.1.11.110:5017/' + 'user/login',
               t, httpOptions)
               .subscribe(response => {
 
@@ -217,12 +213,7 @@ var formattedUTCString = datestr.replace(/(\d{2}:\d{2})/, hours1.toString().padS
                   };
                   
               });
-
-      
-
-
-      
-
+ 
   }
 
   ngOnInit() {

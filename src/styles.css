@@ -27,6 +27,17 @@ code {
     font-size:16px;
     font-family:Arial;
 }
+.mat-paginator-page-size-label{
+  padding-top: 15px;
+}
+.custom-mat-table thead {
+    
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color:white;
+
+}
 .dp-block {
   display: block!important;
 }

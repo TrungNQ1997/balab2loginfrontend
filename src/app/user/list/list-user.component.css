@@ -1,37 +1,66 @@
-.mat-form-field-infix{
-    border-top-width:0px;
-    padding-top:0px;
+.mat-form-field-infix {
+    border-top-width: 0px;
+    padding-top: 0px;
 }
 
-/* .table td, .table th {
-    border: 1px solid #ced4da;
-    height: 40px;
-    
-    max-height: 40px;
-}
-.table tr{
-    
-       
-      
-} */
 
-.id-column {
-    width: 250px; /* Đặt chiều rộng cột theo ý muốn */
-  }
-  .select-column {
-    width: 200px; /* Đặt chiều rộng cột theo ý muốn */
-  }
-.no-border{
-    border:none;
+.p-left-0 {
+    padding-left: 0px;
 }
+
+.table-scroll {
+    height: calc(100vh - 350px);
+    min-height: 350px;
+}
+
+.custom-mat-row {
+    /* height: auto;  
+    display: table-row;   */
+}
+
+.custom-mat-table {
+    max-height: calc(100vh - 350px);
+    /* Định dạng chiều cao của mat-table ở đây */
+    min-height: 350px;
+    overflow: auto;
+    display: block;
+}
+
+.ho-ten-column,
+.ngay-sinh-column,
+.email-column,
+.username-column,
+.sdt-column {
+    width: 14%;
+    /* Đặt chiều rộng cột theo ý muốn */
+}
+
+.select-column,
+.delete-column,
+.edit-column,
+.id-column,
+.gioi-tinh-column {
+    width: 8%;
+    /* Đặt chiều rộng cột theo ý muốn */
+}
+
+.no-border {
+    border: none;
+}
+
 .border-normal {
     border: 1px solid #ced4da;
-    border-radius:8px;
-    padding-right:7px;
-    padding-left:7px;
+    border-radius: 8px;
+    padding-right: 7px;
+    padding-left: 7px;
 }
+
+.p-right-5 {
+    padding-right: 5px;
+}
+
 .active-page {
-    background-color: rgb(97,148,194) !important;
+    background-color: rgb(97, 148, 194) !important;
     color: white !important;
     border-radius: 8px;
 }
@@ -40,54 +69,61 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
 .pad-top-10 {
     padding-top: 10px;
 }
+
 .pad-top-4 {
-    padding-top:4px;
+    padding-top: 4px;
 }
-.text-alig-right{
-    text-align:right;
+
+.text-alig-right {
+    text-align: right;
 }
+
 .text-alig-left {
     text-align: left;
 }
+
 .text-alig-center {
     text-align: center;
 }
+
 .button-theme {
-    background-color: rgb(97,148,194);
+    background-color: rgb(97, 148, 194);
     color: white;
-    border: 1px solid rgb(97,148,194);
-    min-width:90px;
+    border: 1px solid rgb(97, 148, 194);
+    min-width: 90px;
 }
 
 .div-container-user {
     margin-left: 30px !important;
     margin-right: 30px !important;
-    /*width: 100%;*/
-   /* max-width: unset !important;*/
-} 
+    
+}
 
 .button-white {
     background-color: white;
-    color: rgb(97,148,194);
+    color: rgb(97, 148, 194);
     border: none;
 }
 
-    .button-white:hover {
-        background-color: rgb(97,148,194);
-        color: white;
-        border-radius: 8px;
-    }
-    .row-common{
-        height:52px;
-        padding-top:5px;
-        padding-bottom:5px;
-        display:flex;
-        margin-top:5px;
-        margin-bottom:5px;
-    }
-    .w-100per{
-        width:100%;
-    }
+.button-white:hover {
+    background-color: rgb(97, 148, 194);
+    color: white;
+    border-radius: 8px;
+}
+
+.row-common {
+    height: 52px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.w-100per {
+    width: 100%;
+}
