@@ -2,114 +2,210 @@
 
 <mat-dialog-content style=" ">
     <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Tên đăng nhập</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input [disabled]="data.statusForm == 'edit'"  matInput maxlength="50" [(ngModel)]="user.username" placeholder=" " >
-        </mat-form-field>
-        
-    </div>
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Họ tên nhân viên</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput maxlength="200" [(ngModel)]="user.ho_ten" placeholder=" "  >
-        </mat-form-field>
-        
-    </div>
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Ngày sinh</label>
-        </div>
-        <mat-form-field>
-            <input matInput [(ngModel)]="user.ngay_sinh" [matDatepicker]="picker"
-             placeholder=" ">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </div>
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Giới tính</label>
-        </div>
-        <mat-form-field>
+    <div class="col-6">
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Tên đăng nhập</label>
+                <label class="color-red">*</label>
+            </div>
+            <input type="text" class="form-control margin-top-5 " name="txt-username" 
+             [disabled]="data.statusForm == 'edit'"   maxlength="50" 
+             [(ngModel)]="user.username" placeholder=" " required="true" (change)="checkChangeUsername()"
+              aria-label="Username" aria-describedby="basic-addon1">
 
-            <mat-select [ngModel]="user.gioi_tinh">
-                <mat-option *ngFor="let item of gioiTinhList" [value]="item.value">
-                    {{item.viewValue}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
- 
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Email</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.email" maxlength="200" placeholder=" "  >
-        </mat-form-field>
-    </div>
-
-
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Điện thoại</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput maxlength="10" [(ngModel)]="user.sdt" placeholder=" "  >
-        </mat-form-field>
-    </div>
-
-    <div class="d-flex">
-        <div class="div-flex-center col-3 ">
-            <label>Mật khẩu</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.password" maxlength="100" type="password"
-             placeholder=" "  >
-        </mat-form-field>
-    </div>
-
-    <div class="d-flex">
-        <div class="div-flex-center col-3">
-            <label>Nhập lại mật khẩu</label>
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="user.rePassword" maxlength="100" type="password" 
-            placeholder=" "  >
-        </mat-form-field>
-    </div>
- 
-    <div class="d-flex">
-        <div class="div-flex-center col-3">
+            <!-- <mat-form-field class="example-full-width">
+                <input [disabled]="data.statusForm == 'edit'"  matInput maxlength="50" [(ngModel)]="user.username" placeholder=" " >
+            </mat-form-field> -->
             
         </div>
-        
-            <mat-checkbox color="primary" [(ngModel)]="user.is_admin" (checked)="user.is_admin" name="isAdmin"    >Là Admin</mat-checkbox>
+        <div class="col-12">
+        <label  *ngIf="showErrorTxtUsername"  class="text-danger">{{errorTxtUsername}}</label>
+    </div>
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Ngày sinh</label>
+                <label class="color-red">*</label>
+            </div>
+            <!-- <div class="md-form md-outline input-with-post-icon datepicker" id="customDays">
+                <input placeholder=""  [(ngModel)]="user.ngay_sinh"  type="date" id="Customization" class="form-control">
+                
+                <i class="fas fa-calendar input-prefix" tabindex=0></i>
+              </div> -->
+            <!-- <mat-form-field>
+                <input matInput [(ngModel)]="user.ngay_sinh" [matDatepicker]="picker"
+                 placeholder=" ">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+            <input type="date" class="form-control datepicker" name="txt-ngay-sinh" [(ngModel)]="user.ngay_sinh" 
+             data-provide="datepicker" placeholder="Chọn ngày"  (change)="checkChangeNgaySinh()" >
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtNgaySinh"  class="text-danger">{{errorTxtNgaySinh}}</label>
+        </div>
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Email</label>
+            </div>
+            <input type="text" class="form-control margin-top-5" name="txt-mail" 
+               maxlength="200" 
+            [(ngModel)]="user.email" placeholder=" "  
+             (change)="checkChangeMail()" >
+
+            <!-- <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="user.email" maxlength="200" placeholder=" "  >
+
+            </mat-form-field> -->
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtMail"  class="text-danger">{{errorTxtMail}}</label>
+        </div>
+
+        <div class="d-flex h-45">
+            <div class="div-flex-center col-5 ">
+                 <label for="isAdmin">Là Admin</label>
+            </div>
+            <mat-checkbox class="pad-top-10" color="primary" [(ngModel)]="user.is_admin"
+             (checked)="user.is_admin" name="isAdmin"  id="isAdmin"  ></mat-checkbox>
  
     </div>
-    <div class="d-flex">
-        <div class="div-flex-center col-3">
-            
+    <div class="d-flex h-45  ">
+        <div class="div-flex-center col-5 ">
+                 <label>Hoạt động</label>
         </div>
-        
-            <mat-checkbox color="primary" [(ngModel)]="user.is_active"
-             (checked)="user.is_active" name="isActive"    >Hoạt động</mat-checkbox>
+            <mat-checkbox class="pad-top-10" color="primary" [(ngModel)]="user.is_active"
+             (checked)="user.is_active" name="isActive"    ></mat-checkbox>
  
     </div>
 
+    </div>
+    <div class="col-6">
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Họ tên nhân viên</label>
+                <label class="color-red">*</label>
+            </div>
+            <input type="text" class="form-control margin-top-5" name="txt-ten" 
+               maxlength="200" 
+            [(ngModel)]="user.ho_ten" placeholder=" "  
+             (change)="checkChangeTen()">
+            <!-- <mat-form-field class="example-full-width">
+                <input matInput maxlength="200" [(ngModel)]="user.ho_ten" placeholder=" "  >
+            </mat-form-field> -->
+            
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtTen"  class="text-danger">{{errorTxtTen}}</label>
+        </div>
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Giới tính</label>
+                <label class="color-red">*</label>
+            </div>
+            <select class="form-control"  [(ngModel)]="user.gioi_tinh" >
+                <option *ngFor="let option of gioiTinhList" [value]="option.value">
+                    {{ option.viewValue }}</option>
+              </select>
+            <!-- <mat-form-field>
+    
+                <mat-select [ngModel]="user.gioi_tinh" >
+                    <mat-option *ngFor="let item of gioiTinhList" [value]="item.value">
+                        {{item.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" 
+                type="button" id="dropdownMenuButton" data-toggle="dropdown" 
+                aria-haspopup="true" aria-expanded="false">
+                  
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" *ngFor="let item of gioiTinhList" [value]="item.value"  >{{ item.viewValue }}</a>
+                </div>
+              </div> -->
+              
+
+        </div>
+        <div class="d-flex h-45 ">
+            <div class="div-flex-center col-5 ">
+                <label>Điện thoại</label>
+                <label class="color-red">*</label>
+            </div>
+            <input type="text" class="form-control margin-top-5" name="txt-sdt" 
+               maxlength="10" 
+            [(ngModel)]="user.sdt" placeholder=" "  
+             (change)="checkChangeSdt()">
+            <!-- <mat-form-field class="example-full-width">
+                <input matInput maxlength="10" [(ngModel)]="user.sdt" placeholder=" "  >
+            </mat-form-field> -->
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtSdt"  class="text-danger">{{errorTxtSdt}}</label>
+        </div>
+       
+        <div class="d-flex h-45 "  *ngIf="data.statusForm == 'add'" >
+            <div class="div-flex-center col-5 ">
+                <label>Mật khẩu</label>
+                <label class="color-red">*</label>
+            </div>
+            <div class="d-flex" style="width: 100%;position: relative;">
+                <input type="password" class="form-control margin-top-5" name="txt-pass" 
+                maxlength="100"  id="exampleInputPassword11"
+             [(ngModel)]="user.password" placeholder=" "  
+              (change)="checkChangePass()">
+            <!-- <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="user.password"  id="exampleInputPassword11"
+                  maxlength="100" type="password"
+                 placeholder=" "  >
+              
+            </mat-form-field> -->
+            <i (click)="showPass1()" style="position: absolute;
+            right: 21px;
+            top: 14px;" class="fa-regular fa-eye icon-login-end"></i>
+        </div>
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtPass"  class="text-danger">{{errorTxtPass}}</label>
+        </div>
+        <div class="d-flex h-45 " *ngIf="data.statusForm == 'add'" >
+            <div class="div-flex-center col-5">
+                <label>Nhập lại mật khẩu</label>
+                <label class="color-red">*</label>
+            </div>
+            <div class="d-flex" style="width: 100%;position: relative;">
+                <input type="password" class="form-control margin-top-5" name="txt-repass" 
+                maxlength="100"  id="exampleInputPassword12"
+             [(ngModel)]="user.rePassword" placeholder=" "  
+              (change)="checkChangeRePass()">
+            <!-- <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="user.rePassword"
+                  id="exampleInputPassword12"  maxlength="100" type="password" 
+                placeholder=" "  >
+              
+            </mat-form-field> -->
+            <i (click)="showPass2()" style="position: absolute;
+            right: 21px;
+            top: 14px;"  class="fa-regular fa-eye icon-login-end"></i>
+        </div>
+        </div>
+        <div class="col-12">
+            <label  *ngIf="showErrorTxtRePass"  class="text-danger">{{errorTxtRePass}}</label>
+        </div>
+    </div>
+</div>
+    
 </mat-dialog-content>
-<div *ngIf="showMes" class="div-notis">
+<!-- <div *ngIf="showMes" class="div-notis">
     <label>{{notis}}</label>
-  </div>
+  </div> -->
 
-<mat-dialog-actions style="justify-content: center;margin-bottom: 30px;">
+<mat-dialog-actions style="justify-content: center;margin-bottom: 0px;">
     <button class="mat-raised-button mat-primary"
      style="background-color: rgb(97,148,194); margin-right:20px" 
-     (click)="save()">Lưu</button>
-    <button class="mat-raised-button" (click)="close()">Đóng</button>
+     (click)="save()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
+    <button class="mat-raised-button" (click)="close()">
+        <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
 
 </mat-dialog-actions>

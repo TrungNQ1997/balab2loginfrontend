@@ -14,6 +14,8 @@ import { MatColumnDef } from '@angular/material';
 import { ViewChildren, QueryList } from '@angular/core';
 import { CustomPaginatorIntl } from '../../CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'app-list-user',
@@ -65,19 +67,19 @@ export class ListUserComponent {
     deleteUser($event, a) {
 
         const dialogConfig = new MatDialogConfig();
-
+        var notis = "Bạn có đồng ý xóa người dùng " + a.username + " không?"
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
-            dialogConfig.width = '800px',
-            dialogConfig.position = {
-                'top': 'calc(50vh - 350px)',
-                left: 'calc(50vh - 250px)'
-            };
+            dialogConfig.width = '500px',
+            // dialogConfig.position = {
+            //     'top': 'calc(50vh - 350px)',
+            //     left: 'calc(50vh - 250px)'
+            // };
         dialogConfig.data = {
             id: 1,
             title: 'Xác nhận xóa',
-            content: 'Bạn có đồng ý xóa không?'
+            content: notis
         };
         var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
@@ -125,20 +127,36 @@ export class ListUserComponent {
     }
 
     deleteList() {
+        var listDelete = this.users.filter(m => m.selected == true);
+if(listDelete.length == 0){
+    this.toastr.error("Chọn người dùng cần xóa!")
+} else {
+
+        var notis = "Bạn có đồng ý xóa các người dùng: ";
+        listDelete.forEach(function(elem, idx, listDelete){
+            if(idx == (listDelete.length -1)){
+                notis = notis + " "+ elem.username+" ";
+            } else {
+                notis = notis + " "+ elem.username+",";
+            }
+            
+        })
+notis = notis +  "không?";
+
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
-            dialogConfig.width = '800px',
-            dialogConfig.position = {
-                'top': 'calc(50vh - 350px)',
-                left: 'calc(50vh - 250px)'
-            };
+            dialogConfig.width = '500px',
+            // dialogConfig.position = {
+            //     'top': 'calc(50vh - 350px)',
+            //     left: 'calc(50vh - 250px)'
+            // };
         dialogConfig.data = {
             id: 1,
             title: 'Xác nhận xóa',
-            content: 'Bạn có đồng ý xóa không?'
+            content: notis
         };
         var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
@@ -148,11 +166,10 @@ export class ListUserComponent {
             }
         })
     }
+}
 
     callDeleteList() {
-
-
-
+ 
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -280,9 +297,7 @@ export class ListUserComponent {
                         }
 
                     }
-
-
-
+ 
                 } else {
                     this.router.navigate([''], { relativeTo: this.route });
                 }
@@ -327,11 +342,11 @@ export class ListUserComponent {
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
-            dialogConfig.width = '800px',
-            dialogConfig.position = {
-                'top': 'calc(50vh - 350px)',
-                left: 'calc(50vh - 250px)'
-            };
+            dialogConfig.width = '975px',
+            // dialogConfig.position = {
+            //     'top': 'calc(50vh - 350px)',
+            //     left: 'calc(50vh - 250px)'
+            // };
         dialogConfig.data = {
             id: 1,
             title: 'Thêm người dùng',
@@ -365,11 +380,11 @@ export class ListUserComponent {
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
-            dialogConfig.width = '800px',
-            dialogConfig.position = {
-                'top': 'calc(50vh - 350px)',
-                left: 'calc(50vh - 250px)'
-            };
+            dialogConfig.width = '975px',
+            // dialogConfig.position = {
+            //     'top': 'calc(50vh - 350px)',
+            //     left: 'calc(50vh - 250px)'
+            // };
         dialogConfig.data = {
             data: user,
             title: 'Sửa người dùng',
@@ -378,8 +393,9 @@ export class ListUserComponent {
         };
         var modal = this.dialog.open(EditUserComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
-            console.log(result);
+             
             if (result == "ok") {
+               
                 this.getListUser();
             }
         })
@@ -423,7 +439,7 @@ export class ListUserComponent {
     constructor(private translateService: TranslateService,
         private http: HttpClient,
         private dialog: MatDialog, private route: ActivatedRoute,
-        private router: Router
+        private router: Router,private toastr: ToastrService
     ) {
         this.translateService.setDefaultLang('vi');
 

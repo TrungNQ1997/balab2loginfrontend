@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Md5} from 'ts-md5/dist/md5';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -139,7 +140,7 @@ export class HomeComponent {
   this.showSlidesNoTimeout(this.slideIndex = n);
   };
     constructor(private appComponent: AppComponent, private translate: TranslateService, private route: ActivatedRoute,
-        private router: Router, private http: HttpClient) {
+        private router: Router, private http: HttpClient, private toastr: ToastrService) {
    
 
   }
@@ -160,12 +161,9 @@ export class HomeComponent {
         .subscribe((successMessage: string) => {
             
         });
-      
        
       }
-
-
-      
+ 
           const httpOptions = {
               headers: new HttpHeaders({
                   'Content-Type': 'application/json',
@@ -180,8 +178,7 @@ export class HomeComponent {
               "is_remember": this.is_remember
 
           }
-
-
+ 
           this.http.post<any>('http://10.1.11.110:5017/' + 'user/login',
               t, httpOptions)
               .subscribe(response => {
@@ -200,7 +197,7 @@ var formattedUTCString = datestr.replace(/(\d{2}:\d{2})/, hours1.toString().padS
                     document.cookie = "token=" + userInfo.token +" ; expires= "+ formattedUTCString   ;
                     localStorage.setItem("username", userInfo.username);
                     localStorage.setItem("user_id", userInfo.user_id);
-
+                    this.toastr.success('Đăng nhập thành công', 'Thông báo');
                       this.router.navigate(['list-user'], { relativeTo: this.route });
                   } else {
                       this.translate

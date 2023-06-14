@@ -30,7 +30,7 @@ import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
-
+import { ToastrModule } from 'ngx-toastr';
 
  export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,6 +56,10 @@ import { MatPaginatorIntl } from '@angular/material';
       FormsModule,
       MatCheckboxModule,
       BrowserAnimationsModule,
+      ToastrModule.forRoot({
+        timeOut: 3000,
+      positionClass: 'toast-bottom-right'
+      }),
       MatDialogModule,
       MatTableModule,
       MatPaginatorModule,

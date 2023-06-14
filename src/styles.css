@@ -3,7 +3,7 @@
 
 /* Provide sufficient contrast against white background */
  
-
+@import url("../node_modules/ngx-toastr/toastr.css");
 a {
   color: #0366d6;
 }
@@ -11,6 +11,23 @@ a {
 code {
   color: #e01a76;
 }
+
+/* .toast-error {
+  background-color: #d9534f;
+  color: #fff;
+}
+.toast-success {
+  background-color: #5cb85c;
+  color: #fff;
+}
+.toast-container {
+  position: fixed;
+  z-index: 9999;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+} */
+
 
 .btn-primary {
   color: #fff;
@@ -24,11 +41,24 @@ code {
   max-width: unset !important;
 } 
 * {
-    font-size:16px;
+    font-size:13px!important;
     font-family:Arial;
 }
+
+table
+th,td{border: 1px solid back!important;} 
+
 .mat-paginator-page-size-label{
   padding-top: 15px;
+}
+.p-right-5 {
+  padding-right: 5px;
+}
+.cdk-overlay-pane{
+  position: fixed!important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 .custom-mat-table thead {
     

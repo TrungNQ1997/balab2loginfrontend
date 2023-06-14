@@ -1,7 +1,7 @@
 ﻿<div>
     <div class="div-container-user" style="padding-top:10px">
         <div class="d-flex row-common">
-            <div class="col-6">Quản trị nhân viên</div>
+            <div class="col-6">Quản trị người dùng</div>
 
             <div class="col-6 d-flex justify-content-end">
                 <button class="border-normal margin-lr-10 button-theme" (click)="logout()">
@@ -58,7 +58,7 @@
                 <div class="col-10  ">
 
                     <mat-form-field class="example-full-width" style="width: 100%;">
-                        <input matInput [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên" value="">
+                        <input matInput [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập" value="">
                     </mat-form-field>
 
                 </div>
@@ -89,9 +89,9 @@
                     </ng-container>
 
                     <ng-container matColumnDef="id">
-                        <th mat-header-cell class="id-column  text-alig-center " *matHeaderCellDef> ID </th>
+                        <th mat-header-cell class="id-column  text-alig-center " *matHeaderCellDef> STT </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
-                            {{element.id}} </td>
+                            {{element.stt}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ho_ten">
