@@ -7,7 +7,12 @@
 .p-left-0 {
     padding-left: 0px;
 }
-
+.w-auto{
+    width: auto;
+}
+.pad-left-0{
+    padding-left: 0px;
+}
 .table-scroll {
     height: calc(100vh - 350px);
     min-height: 350px;
@@ -55,14 +60,34 @@
     padding-left: 7px;
 }
 
-
-
+.dropdown:hover .dropText {
+    display: block;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    
+  }
+  
+  .dropText {
+    display: none;
+    position: absolute;
+    /*background-color: skyblue;*/
+    min-width: 130px;
+    width: 130px;
+    background-color: white;
+    z-index: 1;
+  }
 .active-page {
     background-color: rgb(97, 148, 194) !important;
     color: white !important;
     border-radius: 8px;
 }
 
+.margin-lr-5 {
+    margin-left: 5px;
+    margin-right: 5px;
+}
 .margin-lr-10 {
     margin-left: 10px;
     margin-right: 10px;
@@ -92,7 +117,7 @@
     background-color: rgb(97, 148, 194);
     color: white;
     border: 1px solid rgb(97, 148, 194);
-    min-width: 90px;
+    /* min-width: 90px; */
 }
 
 .div-container-user {
@@ -114,7 +139,7 @@
 }
 
 .row-common {
-    height: 52px;
+    height: 43px;
     padding-top: 5px;
     padding-bottom: 5px;
     display: flex;

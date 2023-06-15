@@ -206,9 +206,12 @@ return true;
         var validNgaySinh = this.checkChangeNgaySinh()
         var validUsername = this.checkChangeUsername()
         var validMail = this.checkChangeMail()
-        
-        var validPass = this.checkChangePass()
-        var validRePass = this.checkChangeRePass()
+        var validPass = true;
+        var validRePass = true;
+        if(this.data.statusForm == 'add'){
+            validPass = this.checkChangePass();
+            validRePass = this.checkChangeRePass()
+        }  
         var validSdt = this.checkChangeSdt()
         var validTen = this.checkChangeTen()
          
@@ -339,7 +342,14 @@ return true;
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
                             this.dialogRef.close("ok");
                         } else {
-                            this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
+                            if(response.exception.includes("UNIQUE KEY"))
+                            {
+                                this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
+                            } else 
+                            {
+                                this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
+                            }
+                            
                         }
 
                     });

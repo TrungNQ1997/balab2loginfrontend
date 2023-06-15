@@ -27,8 +27,25 @@ code {
   right: 20px;
   padding: 10px;
 } */
-
-
+.div-item-lang{
+  min-height: 30px;
+  cursor: pointer;
+}
+.div-item-lang:hover {
+  background-color: rgb(206, 214, 224);
+}
+.border-normal {
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+.button-theme {
+  background-color: rgb(97, 148, 194);
+  color: white;
+  border: 1px solid rgb(97, 148, 194);
+  /* min-width: 90px; */
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

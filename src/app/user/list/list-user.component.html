@@ -1,79 +1,145 @@
 ﻿<div>
     <div class="div-container-user" style="padding-top:10px">
         <div class="d-flex row-common">
-            <div class="col-6">Quản trị người dùng</div>
+            <div class="col-7 font-weight-bold">Quản trị người dùng</div>
 
-            <div class="col-6 d-flex justify-content-end">
-                <button class="border-normal margin-lr-10 button-theme" (click)="logout()">
+            <div class="col-5 d-flex justify-content-end">
+
+                
+
+              <!-- div user -->
+      <!-- <div class="   div-user" >
+        <div class="dropdown">
+          <button class="btn btn-primary dropbtn">
+            <img width="30" height="30" class="img-flag" src="/assets/img/user1.png" style="border:  0.5px solid rgb(11, 176, 229)" />
+            
+            <i style="padding-top: 8px"  class="fa-solid fa-caret-down icon-dropbtn"></i>
+          </button>
+          <div class="dropText font-menu" style="width: 100px;min-width: unset!important;">
+            <div class="div-item-lang" (click)="logout()">
+              <i class="fa-solid fa-right-from-bracket p-right-5"></i>
+              Đăng xuất
+                </div>
+            <div class="div-item-lang" >
+              <i class="fa-solid fa-lock p-right-5"></i>
+              
+              đổi mật khẩu
+                </div>
+          </div>
+        </div>
+
+      </div> -->
+<!-- end div user -->
+                <!-- <button class="btn btn-success border-normal margin-lr-10 button-theme" (click)="logout()">
                     <i class="fa-solid fa-right-from-bracket p-right-5"></i>
-                    Đăng xuất</button>
+                    Đăng xuất</button> -->
             </div>
         </div>
         <div class="d-flex row-common">
-            <div class="col-7 d-flex">
-                <div class="col-2 p-left-0">
-                    <label class=" col-form-label">Ngày sinh từ</label>
-                </div>
-                <div class="col-10">
+            <div class="col-5 d-flex">
+                
 
-                    <mat-form-field>
+
+                  
+
+                    
+                   
+              
+
+                    <!-- <mat-form-field>
                         <input matInput [(ngModel)]="birthdayFrom" name="birthdayFrom" [matDatepicker]="picker1"
                             placeholder=" ">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                    <label class="margin-lr-10">Đến</label>
+                  
 
-                    <mat-form-field>
+                    <!-- <mat-form-field>
                         <input matInput [(ngModel)]="birthdayTo" name="birthdayTo" [matDatepicker]="picker"
                             placeholder=" ">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
-                </div>
+                 
             </div>
-            <div class="col-5">
-                <label class="margin-lr-10">Giới tính</label>
+            <div class="col-7 d-flex justify-content-end">
+                <div class="col-10 d-flex ">
+<div class="col-10 d-flex pad-left-0">
+    <label class="margin-lr-10  col-form-label">Ngày sinh từ</label>
+    <input type="date" class="w-auto form-control datepicker"
+     name="txt-d1" [(ngModel)]="birthdayFrom" 
+    data-provide="datepicker" placeholder=""  
+     >
+<label class="margin-lr-10  col-form-label">Đến</label>
 
-                <mat-form-field>
+<input type="date" class="w-auto form-control datepicker"
+name="txt-d2" [(ngModel)]="birthdayTo" 
+data-provide="datepicker" placeholder=""  
+>
+</div>
+<div class="col-2 d-flex justify-content-end" >
+    <label class="   col-form-label">Giới tính</label>
+              
+</div>
+               
+                
+            </div>
+            <div class="d-flex " style="width: 80px;">
+               
+                <select class="w-auto form-control"  [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch" >
+                    <option *ngFor="let option of gioiTinhList" [value]="option.value">
+                        {{ option.viewValue }}</option>
+                  </select>
+                <!-- <mat-form-field>
 
                     <mat-select [(value)]="gioiTinhSearch" [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch">
                         <mat-option *ngFor="let itemgt of gioiTinhList" [value]="itemgt.value">
                             {{itemgt.viewValue}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
 
             </div>
-
+        </div>
         </div>
         <div class="d-flex row-common" style="margin-bottom:10px">
-            <div class="d-flex col-7 p-left-0">
-                <div class="col-2">
-                    <label for="table-complete-search" class=" col-form-label">Tìm kiếm</label>
-                </div>
-
-                <div class="col-10  ">
-
-                    <mat-form-field class="example-full-width" style="width: 100%;">
-                        <input matInput [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập" value="">
-                    </mat-form-field>
-
-                </div>
-            </div>
-            <div class="col-5 d-flex">
-                <button *ngIf="isRoleAdd" class="border-normal margin-lr-10 button-theme" (click)="add()">
+            <div class="d-flex col-5 p-left-0 justify-content-start">
+                <button *ngIf="isRoleAdd" class="btn btn-primary border-normal margin-lr-5 button-theme" (click)="add()">
                     <i class="fa-solid fa-plus p-right-5"></i>
                     Thêm</button>
-                <button *ngIf="isRoleEdit" class="border-normal margin-lr-10 button-theme" (click)="search()">
+            <button *ngIf="isRoleDelete" class="btn btn-danger border-normal " (click)="deleteList()">
+                <i class="fa-solid fa-trash-can p-right-5" accesskey="">
+
+                </i>Xóa</button>
+
+                <!-- <div class="col-2">
+                    <label for="table-complete-search" class=" col-form-label">Tìm kiếm</label>
+                </div> -->
+ 
+                    <!-- <mat-form-field class="example-full-width" style="width: 100%;">
+                        <input matInput [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập" value="">
+                    </mat-form-field> -->
+
+                   
+        
+            </div>
+            <div class="col-7 d-flex justify-content-end">
+                <div class="col-10">
+                <input type="text" class=" form-control margin-top-5 "  
+                maxlength="200" 
+             [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập "  
+               >
+            </div>
+            <div class="d-flex " style="width: 80px;">
+                <button *ngIf="isRoleEdit" 
+                class="btn btn-success border-normal margin-lr-5 button-theme" 
+                (click)="search()" style="width: 75px;margin-right: 0px;">
                     <i class="fa-solid fa-magnifying-glass p-right-5"></i>
                     Tìm</button>
-                <button *ngIf="isRoleDelete" class="border-normal margin-lr-10 button-theme" (click)="deleteList()">
-                    <i class="fa-solid fa-trash-can p-right-5" accesskey="">
-
-                    </i>Xóa</button>
+                </div>
+                  
             </div>
         </div>
 
@@ -82,66 +148,66 @@
                 <table mat-table [dataSource]="dataSource" class="custom-mat-table">
 
                     <ng-container matColumnDef="selected">
-                        <th mat-header-cell class="select-column  text-alig-center " *matHeaderCellDef> Chọn </th>
+                        <th mat-header-cell class=" text-dark font-weight-bold select-column  text-alig-center " *matHeaderCellDef> Chọn </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             <mat-checkbox color="primary" [(ngModel)]="element.selected" (checked)="element.selected">
                             </mat-checkbox> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id">
-                        <th mat-header-cell class="id-column  text-alig-center " *matHeaderCellDef> STT </th>
+                        <th mat-header-cell class=" text-dark font-weight-bold id-column  text-alig-center " *matHeaderCellDef> STT </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.stt}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ho_ten">
-                        <th mat-header-cell *matHeaderCellDef class="ho-ten-column"> Họ tên </th>
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold ho-ten-column"> Họ tên </th>
                         <td mat-cell [ngClass]="'custom-mat-row'" *matCellDef="let element"> {{element.ho_ten}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="username">
-                        <th mat-header-cell *matHeaderCellDef class="username-column  text-alig-center "> Tên đăng nhập
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold username-column  text-alig-center "> Tên đăng nhập
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.username}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ngay_sinh_text">
-                        <th mat-header-cell *matHeaderCellDef class="ngay-sinh-column  text-alig-center "> Ngày sinh
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold ngay-sinh-column  text-alig-center "> Ngày sinh
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.ngay_sinh_text}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="gioi_tinh_text">
-                        <th mat-header-cell *matHeaderCellDef class="gioi-tinh-column  text-alig-center "> Giới tính
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold gioi-tinh-column  text-alig-center "> Giới tính
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.gioi_tinh_text}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="sdt">
-                        <th mat-header-cell *matHeaderCellDef class="sdt-column  text-alig-center "> Điện thoại </th>
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold sdt-column  text-alig-center "> Điện thoại </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.sdt}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">
-                        <th mat-header-cell *matHeaderCellDef class="email-column"> Email </th>
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold email-column"> Email </th>
                         <td mat-cell [ngClass]="'custom-mat-row'" *matCellDef="let element"> {{element.email}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef class="edit-column  text-alig-center "> Sửa </th>
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold edit-column  text-alig-center "> Sửa </th>
                         <td mat-cell class=" text-alig-center " [ngClass]="'custom-mat-row'" *matCellDef="let element">
                             <i *ngIf="isRoleEdit" class="fa-regular fa-pen-to-square"
                                 (click)="editUser($event,element)"></i>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="delete">
-                        <th mat-header-cell *matHeaderCellDef class="delete-column"> Xóa </th>
+                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold delete-column"> Xóa </th>
                         <td mat-cell class=" text-alig-center " [ngClass]="'custom-mat-row'" *matCellDef="let element">
-                            <i *ngIf="isRoleDelete" class="fa-solid fa-trash-can" (click)="deleteUser($event,element)"
+                            <i *ngIf="isRoleDelete" style="color:red" class="fa-solid fa-trash-can" (click)="deleteUser($event,element)"
                                 accesskey="">
 
                             </i>

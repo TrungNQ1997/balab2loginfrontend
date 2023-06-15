@@ -37,9 +37,10 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field> -->
-            <input type="date" class="form-control datepicker" name="txt-ngay-sinh" [(ngModel)]="user.ngay_sinh" 
+            <input type="date" class="form-control margin-top-5 datepicker" name="txt-ngay-sinh" [(ngModel)]="user.ngay_sinh" 
              data-provide="datepicker" placeholder="Chọn ngày"  (change)="checkChangeNgaySinh()" >
-        </div>
+       
+            </div>
         <div class="col-12">
             <label  *ngIf="showErrorTxtNgaySinh"  class="text-danger">{{errorTxtNgaySinh}}</label>
         </div>
@@ -102,7 +103,7 @@
                 <label>Giới tính</label>
                 <label class="color-red">*</label>
             </div>
-            <select class="form-control"  [(ngModel)]="user.gioi_tinh" >
+            <select class="form-control margin-top-5"  [(ngModel)]="user.gioi_tinh" >
                 <option *ngFor="let option of gioiTinhList" [value]="option.value">
                     {{ option.viewValue }}</option>
               </select>

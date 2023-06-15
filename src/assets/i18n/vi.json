@@ -13,7 +13,7 @@
     "username": "Tên đăng nhập",
     "qr_code": "Quét mã QR để cài app",
     "forgot_pass": "Quên mật khẩu?",
-    "remember_pass": "Nhớ mật khẩu"
+    "remember_pass": "Nhớ phiên đăng nhập"
   },
   "user": {
     "title_modal": "Thêm nhân viên"

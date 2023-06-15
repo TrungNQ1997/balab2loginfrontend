@@ -108,7 +108,7 @@
 .div-phone {
   display: flex;
   position: absolute;
-  right: 138px;
+  right: 203px;
   top: 0px;
   min-width: 90px
 }
@@ -121,9 +121,7 @@
   padding-right: 250px
 }
 
-.div-item-lang:hover {
-  background-color: rgb(206, 214, 224);
-}
+ 
 
 .padding-lr-10 {
   padding-left: 10px;
@@ -163,6 +161,7 @@
   width: 130px;
   background-color: white;
   z-index: 1;
+  margin-left: -8px
 }
 
 .dropText a {
@@ -211,7 +210,7 @@
 .div-lang {
   display: flex;
   position: absolute;
-  right: 22px;
+  right: 77px;
   top: 0px;
   min-width: 90px
 }
@@ -249,6 +248,13 @@ html {
   html {
     font-size: 16px;
   }
+}
+.div-user{
+  display: flex;
+    position: absolute;
+    right: 10px;
+    top: -5px;
+    width: 50px;
 }
 
 .box-shadow {

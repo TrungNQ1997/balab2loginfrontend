@@ -31,7 +31,7 @@ import { MatPaginatorModule } from '@angular/material';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
-
+import { SharedService } from './service/shared.service';
  export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -86,7 +86,7 @@ import { ToastrModule } from 'ngx-toastr';
     EditUserComponent
   ],
   providers: [
-     
+     SharedService,
       { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
      
 

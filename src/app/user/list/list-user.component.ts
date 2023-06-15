@@ -16,6 +16,7 @@ import { CustomPaginatorIntl } from '../../CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { not } from '@angular/compiler/src/output/output_ast';
+import { SharedService } from '../../service/shared.service';
 
 @Component({
     selector: 'app-list-user',
@@ -28,6 +29,7 @@ export class ListUserComponent {
 
     displayedColumns: string[] = ['selected', 'id', 'ho_ten', 'username', 'ngay_sinh_text', 'gioi_tinh_text', 'sdt', 'email', 'edit', 'delete'];
     dataSource: any;
+    isUserIconVisible:boolean = false;
     pageSizeOptions: any;
     isRoleShow = false;
     isRoleAdmin = false;
@@ -67,7 +69,7 @@ export class ListUserComponent {
     deleteUser($event, a) {
 
         const dialogConfig = new MatDialogConfig();
-        var notis = "Bạn có đồng ý xóa người dùng " + a.username + " không?"
+        var notis = "Bạn có đồng ý xóa người dùng này không?"
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
@@ -79,7 +81,8 @@ export class ListUserComponent {
         dialogConfig.data = {
             id: 1,
             title: 'Xác nhận xóa',
-            content: notis
+            content: notis,
+            contentBold: a.username
         };
         var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
@@ -120,7 +123,10 @@ export class ListUserComponent {
             t, httpOptions)
             .subscribe(response => {
                 if (response.result == 0) {
+                    this.toastr.success("Xóa thành công","Thông báo")
                     this.getListUser();
+                } else {
+                    this.toastr.error("Xóa thất bại","Thông báo")
                 }
             });
 
@@ -132,16 +138,17 @@ if(listDelete.length == 0){
     this.toastr.error("Chọn người dùng cần xóa!")
 } else {
 
-        var notis = "Bạn có đồng ý xóa các người dùng: ";
+        var notis = "Bạn có đồng ý xóa những người dùng này không? ";
+        var listUser = "";
         listDelete.forEach(function(elem, idx, listDelete){
             if(idx == (listDelete.length -1)){
-                notis = notis + " "+ elem.username+" ";
+                listUser = listUser + " "+ elem.username+" ";
             } else {
-                notis = notis + " "+ elem.username+",";
+                listUser = listUser + " "+ elem.username+",";
             }
             
         })
-notis = notis +  "không?";
+
 
         const dialogConfig = new MatDialogConfig();
 
@@ -156,7 +163,8 @@ notis = notis +  "không?";
         dialogConfig.data = {
             id: 1,
             title: 'Xác nhận xóa',
-            content: notis
+            content: notis,
+            contentBold: listUser
         };
         var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
@@ -184,12 +192,17 @@ notis = notis +  "không?";
             t, httpOptions)
             .subscribe(response => {
                 if (response.result == 0) {
+                    this.toastr.success("Xóa thành công","Thông báo");
                     this.getListUser();
+                } else {
+                    this.toastr.error("Xóa thất bại","Thông báo");
                 }
             });
     }
 
     search() {
+        console.log(this.sharedService);
+        this.pageNumber=0;
         this.getListUser();
 
     }
@@ -226,7 +239,7 @@ notis = notis +  "không?";
 
     }
 
-    callCheckLoginAndGetRole(token: any): Observable<any> {
+   callCheckLoginAndGetRole (token: any): Observable<any> {
         var ui: any = new Object();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -246,13 +259,74 @@ notis = notis +  "không?";
 
     }
 
-    logout() {
-        localStorage.clear();
-        this.deleteAllCookies();
-        this.router.navigate([''], { relativeTo: this.route });
+    callGetRole (token: any): Observable<any> {
+        var ui: any = new Object();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+        };
+
+        var t: any;
+        t = {
+            "user_id": localStorage.getItem("user_id"),
+            "menu_id": 1
+        }
+
+        return this.http.post<any>('http://10.1.11.110:5017/' + 'user/getrole',
+            t, httpOptions)
+
     }
 
+   
+
     checkLoginAndRole() {
+
+    var session = sessionStorage.getItem("login");
+    if(session == "true"){
+        this.callGetRole(token).subscribe(result => {
+            this.isRoleAdmin = result.is_admin[0].is_admin
+            if (this.isRoleAdmin) {
+                this.isRoleShow = true;
+                this.isRoleAdd = true;
+                this.isRoleEdit = true;
+                this.isRoleDelete = true;
+            } else {
+
+                if (result.role) {
+                    var roleShow = result.role.filter(m => m.action == "show");
+                    var roleAdd = result.role.filter(m => m.action == "add");
+                    var roleEdit = result.role.filter(m => m.action == "edit");
+                    var roleDelete = result.role.filter(m => m.action == "delete");
+                    if (roleShow.length > 0) {
+                        this.isRoleShow = true;
+                    }
+                    if (roleAdd.length > 0) {
+                        this.isRoleAdd = true;
+                    }
+                    if (roleEdit.length > 0) {
+                        this.isRoleEdit = true;
+                    }
+                    if (roleDelete.length > 0) {
+                        this.isRoleDelete = true;
+                    }
+
+                    if (!this.isRoleShow) {
+                        this.router.navigate([''], { relativeTo: this.route });
+                    }
+
+                }
+
+                else {
+                    this.router.navigate([''], { relativeTo: this.route });
+                }
+
+            }
+
+        })
+    } else {
+
         var token = this.getCookie("token");
         if (token) {
             this.callCheckLoginAndGetRole(token).subscribe(result => {
@@ -283,9 +357,7 @@ notis = notis +  "không?";
                             if (roleDelete.length > 0) {
                                 this.isRoleDelete = true;
                             }
-
-
-
+ 
                             if (!this.isRoleShow) {
                                 this.router.navigate([''], { relativeTo: this.route });
                             }
@@ -308,6 +380,8 @@ notis = notis +  "không?";
         }
 
     }
+    
+}
 
     getCookie(cname) {
         let name = cname + "=";
@@ -439,7 +513,8 @@ notis = notis +  "không?";
     constructor(private translateService: TranslateService,
         private http: HttpClient,
         private dialog: MatDialog, private route: ActivatedRoute,
-        private router: Router,private toastr: ToastrService
+        private router: Router,private toastr: ToastrService,
+        private sharedService: SharedService
     ) {
         this.translateService.setDefaultLang('vi');
 

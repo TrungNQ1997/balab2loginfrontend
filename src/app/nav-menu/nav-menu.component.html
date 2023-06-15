@@ -1,6 +1,7 @@
 <header>
   <nav
     class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 margin-bot-0">
+    
     <div class="container  div-container-menu-all margin-div-container padding-lr-10 ">
 
       <button class="navbar-toggler button-toggler button-toggler1 font-menu" type="button" (click)="toggleMenu()">
@@ -10,7 +11,8 @@
       <div class="" style="">
 
         <img id="img" draggable="false" class="style-scope yt-img-shadow" alt="" width="80"
-          src="/assets/img/logoBA.jpg">
+        href="https://bagps.vn/" target="_blank" rel="noopener noreferrer" 
+          src="http://gps3.binhanh.vn/assets/images/login/logo.svg">
 
       </div>
 
@@ -26,7 +28,7 @@
             <div class="div-dropbtn font-menu">
               {{langModel.text}}
             </div>
-            <i style="" class="fa-solid fa-caret-down icon-dropbtn"></i>
+            <i   class="fa-solid fa-caret-down icon-dropbtn"></i>
           </button>
           <div class="dropText font-menu">
             <div class="div-item-lang" *ngFor="let lang of dropDownData;let indexOfelement=index;">
@@ -39,11 +41,34 @@
         </div>
 
       </div>
+<!-- div user -->
+      <div class="   div-user"  *ngIf="isNavbarVisible">
+        <div class="dropdown">
+          <button class="dropbtn">
+            <img width="30" height="30" class="img-flag" src="/assets/img/user1.png" style="border:  0.5px solid rgb(11, 176, 229)" />
+            
+            <i style="padding-top: 8px"  class="fa-solid fa-caret-down icon-dropbtn"></i>
+          </button>
+          <div class="dropText font-menu" style="width: 100px;min-width: unset!important;">
+            <div class="div-item-lang" (click)="logout()">
+                  <i class="fa-solid fa-right-from-bracket p-right-5"></i>
+              Đăng xuất
+                </div>
+            <div class="div-item-lang" >
+                 <i class="fa-solid fa-lock p-right-5"></i>
+              
+              đổi mật khẩu
+              </div>
+          </div>
+        </div>
+
+      </div>
+<!-- end div user -->
       <div class="collapse navbar-collapse font-menu w-100per justify-content-center div-mobile-menu " style=""
         id="div-container-menu">
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" href="https://bagps.vn/" target="_blank" rel="noopener noreferrer">{{
+            <a class="nav-link text-dark" href="https://bagps.vn/" target="_blank" rel="noopener noreferrer" >{{
               'home_page' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
