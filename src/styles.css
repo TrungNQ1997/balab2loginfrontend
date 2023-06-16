@@ -30,7 +30,11 @@ code {
 .div-item-lang{
   min-height: 30px;
   cursor: pointer;
- border:  1px solid #ced4da
+ border:  1px solid #ced4da;
+ 
+}
+.h-40{
+  height: 40px;
 }
 .div-item-lang:hover {
   background-color: rgb(206, 214, 224);
@@ -40,6 +44,12 @@ code {
   border-radius: 8px;
   padding-right: 7px;
   padding-left: 7px;
+}
+.no-pad{
+  padding: 0px;
+}
+.no-mar{
+  margin: 0px;
 }
 .button-theme {
   background-color: rgb(97, 148, 194);

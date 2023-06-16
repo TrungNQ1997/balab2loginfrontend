@@ -20,6 +20,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalComfirmComponent } from './common/modal-comfirm/modal-comfirm.component';
+import {ForgetPassUserComponent} from './user/forget-pass/forget-pass-user.component'
 //angular material
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -31,6 +32,7 @@ import { MatPaginatorModule } from '@angular/material';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
+
 import { SharedService } from './service/shared.service';
  export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -45,8 +47,8 @@ import { SharedService } from './service/shared.service';
         FetchDataComponent,
         EditUserComponent,
         ListUserComponent,
-        ModalComfirmComponent
-        
+        ModalComfirmComponent,
+        ForgetPassUserComponent
      
   ],
   imports: [
@@ -83,7 +85,8 @@ import { SharedService } from './service/shared.service';
   ],
   entryComponents: [
     ModalComfirmComponent,
-    EditUserComponent
+    EditUserComponent,
+    ForgetPassUserComponent
   ],
   providers: [
      SharedService,

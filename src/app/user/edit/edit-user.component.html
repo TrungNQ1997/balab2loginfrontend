@@ -13,10 +13,7 @@
              [(ngModel)]="user.username" placeholder=" " required="true" (change)="checkChangeUsername()"
               aria-label="Username" aria-describedby="basic-addon1">
 
-            <!-- <mat-form-field class="example-full-width">
-                <input [disabled]="data.statusForm == 'edit'"  matInput maxlength="50" [(ngModel)]="user.username" placeholder=" " >
-            </mat-form-field> -->
-            
+           
         </div>
         <div class="col-12">
         <label  *ngIf="showErrorTxtUsername"  class="text-danger">{{errorTxtUsername}}</label>
@@ -26,18 +23,7 @@
                 <label>Ngày sinh</label>
                 <label class="color-red">*</label>
             </div>
-            <!-- <div class="md-form md-outline input-with-post-icon datepicker" id="customDays">
-                <input placeholder=""  [(ngModel)]="user.ngay_sinh"  type="date" id="Customization" class="form-control">
-                
-                <i class="fas fa-calendar input-prefix" tabindex=0></i>
-              </div> -->
-            <!-- <mat-form-field>
-                <input matInput [(ngModel)]="user.ngay_sinh" [matDatepicker]="picker"
-                 placeholder=" ">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field> -->
-            <input type="date" class="form-control margin-top-5 datepicker" name="txt-ngay-sinh" [(ngModel)]="user.ngay_sinh" 
+             <input type="date" class="form-control margin-top-5 datepicker" name="txt-ngay-sinh" [(ngModel)]="user.ngay_sinh" 
              data-provide="datepicker" placeholder="Chọn ngày"  (change)="checkChangeNgaySinh()" >
        
             </div>
@@ -53,11 +39,7 @@
             [(ngModel)]="user.email" placeholder=" "  
              (change)="checkChangeMail()" >
 
-            <!-- <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="user.email" maxlength="200" placeholder=" "  >
-
-            </mat-form-field> -->
-        </div>
+         </div>
         <div class="col-12">
             <label  *ngIf="showErrorTxtMail"  class="text-danger">{{errorTxtMail}}</label>
         </div>
@@ -107,25 +89,7 @@
                 <option *ngFor="let option of gioiTinhList" [value]="option.value">
                     {{ option.viewValue }}</option>
               </select>
-            <!-- <mat-form-field>
-    
-                <mat-select [ngModel]="user.gioi_tinh" >
-                    <mat-option *ngFor="let item of gioiTinhList" [value]="item.value">
-                        {{item.viewValue}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" 
-                type="button" id="dropdownMenuButton" data-toggle="dropdown" 
-                aria-haspopup="true" aria-expanded="false">
-                  
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let item of gioiTinhList" [value]="item.value"  >{{ item.viewValue }}</a>
-                </div>
-              </div> -->
+            
               
 
         </div>
@@ -138,10 +102,7 @@
                maxlength="10" 
             [(ngModel)]="user.sdt" placeholder=" "  
              (change)="checkChangeSdt()">
-            <!-- <mat-form-field class="example-full-width">
-                <input matInput maxlength="10" [(ngModel)]="user.sdt" placeholder=" "  >
-            </mat-form-field> -->
-        </div>
+                </div>
         <div class="col-12">
             <label  *ngIf="showErrorTxtSdt"  class="text-danger">{{errorTxtSdt}}</label>
         </div>
@@ -156,13 +117,7 @@
                 maxlength="100"  id="exampleInputPassword11"
              [(ngModel)]="user.password" placeholder=" "  
               (change)="checkChangePass()">
-            <!-- <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="user.password"  id="exampleInputPassword11"
-                  maxlength="100" type="password"
-                 placeholder=" "  >
-              
-            </mat-form-field> -->
-            <i (click)="showPass1()" style="position: absolute;
+              <i (click)="showPass1()" style="position: absolute;
             right: 21px;
             top: 14px;" class="fa-regular fa-eye icon-login-end"></i>
         </div>
@@ -180,13 +135,7 @@
                 maxlength="100"  id="exampleInputPassword12"
              [(ngModel)]="user.rePassword" placeholder=" "  
               (change)="checkChangeRePass()">
-            <!-- <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="user.rePassword"
-                  id="exampleInputPassword12"  maxlength="100" type="password" 
-                placeholder=" "  >
-              
-            </mat-form-field> -->
-            <i (click)="showPass2()" style="position: absolute;
+              <i (click)="showPass2()" style="position: absolute;
             right: 21px;
             top: 14px;"  class="fa-regular fa-eye icon-login-end"></i>
         </div>
@@ -198,15 +147,18 @@
 </div>
     
 </mat-dialog-content>
-<!-- <div *ngIf="showMes" class="div-notis">
-    <label>{{notis}}</label>
-  </div> -->
+ 
 
 <mat-dialog-actions style="justify-content: center;margin-bottom: 0px;">
     <button class="mat-raised-button mat-primary"
      style="background-color: rgb(97,148,194); margin-right:20px" 
      (click)="save()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
-    <button class="mat-raised-button" (click)="close()">
+    
+     <button class="mat-raised-button mat-primary" *ngIf="data.statusForm == 'add'"
+     style="background-color: rgb(97,148,194); margin-right:20px" 
+     (click)="saveAdd()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu và thêm</button>
+    
+     <button class="mat-raised-button" (click)="close()">
         <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
 
 </mat-dialog-actions>

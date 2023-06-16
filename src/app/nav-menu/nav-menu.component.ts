@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { SharedService } from '../service/shared.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComfirmComponent } from '../common/modal-comfirm/modal-comfirm.component';
+import { ForgetPassUserComponent } from '../user/forget-pass/forget-pass-user.component';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from "@angular/material";
 
 @Component({
@@ -39,6 +40,31 @@ export class NavMenuComponent {
     //   this.isNavbarVisible = isVisible;
     // });
   }
+
+  onChangePass(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = 'auto',
+        dialogConfig.width = '500px',
+        
+    dialogConfig.data = {
+        data: "",
+        title: 'Đổi mật khẩu',
+        statusForm: 'edit'
+
+    };
+    var modal = this.dialog.open(ForgetPassUserComponent, dialogConfig);
+    modal.afterClosed().subscribe(result => {
+         
+        if (result == "ok") {
+           
+             
+        }
+    })
+  }
+
   toggleMenu() {
     let divs = document.getElementsByClassName("div-mobile-menu");
     this.isExpanded = !this.isExpanded;
@@ -127,7 +153,8 @@ logout(){
   //   return this.sharedService.isNavbarUserVisible;
   // }
 
-  constructor(private translateService: TranslateService, private appComponent: AppComponent
+  constructor(private translateService: TranslateService, 
+    private appComponent: AppComponent
     ,private sharedService: SharedService,private router: Router, 
     private route: ActivatedRoute, private dialog: MatDialog) {
 

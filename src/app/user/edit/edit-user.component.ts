@@ -20,6 +20,7 @@ export class EditUserComponent {
     regexPatternSdt = /^[0-9]{1,10}$/;
     regexPatternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,200}$/;
     errorTxtUsername: string;
+    is_load_list: boolean = false;
     showErrorTxtNgaySinh: boolean = false;
     errorTxtNgaySinh: string;
     showErrorTxtSdt: boolean = false;
@@ -58,18 +59,11 @@ export class EditUserComponent {
         if (this.data.statusForm == 'edit') {
             this.user = this.data.data;
             this.user.sdt = this.user.sdt.trim();
+            this.user.ngay_sinh = new Date(this.user.ngay_sinh);
             this.user.username = this.user.username.trim();
             this.user.email = this.user.email.trim();
         } else if (this.data.statusForm == 'add') {
-            this.user = new Object();
-
-            this.user.ho_ten = "";
-            this.user.gioi_tinh = 1;
-            this.user.is_admin = true;
-            this.user.is_active = true;
-            this.user.ngay_sinh = "";
-            this.user.email = "";
-            this.user.username = "";
+           this.refreshUser();
         }
 
         this.gioiTinhList = [{ value: 1, viewValue: "Nam" },
@@ -223,100 +217,20 @@ return true;
         }else {
             return false;
         }
-        // if (!this.user.username) {
-        //     this.errorTxtUsername = "Tên đăng nhập không được để trống"
-        //     this.showErrorTxtUsername = true;
-        //     valid = false;
-        // } else {
-        //     if (this.data.statusForm == 'add') {
-
-        //         var isValid = this.regexPatternUsername.test(this.user.username);
-        //         if (!isValid) {
-        //             this.notis = "Tên đăng nhập tối đa 50 ký tự, chỉ viết liền, không dấu"
-        //             this.showMes = true;
-        //             return false;
-        //         }
-        //     } else if (this.data.statusForm == 'edit') {
-        //         var isValid = this.regexPatternUsername.test(this.user.username.trim());
-        //         if (!isValid) {
-        //             this.notis = "Tên đăng nhập tối đa 50 ký tự, chỉ viết liền, không dấu"
-        //             this.showMes = true;
-        //             return false;
-        //         }
-        //     }
-        // }
-        // if (!this.user.ho_ten) {
-        //     this.notis = "Họ tên không được để trống"
-        //     this.showMes = true;
-        //     return false;
-        // }
-        // if (!this.user.ngay_sinh) {
-        //     this.notis = "Ngày sinh không được để trống"
-        //     this.showMes = true;
-        //     return false;
-        // } else {
-        //     var d1 = new Date(this.user.ngay_sinh);
-        //     var y1 = d1.getFullYear();
-        //     var y2 = (new Date()).getFullYear();
-        //     if ((y2 - y1) < 17) {
-        //         this.notis = "Ngày sinh phải lớn hơn hoặc bằng 18 tuổi"
-        //         this.showMes = true;
-        //         return false;
-        //     }
-        // }
-        // if (!this.user.sdt) {
-        //     this.notis = "Số điện thoại không được để trống"
-        //     this.showMes = true;
-        //     return false;
-        // } else {
-        //     var isValid = this.regexPatternSdt.test(this.user.sdt);
-        //     if (!isValid) {
-        //         this.notis = "Số điện thoại tối đa 10 ký tự, chỉ nhập số"
-        //         this.showMes = true;
-        //         return false;
-        //     }
-        // }
-        // if (this.user.email) {
-        //     var isValid = this.regexPatternEmail.test(this.user.email);
-        //     if (!isValid) {
-        //         this.notis = "Email phải đúng định dạng, chỉ viết liền, không dấu"
-        //         this.showMes = true;
-        //         return false;
-        //     }
-        // }
-
-        // if (this.data.statusForm == 'add') {
-        //     if (!this.user.password) {
-        //         this.notis = "Mật khẩu không được để trống"
-        //         this.showMes = true;
-        //         return false;
-        //     } else {
-        //         var isValid = this.regexPatternPass.test(this.user.password);
-        //         if (!isValid) {
-        //             this.notis = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu"
-        //             this.showMes = true;
-        //             return false;
-        //         }
-        //     }
-        // } else if (this.data.statusForm == 'edit') {
-        //     if (this.user.password) {
-        //         var isValid = this.regexPatternPass.test(this.user.password);
-        //         if (!isValid) {
-        //             this.notis = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu"
-        //             this.showMes = true;
-        //             return false;
-        //         }
-        //     } else {
-        //         this.user.password = '';
-        //         this.user.rePassword = '';
-        //     }
-        // }
-        // if (this.user.password != this.user.rePassword) {
-        //     this.notis = "Nhập lại mật khẩu không đúng"
-        //     this.showMes = true;
-        //     return false;
-        // }
         
+        
+    }
+
+    refreshUser(){
+        this.user = new Object();
+
+        this.user.ho_ten = "";
+        this.user.gioi_tinh = 1;
+        this.user.is_admin = true;
+        this.user.is_active = true;
+        this.user.ngay_sinh = "";
+        this.user.email = "";
+        this.user.username = "";
     }
 
     save() {
@@ -340,6 +254,7 @@ return true;
 
                         if (response.result == 0) {
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
+                            
                             this.dialogRef.close("ok");
                         } else {
                             if(response.exception.includes("UNIQUE KEY"))
@@ -381,6 +296,47 @@ return true;
         }
     }
 
+    saveAdd() {
+        var valid = this.checkValid();
+        if (valid) {
+
+            if (this.data.statusForm == 'add') {
+
+                const httpOptions = {
+                    headers: new HttpHeaders({
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    })
+                };
+
+                this.user.user_id = '2';
+
+                this.http.post<any>('http://10.1.11.110:5017/' + 'user/adduser',
+                    this.user, httpOptions)
+                    .subscribe(response => {
+
+                        if (response.result == 0) {
+                            this.toastr.success('Thêm người dùng thành công', 'Thông báo');
+                            this.is_load_list = true;
+                            this.refreshUser();
+                        } else {
+                            if(response.exception.includes("UNIQUE KEY"))
+                            {
+                                this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
+                            } else 
+                            {
+                                this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
+                            }
+                            
+                        }
+
+                    });
+
+            }
+           
+        }
+    }
+
     showPass1() {
         let password = document.querySelector('#exampleInputPassword11');
         if (password) {
@@ -398,7 +354,12 @@ return true;
     }
 
     close() {
-        this.dialogRef.close();
+        if(this.is_load_list){
+            this.dialogRef.close("ok");
+        } else {
+            this.dialogRef.close();
+        }
+        
     }
 
 }

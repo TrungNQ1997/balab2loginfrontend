@@ -455,10 +455,7 @@ if(listDelete.length == 0){
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
             dialogConfig.width = '975px',
-            // dialogConfig.position = {
-            //     'top': 'calc(50vh - 350px)',
-            //     left: 'calc(50vh - 250px)'
-            // };
+            
         dialogConfig.data = {
             data: user,
             title: 'Sửa người dùng',

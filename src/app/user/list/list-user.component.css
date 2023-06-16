@@ -14,7 +14,7 @@
     padding-left: 0px;
 }
 .table-scroll {
-    height: calc(100vh - 350px);
+    height: calc(100vh - 256px);
     min-height: 350px;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .custom-mat-table {
-    max-height: calc(100vh - 350px);
+    max-height: calc(100vh - 246px);
     /* Định dạng chiều cao của mat-table ở đây */
     min-height: 350px;
     overflow: auto;

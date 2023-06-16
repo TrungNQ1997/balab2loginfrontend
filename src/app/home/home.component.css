@@ -1,6 +1,114 @@
+@media screen and (max-width: 2000px){
+  .div-body-container-all{
+    height: calc(100vh - 220px)!important;
+    min-height: 468px
+  }
+  }
+
+@media screen and (max-width: 1300px){
+.div-body-container-all{
+  height: calc(100vh - 250px)!important;
+  min-height: 468px
+}
+}
+
+@media screen and (max-width: 1150px){
+  .div-body-container-all{
+    height: calc(100vh - 280px)!important;
+  }
+}
+
+@media screen and (max-width: 992px){
+
+  .div-body-container-all{
+    height: calc(100vh - 280px)!important;
+  }
+
+  .div-xl-bran{
+    flex: 0 0 32%!important;
+    max-width: 32%!important;
+  }
+}
+
+@media screen and (max-width: 600px)
+/* bắt đầu co div-login div tin tức vào giữa */
+{
+
+  .div-xl-bran{
+    flex: 0 0 95%!important;
+    max-width: 95%!important;
+  }
+
+.div-body-container-all{
+  min-height: 588px!important;
+}
+
+.div-login{
+  right: unset!important;
+}
+.slideshow-container{
+  justify-content: center;
+    display: flex;
+}
+.mySlides{
+  /* display: flex!important; */
+  justify-content: center;
+}
+
+.dp-block{
+  display: flex!important
+}
+
+.div-content-news{
+  min-width: 100%;
+  margin-left: unset!important;
+}
+.title-news{
+  padding-right: unset!important;
+}
+.des-news{
+  padding-right: unset!important;
+}
+.div-detail{
+  top: unset!important;
+}
+.div-content-news{
+  min-height: 90px;
+}
+}
+@media screen and (max-width: 400px) { 
+  /* bắt đầu hiện hết 5 chi nhánh */
+.div-container-footer{
+  padding-right: 0px!important;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.div-container-brans{
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden!important;
+  padding-bottom: 10px;
+}
+.div-bran{
+  width: 100%;
+  
+}
+.div-link-social{
+  position: unset!important;
+}
+}
+
+
+.div-xl-bran{
+  flex: 0 0 18%;
+  max-width: 18%;
+}
+
 .div-body-container-all {
   height: calc(100vh - 280px);
-  min-height: 562px
+  min-height: 468px
 }
 
 .slide-container-all {
@@ -94,7 +202,8 @@
 .img-social {
   width: 25px;
   height: 25px;
-  margin: 10px
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .icon-login {
@@ -160,7 +269,10 @@
 .border-radius-20 {
   border-radius: 20px
 }
-
+.img-login{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 .div-login {
   position: absolute;
   border-radius: 20px;
@@ -171,6 +283,7 @@
   background-color: white;
   align-items: center;
   padding: 10px;
+  min-width: 285px;
   align-content: center
 }
 
@@ -209,8 +322,11 @@
 }
 
 .div-bran {
-  margin-right: 50px;
-  height: auto
+  /* margin-right: 30px; */
+  height: auto;
+  margin-right: 15px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .d-flex {

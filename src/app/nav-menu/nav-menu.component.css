@@ -93,6 +93,11 @@
   }
 }
 
+.pad-lr-40{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 .div-mobile-menu1 {
   display: inline-flex;
 }
@@ -161,7 +166,7 @@
   width: 130px;
   background-color: white;
   z-index: 1;
-  margin-left: -8px
+  margin-left: -24px
 }
 
 .dropText a {
