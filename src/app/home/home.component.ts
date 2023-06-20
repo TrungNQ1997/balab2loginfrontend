@@ -6,13 +6,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../service/shared.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  is_remember: boolean;
+  isRemember: boolean;
   listBanner = [
     {
       linkTopic: "https://bagps.vn/an-toan-tien-ich-va-ket-noi-dinh-vi-o-to-4g-dem-lai-loi-ich-to-lon-cho-xe-o-to-dien-d2412",
@@ -97,11 +98,8 @@ export class HomeComponent {
   }
 
   showPass() {
-    let password = document.querySelector('#exampleInputPassword1');
-    if (password) {
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-    }
+    this.sharedService.showPass('#exampleInputPassword1');
+     
   }
 
   showSlides(n: any) {
@@ -164,43 +162,34 @@ export class HomeComponent {
         });
 
     }
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      })
-    };
-
+ 
     var t: any;
     t = {
       "username": this.username,
       "pass": this.pass,
-      "is_remember": this.is_remember
+      "is_remember": this.isRemember
 
     }
 
     this.http.post<any>('http://10.1.11.110:5017/' + 'user/login',
-      t, httpOptions)
+      t, this.sharedService.httpOptions)
       .subscribe(response => {
 
         if (response.result == 1) {
           var userInfo = response.userInfo[0];
-          if(this.is_remember == true){
+          if(this.isRemember == true){
           var date = new Date(userInfo.expired_date);
 
-          var hours1 = date.getHours(); // Lấy giờ
-          var minutes1 = date.getMinutes(); // Lấy phút
+          var hours1 = date.getHours();  
+          var minutes1 = date.getMinutes();  
 
           var datestr = date.toUTCString();
 
           var formattedUTCString = datestr.replace(/(\d{2}:\d{2})/, hours1.toString().padStart(2, '0') + ':' + minutes1.toString().padStart(2, '0'));
 
           document.cookie = "token=" + userInfo.token + " ; expires= " + formattedUTCString;
-          } else {
-            sessionStorage.setItem("login", "true");
-          }
-          
+          }  
+          sessionStorage.setItem("login", "true");
           localStorage.setItem("username", userInfo.username);
           localStorage.setItem("user_id", userInfo.user_id);
           this.sharedService.setIsNavbarVisible(true); // Ví dụ: Ẩn navbar
@@ -220,14 +209,93 @@ export class HomeComponent {
       });
 
   }
+ 
+  checkLoginAndRole() {
 
+    var session = sessionStorage.getItem("login");
+    if (session == "true") {
+ 
+        this.sharedService.callGetRole(token).subscribe(result => {
+            
+            if (result.is_admin[0].is_admin) {
+              
+              this.router.navigate(['list-user'], { relativeTo: this.route });
+               
+            } else {
+
+                if (result.role) {
+                    var roleShow = result.role.filter(m => m.action == "show");
+                     
+                    if (roleShow.length > 0) {
+                      this.router.navigate(['list-user'], { relativeTo: this.route });
+                    }
+                    
+                    if (roleShow.length = 0) {
+                        this.router.navigate([''], { relativeTo: this.route });
+                    }
+
+                }
+
+                else {
+                    this.router.navigate([''], { relativeTo: this.route });
+                }
+
+            }
+
+        })
+    } else {
+
+        var token = this.sharedService.getCookie("token");
+        if (token) {
+            this.sharedService.callCheckLoginAndGetRole(token).subscribe(result => {
+                if (result.is_login) {
+
+                    
+                    if (result.is_admin[0].is_admin) {
+                      this.router.navigate(['list-user'], { relativeTo: this.route });
+                    } else {
+
+                        if (result.role) {
+                            var roleShow = result.role.filter(m => m.action == "show");
+                             
+                            if (roleShow.length > 0) {
+                              this.router.navigate(['list-user'], { relativeTo: this.route });
+                            }
+                              
+                            else {
+                                this.router.navigate([''], { relativeTo: this.route });
+                            }
+
+                        }
+
+                        else {
+                            this.router.navigate([''], { relativeTo: this.route });
+                        }
+
+                    }
+
+                } else {
+                    this.router.navigate([''], { relativeTo: this.route });
+                }
+            });
+
+        } else {
+            this.router.navigate([''], { relativeTo: this.route });
+        }
+
+    }
+
+}
+  
   ngOnInit() {
-    this.is_remember = false;
+    this.isRemember = false;
+    this.checkLoginAndRole();
+
   }
 
   ngAfterViewInit() {
-    // this.showSlides(this.slideIndex);
-    this.showSlidesNoTimeout(1)//test
+     this.showSlides(this.slideIndex);
+    //this.showSlidesNoTimeout(1)//test
   }
 
 }

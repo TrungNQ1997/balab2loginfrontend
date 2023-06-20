@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from '../../service/shared.service';
 
 @Component({
     selector: 'app-forget-pass-user',
@@ -38,7 +39,8 @@ export class ForgetPassUserComponent {
         private dialogRef: MatDialogRef<ForgetPassUserComponent>,
         @Inject(MAT_DIALOG_DATA) data,
         private http: HttpClient,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private sharedService: SharedService
     ) {
 
         this.data = data;
@@ -51,53 +53,33 @@ export class ForgetPassUserComponent {
         this.showMes = false;
          
            this.refreshUser();
-        
-
+         
         this.gioiTinhList = [{ value: 1, viewValue: "Nam" },
         { value: 2, viewValue: "Nữ" },
         { value: 3, viewValue: "Khác" }]
 
     }
-
-    
+ 
     checkChangePassOld() {
-        var isValid = this.regexPatternPass.test(this.user.password_old);
-        let txtInput = document.getElementsByName("txt-pass-old");
-        if (isValid) {
-            txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtPassOld = false;
-            return true;
-        } else {
-            txtInput[0].className += " is-invalid";
-            this.showErrorTxtPassOld = true;
-
+        var t = this.sharedService.checkChangeProperty(this.regexPatternPass,this.user,"password_old","txt-pass-old",this,"showErrorTxtPassOld");
+         
+        if(!t){
             this.errorTxtPassOld = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu";
-            return false;
-
         }
+        return t;
+ 
     }
-
-
+ 
     checkChangePass() {
-        var isValid = this.regexPatternPass.test(this.user.password);
-        let txtInput = document.getElementsByName("txt-pass");
-        if (isValid) {
-            txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtPass = false;
-            return true;
-        } else {
-            txtInput[0].className += " is-invalid";
-            this.showErrorTxtPass = true;
-
+        var t = this.sharedService.checkChangeProperty(this.regexPatternPass,this.user,"password","txt-pass",this,"showErrorTxtPass");
+         
+        if(!t){
             this.errorTxtPass = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu";
-            return false;
-
         }
+        return t;
+ 
     }
-
-    
-
-    
+ 
     checkChangeRePass() {
 
         let txtInput = document.getElementsByName("txt-repass");
@@ -113,13 +95,9 @@ export class ForgetPassUserComponent {
             return false;
         }
     }
-   
-
-   
-
-    checkValid() {
     
-        
+    checkValid() {
+     
         var validPass = true;
         var validRePass = true;
         
@@ -127,7 +105,6 @@ export class ForgetPassUserComponent {
             validRePass = this.checkChangeRePass()
         
         var validPassOld = this.checkChangePassOld()
-        
          
         if(   validPass && 
         validRePass && validPassOld )
@@ -136,8 +113,7 @@ export class ForgetPassUserComponent {
         }else {
             return false;
         }
-        
-        
+         
     }
 
     refreshUser(){
@@ -152,19 +128,12 @@ export class ForgetPassUserComponent {
     save() {
         var valid = this.checkValid();
         if (valid) {
- 
-                const httpOptions = {
-                    headers: new HttpHeaders({
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    })
-                };
-
+  
                 this.user.user_id = localStorage.getItem("user_id");
                 this.user.username = localStorage.getItem("username");
 
                 this.http.post<any>('http://10.1.11.110:5017/' + 'user/changepass',
-                    this.user, httpOptions)
+                    this.user, this.sharedService.httpOptions)
                     .subscribe(response => {
 
                         if (response.result == 0) {
@@ -181,39 +150,26 @@ export class ForgetPassUserComponent {
 
             }  
         }
-   
-
     
-
     showPass1() {
-        let password = document.querySelector('#exampleInputPassword11');
-        if (password) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-        }
+        this.sharedService.showPass('#exampleInputPassword11');
+        
     }
 
     showPass2() {
-        let password = document.querySelector('#exampleInputPassword12');
-        if (password) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-        }
+        this.sharedService.showPass('#exampleInputPassword12');
+       
     }
 
     showPass3() {
-        let password = document.querySelector('#exampleInputPassword13');
-        if (password) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-        }
+        this.sharedService.showPass('#exampleInputPassword13');
+        
     }
 
     close() {
         
             this.dialogRef.close();
-         
-        
+          
     }
 
 }

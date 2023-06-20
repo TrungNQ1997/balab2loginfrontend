@@ -35,10 +35,7 @@ export class NavMenuComponent {
     this.translateService.use(value);
   }
   ngOnChanges(){
-    console.log(1);
-    // this.subscription = this.sharedService.navbarVisibility$.subscribe((isVisible: boolean) => {
-    //   this.isNavbarVisible = isVisible;
-    // });
+    
   }
 
   onChangePass(){
@@ -105,10 +102,7 @@ logout(){
         dialogConfig.autoFocus = true;
         dialogConfig.height = 'auto',
             dialogConfig.width = '500px',
-            // dialogConfig.position = {
-            //     'top': 'calc(50vh - 350px)',
-            //     left: 'calc(50vh - 250px)'
-            // };
+            
         dialogConfig.data = {
             id: 1,
             title: 'Xác nhận thoát',
@@ -116,7 +110,7 @@ logout(){
         };
         var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
         modal.afterClosed().subscribe(result => {
-            console.log(result);
+            // console.log(result);
             if (result == "ok") {
                 
                 this.callLogout();
@@ -128,30 +122,32 @@ logout(){
     localStorage.clear();
     sessionStorage.clear();
     this.deleteAllCookies();
-    this.sharedService.setIsNavbarVisible(false); // Ví dụ: Ẩn navbar
+    this.sharedService.setIsNavbarVisible(false);  
 
     this.router.navigate([''], { relativeTo: this.route });
 }
+ 
   ngOnInit() {
     this.langModel = this.dropDownData[0];
     this.translateService.use(this.dropDownData[0].val);
-    // this.subscription = this.sharedService.navbarVisibility$.subscribe((isVisible: boolean) => {
-    //   this.isNavbarVisible = isVisible;
-    // });
-    var visi = localStorage.getItem("user_id");
-    if(visi){
+    
+    var visi = this.sharedService.getCookie("token");
+    var login = sessionStorage.getItem("login");
+    if(login){
       this.isNavbarVisible = true;
+    } else {
+      if(visi){
+        this.isNavbarVisible = true;
+      }
     }
+    
     this.subscription = this.sharedService.isNavbarVisible$.subscribe(
       (isVisible: boolean) => {
         this.isNavbarVisible = isVisible;
       }
     );
   }
-  // get isNavbarUserVisible(): boolean {
-  //   console.log(1);
-  //   return this.sharedService.isNavbarUserVisible;
-  // }
+   
 
   constructor(private translateService: TranslateService, 
     private appComponent: AppComponent
@@ -162,8 +158,6 @@ logout(){
 
     // Nạp các bản dịch
     this.translateService.use('vi');
-    // this.subscription = this.sharedService.navbarVisibility$.subscribe((isVisible: boolean) => {
-    //   this.isNavbarVisible = isVisible;
-    // });
+     
   }
 }

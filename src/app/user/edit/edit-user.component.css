@@ -21,3 +21,7 @@ margin-top: 5px;
  .pad-top-10{
     padding-top: 10px;
  }
+ .div-edit-user{
+  min-width: 540px;
+  /* height: 330px; */
+ }

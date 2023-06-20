@@ -1,98 +1,6 @@
-@media screen and (max-width: 875px) {
-  .phone-lang {
-    height: 100%
-  }
+   
 
-  .div-tel {
-    position: relative;
-    top: 25%
-  }
-
-  .dropbtn {
-    position: relative;
-    top: 25%
-  }
-
-  .dropText {
-    top: 76%
-  }
-}
-
-@media screen and (max-width: 454px) {
-  .logo {
-    margin-top: 5px;
-  }
-
-  .margin-div-container {
-    margin-right: 5px !important;
-    margin-left: 5px !important;
-    padding-right: 0px !important
-  }
-
-  .phone-lang {
-    position: unset !important;
-  }
-}
-
-@media screen and (max-width: 1250px) {
-  .div-mobile-menu {
-    justify-content: start !important;
-    /*margin-left:140px*/
-  }
-}
-
-
-
-
-@media screen and (max-width: 768px) {
-
-  /*fit size md bootstrap*/
-  .div-mobile-menu {
-    display: none;
-    background-color: white;
-    margin-top: 10px;
-    position: unset !important;
-  }
-
-  .button-toggler {
-    display: block !important;
-    margin-right: 5px;
-  }
-
-  .div-tel {
-    position: unset;
-  }
-
-  .dropbtn {
-    position: unset;
-  }
-
-  .dropText {
-    top: unset;
-  }
-
-  /*.topnav a.icon {
-      float: right;
-      display: block;
-    }*/
-}
-
-@media screen and (width: 768px) {
-  .div-tel {
-    position: relative;
-    top: 25%
-  }
-
-  .dropbtn {
-    position: relative;
-    top: 25%
-  }
-
-  .dropText {
-    top: 76%;
-  }
-}
-
+ 
 .pad-lr-40{
   padding-left: 40px;
   padding-right: 40px;
@@ -158,7 +66,7 @@
   width: 120px;
 }
 
-.dropText {
+.dropText-lang {
   display: none;
   position: absolute;
   /*background-color: skyblue;*/
@@ -167,6 +75,16 @@
   background-color: white;
   z-index: 1;
   margin-left: -24px
+}
+.dropText {
+  display: none;
+  position: absolute;
+  /*background-color: skyblue;*/
+  min-width: 130px;
+  width: 130px;
+  background-color: white;
+  z-index: 1;
+  
 }
 
 .dropText a {
@@ -186,6 +104,9 @@
   display: block;
 }
 
+.dropdown:hover .dropText-lang {
+  display: block;
+}
 .dropdown:hover .dropbtn {
   /*background-color: yellow;*/
 }
@@ -204,7 +125,7 @@
 .div-dropbtn {
   margin-right: 5px;
   text-align: left;
-  min-width: 75px
+  min-width: 65px
 }
 
 .icon-dropbtn {
@@ -226,23 +147,23 @@
   /*padding: 5px;*/
   color: rgb(11, 176, 229);
   text-decoration: none;
-  height: 34px;
+  /* height: 34px;
   margin-top: 3px;
-  width: 122px;
+  width: 122px; */
   text-align: center;
-  padding-top: 5px
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
-
-
-
-
-
-
-
+ 
 a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+}
+
+.border-user{
+  border:  0.5px solid rgb(11, 176, 229)
 }
 
 html {
@@ -256,9 +177,7 @@ html {
 }
 .div-user{
   display: flex;
-    position: absolute;
-    right: 10px;
-    top: -5px;
+     
     width: 50px;
 }
 

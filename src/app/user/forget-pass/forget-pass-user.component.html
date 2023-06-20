@@ -1,6 +1,7 @@
-﻿<h2 mat-dialog-title>{{data.title}}</h2>
+﻿<div class="div-change-pass">
+<h2 mat-dialog-title>{{data.title}}</h2>
 
-<mat-dialog-content style=" ">
+<mat-dialog-content  >
     
     <div class="col-12">
         <div class="d-flex h-45 "  >
@@ -8,34 +9,29 @@
                 <label>Mật khẩu cũ</label>
                 <label class="color-red">*</label>
             </div>
-            <div class="d-flex" style="width: 100%;position: relative;">
+            <div class="d-flex w-100per-position-relative"  >
                 <input type="password" class="form-control margin-top-5" name="txt-pass-old" 
                 maxlength="100"  id="exampleInputPassword13"
              [(ngModel)]="user.password_old" placeholder=" "  
               (change)="checkChangePassOld()">
-              <i (click)="showPass3()" style="position: absolute;
-            right: 21px;
-            top: 14px;" class="fa-regular fa-eye icon-login-end"></i>
+              <i (click)="showPass3()"   class="fa-regular fa-eye icon-login-end position-icon-pass"></i>
         </div>
         </div>
         <div class="col-12">
             <label  *ngIf="showErrorTxtPassOld"  class="text-danger">{{errorTxtPassOld}}</label>
         </div>
-
-
+ 
         <div class="d-flex h-45 "  >
             <div class="div-flex-center col-5 ">
                 <label>Mật khẩu mới</label>
                 <label class="color-red">*</label>
             </div>
-            <div class="d-flex" style="width: 100%;position: relative;">
+            <div class="d-flex w-100per-position-relative"  >
                 <input type="password" class="form-control margin-top-5" name="txt-pass" 
                 maxlength="100"  id="exampleInputPassword11"
              [(ngModel)]="user.password" placeholder=" "  
               (change)="checkChangePass()">
-              <i (click)="showPass1()" style="position: absolute;
-            right: 21px;
-            top: 14px;" class="fa-regular fa-eye icon-login-end"></i>
+              <i (click)="showPass1()"   class="fa-regular fa-eye icon-login-end position-icon-pass"></i>
         </div>
         </div>
         <div class="col-12">
@@ -46,14 +42,12 @@
                 <label>Nhập lại mật khẩu mới</label>
                 <label class="color-red">*</label>
             </div>
-            <div class="d-flex" style="width: 100%;position: relative;">
+            <div class="d-flex w-100per-position-relative"  >
                 <input type="password" class="form-control margin-top-5" name="txt-repass" 
                 maxlength="100"  id="exampleInputPassword12"
              [(ngModel)]="user.rePassword" placeholder=" "  
               (change)="checkChangeRePass()">
-              <i (click)="showPass2()" style="position: absolute;
-            right: 21px;
-            top: 14px;"  class="fa-regular fa-eye icon-login-end"></i>
+              <i (click)="showPass2()"    class="fa-regular fa-eye icon-login-end position-icon-pass"></i>
         </div>
         </div>
         <div class="col-12">
@@ -62,14 +56,13 @@
 </div>
 
 </mat-dialog-content>
- 
-
-<mat-dialog-actions style="justify-content: center;margin-bottom: 0px;">
-    <button class="mat-raised-button mat-primary"
-     style="background-color: rgb(97,148,194); margin-right:20px" 
+  
+<mat-dialog-actions class="justify-content-center" style="margin-bottom: 0px;">
+    <button class="mat-raised-button mat-primary btn-primary-common" 
      (click)="save()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
      
      <button class="mat-raised-button" (click)="close()">
         <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
 
 </mat-dialog-actions>
+</div>

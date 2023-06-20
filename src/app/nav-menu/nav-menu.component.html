@@ -47,14 +47,13 @@
       </ul>
 
 
-      <ul class="nav navbar-nav navbar-right" style="flex-direction: row;
-      justify-content: center;">
-        <div class="phone-lang  d-flex-item-centre h-40" style=" ">
-          <a class=" div-tel color-phone" href="tel:1900 6464">
-            <i class="fa-solid fa-phone color-phone"></i> 1900 6464
+      <ul class="nav navbar-nav navbar-right justify-content-center" style="flex-direction: row;">
+        <div class="phone-lang  d-flex-item-centre h-40"  >
+          <a class=" div-tel color-phone d-flex-item-centre justify-content-centre" href="tel:1900 6464">
+            <i class="fa-solid fa-phone color-phone p-right-5"></i> 1900 6464
           </a>
         </div>
-        <div class="phone-lang  d-flex-item-centre " style="position: unset;">
+        <div class="phone-lang  d-flex-item-centre "  >
           <div class="dropdown">
             <button class="dropbtn">
               <img width="20" height="20" class="img-flag" src="{{langModel.img}}" />
@@ -75,14 +74,14 @@
   
         </div>
   <!-- div user -->
-        <div class=" d-flex-item-centre  div-user h-40" style="position: unset; " *ngIf="isNavbarVisible">
+        <div class=" d-flex-item-centre  div-user h-40"   *ngIf="isNavbarVisible">
           <div class="dropdown">
             <button class="dropbtn">
-              <img width="30" height="30" class="img-flag" src="/assets/img/user1.png" style="border:  0.5px solid rgb(11, 176, 229)" />
+              <img width="30" height="30" class="img-flag border-user" src="/assets/img/user1.png"   />
               
               <i style="padding-top: 8px"  class="fa-solid fa-caret-down icon-dropbtn"></i>
             </button>
-            <div class="dropText font-menu" style="width: 108px;min-width: unset!important;">
+            <div class="dropText-lang font-menu" style="width: 108px;min-width: unset!important;">
               <div class="div-item-lang d-flex-item-centre pad-rl-5" (click)="logout()">
                     <i class="fa-solid fa-right-from-bracket p-right-5"></i>
                 Đăng xuất
@@ -90,7 +89,7 @@
               <div class="div-item-lang d-flex-item-centre pad-rl-5" (click)="onChangePass()" >
                    <i class="fa-solid fa-lock p-right-5"></i>
                 
-                đổi mật khẩu
+                Đổi mật khẩu
                 </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from '../../service/shared.service';
 
 @Component({
     selector: 'app-edit-user',
@@ -45,7 +46,8 @@ export class EditUserComponent {
         private dialogRef: MatDialogRef<EditUserComponent>,
         @Inject(MAT_DIALOG_DATA) data,
         private http: HttpClient,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private sharedService: SharedService
     ) {
 
         this.data = data;
@@ -73,39 +75,23 @@ export class EditUserComponent {
     }
 
     checkChangeUsername() {
-        var isValid = this.regexPatternUsername.test(this.user.username);
-        let txtUsername = document.getElementsByName("txt-username");
-        if (isValid) {
-            txtUsername[0].className = txtUsername[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtUsername = false;
-            return true;
-        } else {
-            txtUsername[0].className += " is-invalid";
-            this.showErrorTxtUsername = true;
-            if (this.user.username) {
-                this.errorTxtUsername = "Tên đăng nhập tối đa 50 ký tự, chỉ viết liền, không dấu"
-            } else {
-                this.errorTxtUsername = "Tên đăng nhập không được để trống"
-            }
-            return false;
+
+        var t = this.sharedService.checkChangeProperty(this.regexPatternUsername,this.user,"username","txt-username",this,"showErrorTxtUsername");
+         
+        if(!t){
+            this.errorTxtUsername = "Tên đăng nhập từ 1 đến 50 ký tự, chỉ viết liền, không dấu"
         }
+        return t;
+ 
     }
 
     checkChangePass() {
-        var isValid = this.regexPatternPass.test(this.user.password);
-        let txtInput = document.getElementsByName("txt-pass");
-        if (isValid) {
-            txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtPass = false;
-            return true;
-        } else {
-            txtInput[0].className += " is-invalid";
-            this.showErrorTxtPass = true;
-
+        var t = this.sharedService.checkChangeProperty(this.regexPatternPass,this.user,"password","txt-pass",this,"showErrorTxtPass");
+         
+        if(!t){
             this.errorTxtPass = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu";
-            return false;
-
         }
+        return t;
     }
 
     checkChangeNgaySinh() {
@@ -125,26 +111,19 @@ export class EditUserComponent {
     }
 
     checkChangeSdt() {
-        var isValid = this.regexPatternSdt.test(this.user.sdt);
-        let txtInput = document.getElementsByName("txt-sdt");
-        if (isValid) {
-            txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtSdt = false;
-            return true;
-        } else {
-            txtInput[0].className += " is-invalid";
-            this.showErrorTxtSdt = true;
 
-            this.errorTxtSdt = "Số điện thoại tối đa 10 ký tự, chỉ nhập số";
-            return false;
-
-        }
-
+var t = this.sharedService.checkChangeProperty(this.regexPatternSdt,this.user,'sdt',"txt-sdt",this,"showErrorTxtSdt");
+ 
+if(!t){
+    this.errorTxtSdt = "Số điện thoại tối đa 10 ký tự, chỉ nhập số";
+} 
+return t;
+ 
     }
     checkChangeRePass() {
 
         let txtInput = document.getElementsByName("txt-repass");
-        if (this.user.password == this.user.rePassword) {
+        if (this.user.password == this.user.rePassword && this.user.rePassword != "") {
             txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
             this.showErrorTxtRePass = false;
             return true;
@@ -217,8 +196,7 @@ return true;
         }else {
             return false;
         }
-        
-        
+         
     }
 
     refreshUser(){
@@ -231,6 +209,8 @@ return true;
         this.user.ngay_sinh = "";
         this.user.email = "";
         this.user.username = "";
+        this.user.password = "";
+        this.user.rePassword = "";
     }
 
     save() {
@@ -238,19 +218,8 @@ return true;
         if (valid) {
 
             if (this.data.statusForm == 'add') {
-
-                const httpOptions = {
-                    headers: new HttpHeaders({
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    })
-                };
-
-                this.user.user_id = '2';
-
-                this.http.post<any>('http://10.1.11.110:5017/' + 'user/adduser',
-                    this.user, httpOptions)
-                    .subscribe(response => {
+  
+                    this.sharedService.callAddUser(this.user).subscribe(response => {
 
                         if (response.result == 0) {
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
@@ -270,17 +239,11 @@ return true;
                     });
 
             } else if (this.data.statusForm == 'edit') {
-                const httpOptions = {
-                    headers: new HttpHeaders({
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    })
-                };
-
+                 
                 this.user.user_id = '2';
 
                 this.http.post<any>('http://10.1.11.110:5017/' + 'user/edituser',
-                    this.user, httpOptions)
+                    this.user, this.sharedService.httpOptions)
                     .subscribe(response => {
 
                         if (response.result == 0) {
@@ -301,19 +264,8 @@ return true;
         if (valid) {
 
             if (this.data.statusForm == 'add') {
-
-                const httpOptions = {
-                    headers: new HttpHeaders({
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    })
-                };
-
-                this.user.user_id = '2';
-
-                this.http.post<any>('http://10.1.11.110:5017/' + 'user/adduser',
-                    this.user, httpOptions)
-                    .subscribe(response => {
+ 
+                    this.sharedService.callAddUser(this.user).subscribe(response => {
 
                         if (response.result == 0) {
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
@@ -338,19 +290,14 @@ return true;
     }
 
     showPass1() {
-        let password = document.querySelector('#exampleInputPassword11');
-        if (password) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-        }
+
+        this.sharedService.showPass('#exampleInputPassword11');
+        
     }
 
     showPass2() {
-        let password = document.querySelector('#exampleInputPassword12');
-        if (password) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-        }
+        this.sharedService.showPass('#exampleInputPassword12');
+       
     }
 
     close() {

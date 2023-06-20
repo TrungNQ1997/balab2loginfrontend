@@ -1,11 +1,11 @@
-﻿<div>
+﻿<div class="">
     <div class="div-container-user" style="padding-top:10px">
         
         <div class="d-flex row-common">
             <div class="col-xl-6 col-lg-4 col-md-3 d-flex font-weight-bold">Quản trị người dùng
                   
             </div>
-            <div class="col-xl-6 col-lg-8 col-md-9 d-flex justify-content-end">
+            <div class="col-xl-6 col-lg-8 col-md-9 d-flex justify-content-end div-search">
                 <div class="col-10 d-flex ">
 <div class="col-10 d-flex pad-left-0">
     <label class="margin-lr-10  col-form-label">Ngày sinh từ</label>
@@ -24,17 +24,15 @@ data-provide="datepicker" placeholder=""
     <label class="   col-form-label">Giới tính</label>
               
 </div>
-               
                 
             </div>
-            <div class="d-flex " style="width: 80px;">
+            <div class="d-flex w-80px"  >
                
                 <select class="w-auto form-control"  [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch" >
                     <option *ngFor="let option of gioiTinhList" [value]="option.value">
                         {{ option.viewValue }}</option>
                   </select>
-               
-
+                
             </div>
         </div>
         </div>
@@ -43,26 +41,23 @@ data-provide="datepicker" placeholder=""
                 <button *ngIf="isRoleAdd" class="btn btn-primary border-normal margin-lr-5 button-theme" (click)="add()">
                     <i class="fa-solid fa-plus p-right-5"></i>
                     Thêm</button>
-            <button *ngIf="isRoleDelete" class="btn btn-danger border-normal " (click)="deleteList()">
+            <button *ngIf="isRoleDelete && isShowDelete" class="btn btn-danger border-normal " (click)="deleteList()">
                 <i class="fa-solid fa-trash-can p-right-5" accesskey="">
 
                 </i>Xóa</button>
-
-              
-                   
-        
+ 
             </div>
-            <div class="col-xl-6  col-lg-8 col-md-9  d-flex justify-content-end">
+            <div class="col-xl-6  col-lg-8 col-md-9  d-flex justify-content-end div-search">
                 <div class="col-10">
                 <input type="text" class=" form-control margin-top-5 "  
                 maxlength="200" 
              [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập "  
                >
             </div>
-            <div class="d-flex " style="width: 80px;">
+            <div class="d-flex w-80px"  >
                 <button *ngIf="isRoleEdit" 
-                class="btn btn-success border-normal margin-lr-5 button-theme" 
-                (click)="search()" style="width: 75px;margin-right: 0px;">
+                class="btn btn-primary border-normal margin-lr-5 button-theme w-80px" 
+                (click)="search()" style=" margin-right: 0px;">
                     <i class="fa-solid fa-magnifying-glass p-right-5"></i>
                     Tìm</button>
                 </div>
@@ -75,66 +70,66 @@ data-provide="datepicker" placeholder=""
                 <table mat-table [dataSource]="dataSource" class="custom-mat-table">
 
                     <ng-container matColumnDef="selected">
-                        <th mat-header-cell class=" text-dark font-weight-bold select-column  text-alig-center " *matHeaderCellDef> Chọn </th>
+                        <th mat-header-cell class=" custom-header text-dark font-weight-bold select-column  text-alig-center c-poiter" (click)="selectAll()" *matHeaderCellDef> Chọn </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
-                            <mat-checkbox color="primary" [(ngModel)]="element.selected" (checked)="element.selected">
+                            <mat-checkbox color="primary" (change)="changCheckBox()" [(ngModel)]="element.selected" (checked)="element.selected">
                             </mat-checkbox> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id">
-                        <th mat-header-cell class=" text-dark font-weight-bold id-column  text-alig-center " *matHeaderCellDef> STT </th>
+                        <th mat-header-cell class=" custom-header  text-dark font-weight-bold id-column  text-alig-center " *matHeaderCellDef> STT </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.stt}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ho_ten">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold ho-ten-column"> Họ tên </th>
-                        <td mat-cell [ngClass]="'custom-mat-row'" *matCellDef="let element"> {{element.ho_ten}} </td>
+                        <th mat-header-cell *matHeaderCellDef class="  custom-header text-dark font-weight-bold ho-ten-column"> Họ tên </th>
+                        <td mat-cell class="custom-mat-row"  [ngClass]="{'text-right': element.gioi_tinh == 1, 'text-left': element.gioi_tinh == 2, 'text-center': element.gioi_tinh == 3}"  *matCellDef="let element"> {{element.ho_ten}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="username">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold username-column  text-alig-center "> Tên đăng nhập
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold username-column  text-alig-center "> Tên đăng nhập
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.username}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ngay_sinh_text">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold ngay-sinh-column  text-alig-center "> Ngày sinh
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold ngay-sinh-column  text-alig-center "> Ngày sinh
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.ngay_sinh_text}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="gioi_tinh_text">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold gioi-tinh-column  text-alig-center "> Giới tính
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold gioi-tinh-column  text-alig-center "> Giới tính
                         </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.gioi_tinh_text}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="sdt">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold sdt-column  text-alig-center "> Điện thoại </th>
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold sdt-column  text-alig-center "> Điện thoại </th>
                         <td mat-cell [ngClass]="'custom-mat-row  text-alig-center '" *matCellDef="let element">
                             {{element.sdt}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold email-column"> Email </th>
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold email-column"> Email </th>
                         <td mat-cell [ngClass]="'custom-mat-row'" *matCellDef="let element"> {{element.email}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold edit-column  text-alig-center "> Sửa </th>
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold edit-column  text-alig-center "> Sửa </th>
                         <td mat-cell class=" text-alig-center " [ngClass]="'custom-mat-row'" *matCellDef="let element">
-                            <i *ngIf="isRoleEdit" class="fa-regular fa-pen-to-square"
+                            <i *ngIf="isRoleEdit" class="fa-regular fa-pen-to-square c-poiter"
                                 (click)="editUser($event,element)"></i>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="delete">
-                        <th mat-header-cell *matHeaderCellDef class=" text-dark font-weight-bold delete-column"> Xóa </th>
+                        <th mat-header-cell *matHeaderCellDef class=" custom-header  text-dark font-weight-bold delete-column"> Xóa </th>
                         <td mat-cell class=" text-alig-center " [ngClass]="'custom-mat-row'" *matCellDef="let element">
-                            <i *ngIf="isRoleDelete" style="color:red" class="fa-solid fa-trash-can" (click)="deleteUser($event,element)"
+                            <i *ngIf="isRoleDelete" style="color:red" class="fa-solid fa-trash-can c-poiter" (click)="deleteUser($event,element)"
                                 accesskey="">
 
                             </i>

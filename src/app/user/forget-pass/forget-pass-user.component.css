@@ -21,3 +21,7 @@ margin-top: 5px;
  .pad-top-10{
     padding-top: 10px;
  }
+ .div-change-pass{
+  min-height: 240px;
+  min-width: 280px;
+ }
