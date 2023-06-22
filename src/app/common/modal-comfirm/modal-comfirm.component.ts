@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+﻿import { Component, Inject, Input } from '@angular/core';
  
 
  
@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
  import{ListUserComponent} from '../../user/list/list-user.component';
-
+ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-modal-comfirm',
@@ -16,35 +16,34 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
      
 })
 export class ModalComfirmComponent {
-    /*form: FormGroup;*/
+    @Input() data: any;
+     
     description: string;
     notis:string;
     content:string;
     user: any ;
-    data:any;
+     
     showMes:boolean;
     gioiTinhList: any;
+
     constructor(
-        /*private fb: FormBuilder,*/
-        private dialogRef: MatDialogRef<ListUserComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
-        private http: HttpClient
+        
+        private http: HttpClient,
+        public modal: NgbActiveModal
         ) {
            
-        this.data = data;
     }
 
     ngOnInit() {
-         
-         
+          
     }
   
     save() {
-        this.dialogRef.close("ok");
+        this.modal.close("ok");
 }
 
     close() {
-        this.dialogRef.close();
+        this.modal.close();
     }  
 
 }

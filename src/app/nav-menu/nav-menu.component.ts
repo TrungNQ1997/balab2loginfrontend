@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComfirmComponent } from '../common/modal-comfirm/modal-comfirm.component';
 import { ForgetPassUserComponent } from '../user/forget-pass/forget-pass-user.component';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from "@angular/material";
-
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -19,6 +19,12 @@ export class NavMenuComponent {
   isNavbarVisible: boolean = false;
   private subscription: Subscription;
   isExpanded = false;
+  modalOptions: NgbModalOptions = {
+    // size:'700px',
+    windowClass : "myCustomModalClass",
+
+    centered: true // Căn giữa modal
+  };
   dropDownData = [
     { val: "vi", text: "Tiếng Việt", img: "/assets/img/icon-co-vn.png" },
     { val: "en", text: "English", img: "/assets/img/eng.jpg" }
@@ -39,27 +45,27 @@ export class NavMenuComponent {
   }
 
   onChangePass(){
-    const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = 'auto',
-        dialogConfig.width = '500px',
-        
-    dialogConfig.data = {
-        data: "",
-        title: 'Đổi mật khẩu',
-        statusForm: 'edit'
 
-    };
-    var modal = this.dialog.open(ForgetPassUserComponent, dialogConfig);
-    modal.afterClosed().subscribe(result => {
-         
+    var modalRef = this.modalService.open(ForgetPassUserComponent,this.modalOptions);
+    
+    modalRef.componentInstance.data = {
+      data: "",
+      title: 'Đổi mật khẩu',
+      statusForm: 'edit'
+            };
+
+    modalRef.result.then((result) => {
+
         if (result == "ok") {
-           
              
-        }
-    })
+                }
+
+    }).catch((error) => {
+    console.log(error)
+    });
+
+ 
   }
 
   toggleMenu() {
@@ -96,27 +102,26 @@ export class NavMenuComponent {
     }
 }
 logout(){
-  const dialogConfig = new MatDialogConfig();
-        var notis = "Bạn có đồng ý thoát không?"
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.height = 'auto',
-            dialogConfig.width = '500px',
-            
-        dialogConfig.data = {
-            id: 1,
+  var notis = "Bạn có đồng ý thoát không?"
+  var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
+    
+  modalRef.componentInstance.data = {
+    id: 1,
             title: 'Xác nhận thoát',
             content: notis
-        };
-        var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
-        modal.afterClosed().subscribe(result => {
-            // console.log(result);
-            if (result == "ok") {
-                
-                this.callLogout();
-            }
-        })
+          };
 
+  modalRef.result.then((result) => {
+
+      if (result == "ok") {
+        this.callLogout();
+              }
+
+  }).catch((error) => {
+  console.log(error)
+  });
+ 
+ 
 }
   callLogout() {
     localStorage.clear();
@@ -152,7 +157,9 @@ logout(){
   constructor(private translateService: TranslateService, 
     private appComponent: AppComponent
     ,private sharedService: SharedService,private router: Router, 
-    private route: ActivatedRoute, private dialog: MatDialog) {
+    private route: ActivatedRoute 
+    , private modalService: NgbModal
+    ) {
 
     this.translateService.setDefaultLang('vi');
 

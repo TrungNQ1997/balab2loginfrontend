@@ -32,8 +32,12 @@ import { MatPaginatorModule } from '@angular/material';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 import { MatPaginatorIntl } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from './service/shared.service';
+import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { viLocale } from 'ngx-bootstrap/locale';
+defineLocale('vi', viLocale);
  export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -56,6 +60,8 @@ import { SharedService } from './service/shared.service';
       HttpClientModule,
       MatSliderModule,
       FormsModule,
+      NgbModule,
+      BsDatepickerModule.forRoot(),
       MatCheckboxModule,
       BrowserAnimationsModule,
       ToastrModule.forRoot({
@@ -91,11 +97,22 @@ import { SharedService } from './service/shared.service';
   providers: [
      SharedService,
       { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-     
+     ,{ provide: BsDatepickerConfig, useFactory: getDatepickerConfig }
 
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor( private bsLocaleService: BsLocaleService){
+    this.bsLocaleService.use('vi');//fecha en español, datepicker
+  }
+
+}
 // required for AOT compilation
 
+export function getDatepickerConfig(): BsDatepickerConfig {
+  return Object.assign(new BsDatepickerConfig(), {
+    containerClass: 'theme-dark-blue',
+    dateInputFormat: 'DD/MM/YYYY'
+  });
+}

@@ -17,6 +17,13 @@ import { MatPaginatorIntl } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { not } from '@angular/compiler/src/output/output_ast';
 import { SharedService } from '../../service/shared.service';
+import * as XLSX from 'xlsx';
+import {   ElementRef } from '@angular/core';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+ 
+
 
 @Component({
     selector: 'app-list-user',
@@ -24,6 +31,8 @@ import { SharedService } from '../../service/shared.service';
     styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent {
+    @ViewChild('table', { static: false }) table: ElementRef;
+
     // @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
 
@@ -38,14 +47,22 @@ export class ListUserComponent {
     isRoleEdit = false;
     isRoleDelete = false;
     isExpanded = false;
-    birthdayFrom = "";
+    birthdayFrom="" ;
     birthdayTo = "";
     pageNumber = 1;
     textSearch = "";
     pageSize: number;
+    rowStart:number = 0;
+    rowEnd:number = 0;
     totalNumberPage = 0;
     totalCountListAll = 0;
-    arrayPage: any;
+    arrayPage: any = [];
+    modalOptions: NgbModalOptions = {
+        // size:'700px',
+        windowClass : "myCustomModalClass",
+
+        centered: true // Căn giữa modal
+      };
     gioiTinhSearch: number;
     gioiTinhList: any;
     listPaging: any;
@@ -62,35 +79,89 @@ export class ListUserComponent {
         this.pageNumber = $event.pageIndex;
         this.pageSize = $event.pageSize;
         this.getListUser();
- 
+
     }
+    exportTableToPDF() {
+        const doc = new jsPDF();
+        const table = this.table.nativeElement;
+      
+        html2canvas(table).then((canvas) => {
+          const imageData = canvas.toDataURL('image/png');
+          const imgWidth = 210; // Width of A4 in mm (approximate)
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+          doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+          
+          doc.save('table_data.pdf');
+        });
+      }
+
+      printTable() {
+        const doc = new jsPDF();
+        const table = this.table.nativeElement;
+      
+        html2canvas(table).then((canvas) => {
+          const imageData = canvas.toDataURL('image/png');
+          const imgWidth = 210; // Width of A4 in mm (approximate)
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+          doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+          
+          doc.autoPrint();
+          const printWindow = window.open('', '_blank');
+          printWindow.document.open();
+          printWindow.document.write('<html><head><title>In</title></head><body>' + doc.output('datauristring') + '</body></html>');
+          printWindow.document.close();
+        });
+      }
+      
+      
+    exportToExcel(): void {
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.users);
+        const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, 'data');
+      }
+    
+      private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });
+        const url: string = window.URL.createObjectURL(data);
+        const link: HTMLAnchorElement = document.createElement('a');
+        link.href = url;
+        link.download = fileName + '.xlsx';
+        link.click();
+        window.URL.revokeObjectURL(url);
+        link.remove();
+      }
+      
+
     deleteUser($event, a) {
 
-        const dialogConfig = new MatDialogConfig();
         var notis = "Bạn có đồng ý xóa người dùng này không?"
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.height = 'auto',
-            dialogConfig.width = '500px',
-           
-            dialogConfig.data = {
-                id: 1,
-                title: 'Xác nhận xóa',
-                content: notis,
-                contentBold: a.username
-            };
-        var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
-        modal.afterClosed().subscribe(result => {
-            // console.log(result);
+       
+        var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
+
+        modalRef.componentInstance.data = {
+                    id: 1,
+                    title: 'Xác nhận xóa',
+                    content: notis,
+                    contentBold: a.username
+                };
+ 
+        modalRef.result.then((result) => {
+
             if (result == "ok") {
-                var t: any = new Object();
-                t.array = [];
-                t.array.push(a)
-
-                this.callDeleteUser(t);
-            }
-        })
-
+                        var t: any = new Object();
+                        t.array = [];
+                        t.array.push(a)
+        
+                        this.callDeleteUser(t);
+                    }
+ 
+        }).catch((error) => {
+        
+        });
+ 
     }
 
     selectAll() {
@@ -101,7 +172,7 @@ export class ListUserComponent {
     }
 
     callDeleteUser(users: any) {
- 
+
         var t: any;
         t = new Object();
         t.listDelete = [];
@@ -144,31 +215,31 @@ export class ListUserComponent {
 
             })
 
-            const dialogConfig = new MatDialogConfig();
-
-            dialogConfig.disableClose = false;
-            dialogConfig.autoFocus = true;
-            dialogConfig.height = 'auto',
-                dialogConfig.width = '500px',
-              
-                dialogConfig.data = {
-                    id: 1,
-                    title: 'Xác nhận xóa',
-                    content: notis,
-                    contentBold: listUser
-                };
-            var modal = this.dialog.open(ModalComfirmComponent, dialogConfig);
-            modal.afterClosed().subscribe(result => {
-                // console.log(result);
+ 
+            var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
+    
+            modalRef.componentInstance.data = {
+                        id: 1,
+                        title: 'Xác nhận xóa',
+                        content: notis,
+                        contentBold: listUser 
+                    };
+     
+            modalRef.result.then((result) => {
+    
                 if (result == "ok") {
                     this.callDeleteList();
-                }
-            })
+                        }
+     
+            }).catch((error) => {
+            console.log(error)
+            });
+     
         }
     }
 
     callDeleteList() {
- 
+
         var t: any;
         t = new Object();
         t.listDelete = this.users.filter(m => m.selected == true);
@@ -193,14 +264,25 @@ export class ListUserComponent {
     }
 
     getListUser() {
-          
+
         var t: any;
+
+        var dayTo = "";
+if(this.birthdayTo){
+    dayTo = new Date(this.birthdayTo).toLocaleDateString();
+}
+var dayFrom = "";
+if(this.birthdayFrom){
+    dayFrom = new Date(this.birthdayFrom).toLocaleDateString();
+}
+
+
         t = {
             "user_id": "1",
             "page_number": this.pageNumber + 1,
             "gioi_tinh_search": this.gioiTinhSearch,
-            "birthday_to": this.birthdayTo,
-            "birthday_from": this.birthdayFrom,
+            "birthday_to": dayTo,
+            "birthday_from": dayFrom,
             "text_search": this.textSearch,
             "page_size": this.pageSize
 
@@ -213,19 +295,72 @@ export class ListUserComponent {
                 this.users = response.list;
                 this.dataSource.data = this.users;
                 this.totalCountListAll = response.count[0].count;
+                this.changCheckBox();
+                this.changePageSize();
                 // this.paginator.length = response.count[0].count;
             });
 
     }
 
-    changCheckBox(){
-        if(this.users.filter(i => i.selected == true).length > 0){
+changePageSize(){
+    
+    this.totalNumberPage = Math.ceil(this.totalCountListAll/this.pageSize);
+    this.arrayPage = [];
+    for (var i = 0; i < this.totalNumberPage; i++) {
+        this.arrayPage.push({
+            value:i,
+            text:(i+1)
+        });
+      }
+
+      if(this.totalCountListAll == 0){
+        this.rowStart = 0;
+        this.rowEnd = 0;
+      } else {
+        this.rowStart = (this.pageSize * this.pageNumber) + 1;
+        this.rowEnd = this.rowStart + this.users.length -1;
+      }
+    
+}
+
+    changCheckBox() {
+        if (this.users.filter(i => i.selected == true).length > 0) {
             this.isShowDelete = true;
         } else {
             this.isShowDelete = false;
         }
     }
-   
+
+
+    selectPage(i){
+        this.pageNumber = i;
+        this.getListUser();
+    }
+
+    nextPage(){
+        if(this.pageNumber < (this.totalNumberPage - 1))
+        this.pageNumber = this.pageNumber + 1;
+        this.getListUser();
+    }
+    prePage(){
+        if(this.pageNumber > 0)
+        this.pageNumber = this.pageNumber - 1;
+        this.getListUser();
+    }
+    maxPage(){
+        
+        this.pageNumber = this.totalNumberPage - 1;
+        this.getListUser();
+    }
+    minPage(){
+        
+        this.pageNumber = 0;
+        this.getListUser();
+    }
+    ChangeCbbPageSize() {
+        this.pageNumber=0;
+        this.getListUser();
+    }
     checkLoginAndRole() {
 
         var session = sessionStorage.getItem("login");
@@ -327,70 +462,59 @@ export class ListUserComponent {
         }
 
     }
-  
+
     add() {
+ 
+        var modalRef = this.modalService.open(EditUserComponent,this.modalOptions);
+    
+        modalRef.componentInstance.data = {
+            id: 1,
+            title: 'Thêm người dùng',
+            statusForm: 'add'
+                };
+ 
+        modalRef.result.then((result) => {
 
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.height = 'auto',
-             dialogConfig.width = '975px',
-            
-            dialogConfig.data = {
-                id: 1,
-                title: 'Thêm người dùng',
-                statusForm: 'add'
-            };
-        var modal = this.dialog.open(EditUserComponent, dialogConfig);
-        modal.afterClosed().subscribe(result => {
-            // console.log(result);
             if (result == "ok") {
                 this.getListUser();
-            }
-        })
+                    }
+ 
+        }).catch((error) => {
+        console.log(error)
+        });
 
-    }
-
-    changePageSize() {
-
-        if ((this.totalCountListAll % this.pageSize) == 0) {
-            this.totalNumberPage = Math.floor(this.totalCountListAll / this.pageSize)
-        } else {
-            this.totalNumberPage = Math.floor(this.totalCountListAll / this.pageSize) + 1;
-        }
-
-        this.arrayPage = Array(this.totalNumberPage).fill(1).map((x, i) => i + 1);
     }
 
     editUser(event: any, user: any) {
 
-        const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.height = 'auto',
-            dialogConfig.width = '975px',
-             dialogConfig.data = {
-                data: user,
-                title: 'Sửa người dùng',
-                statusForm: 'edit'
 
-            };
-        var modal = this.dialog.open(EditUserComponent, dialogConfig);
-        modal.afterClosed().subscribe(result => {
+
+        
+        var modalRef = this.modalService.open(EditUserComponent,this.modalOptions);
+    
+        modalRef.componentInstance.data = {
+            data: user,
+                    title: 'Sửa người dùng',
+                    statusForm: 'edit'
+                };
+ 
+        modalRef.result.then((result) => {
 
             if (result == "ok") {
-
                 this.getListUser();
-            }
-        })
+                    }
+ 
+        }).catch((error) => {
+        console.log(error)
+        });
 
+ 
     }
 
     ngOnInit() {
         this.checkLoginAndRole();
-
+        
         this.birthdayFrom = "";
         this.birthdayTo = "";
         this.pageNumber = 0;
@@ -426,7 +550,7 @@ export class ListUserComponent {
         private http: HttpClient,
         private dialog: MatDialog, private route: ActivatedRoute,
         private router: Router, private toastr: ToastrService,
-        private sharedService: SharedService
+        private sharedService: SharedService, private modalService: NgbModal
     ) {
         this.translateService.setDefaultLang('vi');
 

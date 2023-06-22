@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+﻿import { Component, Inject, Input } from '@angular/core';
 
 import { Md5 } from 'ts-md5/dist/md5';
 
@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-edit-user',
@@ -16,6 +17,7 @@ import { SharedService } from '../../service/shared.service';
 })
 export class EditUserComponent {
     /*form: FormGroup;*/
+    @Input() data: any;
     regexPatternUsername = /^[a-zA-Z0-9]{1,50}$/;
     regexPatternPass = /^[a-zA-Z0-9]{6,100}$/;
     regexPatternSdt = /^[0-9]{1,10}$/;
@@ -38,19 +40,18 @@ export class EditUserComponent {
     description: string;
     notis: string;
     user: any;
-    data: any;
+    // data: any;
     showMes: boolean;
     gioiTinhList: any;
     constructor(
-        /*private fb: FormBuilder,*/
-        private dialogRef: MatDialogRef<EditUserComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
+        
         private http: HttpClient,
         private toastr: ToastrService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        public modal: NgbActiveModal
     ) {
 
-        this.data = data;
+        // this.data = data;
     }
 
     ngOnInit() {
@@ -98,10 +99,23 @@ export class EditUserComponent {
 
         let txtInput = document.getElementsByName("txt-ngay-sinh");
         if (this.user.ngay_sinh) {
-            txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-            this.showErrorTxtNgaySinh = false;
-            return true;
+
+var t1 = new Date(this.user.ngay_sinh)
+if((new Date()).getFullYear() - t1.getFullYear() >= 18){
+    txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
+    this.showErrorTxtNgaySinh = false;
+    return true;
+} else {
+    txtInput[0].className += " is-invalid";
+    this.showErrorTxtNgaySinh = true;
+
+    this.errorTxtNgaySinh = "Người dùng phải đủ 18 tuổi trở lên";
+    return false;
+}
+
+            
         } else {
+ 
             txtInput[0].className += " is-invalid";
             this.showErrorTxtNgaySinh = true;
 
@@ -219,12 +233,12 @@ return true;
 
             if (this.data.statusForm == 'add') {
   
-                    this.sharedService.callAddUser(this.user).subscribe(response => {
+                    this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
                         if (response.result == 0) {
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
                             
-                            this.dialogRef.close("ok");
+                             this.modal.close("ok");
                         } else {
                             if(response.exception.includes("UNIQUE KEY"))
                             {
@@ -243,12 +257,12 @@ return true;
                 this.user.user_id = '2';
 
                 this.http.post<any>('http://10.1.11.110:5017/' + 'user/edituser',
-                    this.user, this.sharedService.httpOptions)
+                    this.prepareData(), this.sharedService.httpOptions)
                     .subscribe(response => {
 
                         if (response.result == 0) {
                             this.toastr.success('Sửa người dùng thành công', 'Thông báo');
-                            this.dialogRef.close("ok");
+                             this.modal.close("ok");
                         } else {
                             this.toastr.error('Sửa người dùng thất bại ', 'Thông báo');
                         }
@@ -259,13 +273,19 @@ return true;
         }
     }
 
+    prepareData(){
+        if(this.user.ngay_sinh)
+        this.user.ngay_sinh = this.user.ngay_sinh.toLocaleDateString();
+        return this.user
+    }
+
     saveAdd() {
         var valid = this.checkValid();
         if (valid) {
 
             if (this.data.statusForm == 'add') {
  
-                    this.sharedService.callAddUser(this.user).subscribe(response => {
+                    this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
                         if (response.result == 0) {
                             this.toastr.success('Thêm người dùng thành công', 'Thông báo');
@@ -302,9 +322,9 @@ return true;
 
     close() {
         if(this.is_load_list){
-            this.dialogRef.close("ok");
+             this.modal.close("ok");
         } else {
-            this.dialogRef.close();
+             this.modal.close();
         }
         
     }

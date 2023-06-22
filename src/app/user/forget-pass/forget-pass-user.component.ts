@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+﻿import { Component, Inject, Input } from '@angular/core';
 
 import { Md5 } from 'ts-md5/dist/md5';
 
@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-forget-pass-user',
     templateUrl: './forget-pass-user.component.html',
@@ -17,7 +17,7 @@ import { SharedService } from '../../service/shared.service';
 export class ForgetPassUserComponent {
     /*form: FormGroup;*/
      regexPatternPass = /^[a-zA-Z0-9]{6,100}$/;
-     
+     @Input() data: any;
     is_load_list: boolean = false;
     showErrorTxtPassOld: boolean = false;
     errorTxtPassOld: string;
@@ -31,19 +31,18 @@ export class ForgetPassUserComponent {
     description: string;
     notis: string;
     user: any;
-    data: any;
+    // data: any;
     showMes: boolean;
     gioiTinhList: any;
     constructor(
-        /*private fb: FormBuilder,*/
-        private dialogRef: MatDialogRef<ForgetPassUserComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
+        
         private http: HttpClient,
         private toastr: ToastrService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        public modal: NgbActiveModal
     ) {
 
-        this.data = data;
+        // this.data = data;
     }
 
     ngOnInit() {
@@ -83,7 +82,7 @@ export class ForgetPassUserComponent {
     checkChangeRePass() {
 
         let txtInput = document.getElementsByName("txt-repass");
-        if (this.user.password == this.user.rePassword) {
+        if (this.user.password == this.user.rePassword && this.user.rePassword != "") {
             txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
             this.showErrorTxtRePass = false;
             return true;
@@ -139,7 +138,7 @@ export class ForgetPassUserComponent {
                         if (response.result == 0) {
                             this.toastr.success('Đổi mật khẩu thành công', 'Thông báo');
                             
-                            this.dialogRef.close("ok");
+                            this.modal.close("ok");
                         } else {
                             
                                 this.toastr.error('Đổi mật khẩu thất bại ', 'Thông báo');
@@ -168,7 +167,7 @@ export class ForgetPassUserComponent {
 
     close() {
         
-            this.dialogRef.close();
+            this.modal.close();
           
     }
 
