@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { AppComponent } from '../app.component';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Md5 } from 'ts-md5/dist/md5';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../service/shared.service';
-import { Observable } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -74,6 +71,22 @@ export class HomeComponent {
   notis = "";
   showMes = false;
 
+
+  constructor(private translate: TranslateService, private route: ActivatedRoute,
+    private router: Router, private http: HttpClient, private toastr: ToastrService
+    ,private sharedService: SharedService) {
+
+
+  }
+
+  
+  ngOnInit() {
+    this.isRemember = false;
+    this.checkLoginAndRole();
+
+  }
+
+
   showSlidesNoTimeout(n: any) {
     let i;
     let slides = document.getElementsByClassName("mySlides");
@@ -137,34 +150,11 @@ export class HomeComponent {
   currentSlide(n: any) {
     this.showSlidesNoTimeout(this.slideIndex = n);
   };
-  constructor(private appComponent: AppComponent, private translate: TranslateService, private route: ActivatedRoute,
-    private router: Router, private http: HttpClient, private toastr: ToastrService
-    ,private sharedService: SharedService) {
-
-
-  }
-
+  
   login() {
-    if (this.username == 'admin' && this.pass == 'admin') {
-
-      this.translate
-        .get('not_login')
-        .subscribe((successMessage: string) => {
-
-        });
-
-    } else {
-
-      this.translate
-        .get('wrong_acc')
-        .subscribe((successMessage: string) => {
-
-        });
-
-    }
- 
-    var t: any;
-    t = {
+    
+    var data: any;
+    data = {
       "username": this.username,
       "pass": this.pass,
       "is_remember": this.isRemember
@@ -172,11 +162,11 @@ export class HomeComponent {
     }
 
     this.http.post<any>('http://10.1.11.110:5017/' + 'user/login',
-      t, this.sharedService.httpOptions)
+    data, this.sharedService.httpOptions)
       .subscribe(response => {
 
-        if (response.result == 1) {
-          var userInfo = response.userInfo[0];
+        if (response.data.result == 1) {
+          var userInfo = response.data.userInfo[0];
           if(this.isRemember == true){
           var date = new Date(userInfo.expired_date);
 
@@ -192,8 +182,7 @@ export class HomeComponent {
           sessionStorage.setItem("login", "true");
           localStorage.setItem("username", userInfo.username);
           localStorage.setItem("user_id", userInfo.user_id);
-          this.sharedService.setIsNavbarVisible(true); // Ví dụ: Ẩn navbar
-          //this.sharedService.isNavbarUserVisible = true;
+          this.sharedService.setIsNavbarVisible(true);  
           this.toastr.success('Đăng nhập thành công', 'Thông báo');
           this.router.navigate(['list-user'], { relativeTo: this.route });
         } else {
@@ -217,14 +206,14 @@ export class HomeComponent {
  
         this.sharedService.callGetRole(token).subscribe(result => {
             
-            if (result.is_admin[0].is_admin) {
+            if (result.data.is_admin[0].is_admin) {
               
               this.router.navigate(['list-user'], { relativeTo: this.route });
                
             } else {
 
-                if (result.role) {
-                    var roleShow = result.role.filter(m => m.action == "show");
+                if (result.data.role) {
+                    var roleShow = result.data.role.filter(m => m.action == "show");
                      
                     if (roleShow.length > 0) {
                       this.router.navigate(['list-user'], { relativeTo: this.route });
@@ -248,15 +237,15 @@ export class HomeComponent {
         var token = this.sharedService.getCookie("token");
         if (token) {
             this.sharedService.callCheckLoginAndGetRole(token).subscribe(result => {
-                if (result.is_login) {
+                if (result.data.is_login) {
 
                     
-                    if (result.is_admin[0].is_admin) {
+                    if (result.data.is_admin[0].is_admin) {
                       this.router.navigate(['list-user'], { relativeTo: this.route });
                     } else {
 
-                        if (result.role) {
-                            var roleShow = result.role.filter(m => m.action == "show");
+                        if (result.data.role) {
+                            var roleShow = result.data.role.filter(m => m.action == "show");
                              
                             if (roleShow.length > 0) {
                               this.router.navigate(['list-user'], { relativeTo: this.route });
@@ -287,12 +276,6 @@ export class HomeComponent {
 
 }
   
-  ngOnInit() {
-    this.isRemember = false;
-    this.checkLoginAndRole();
-
-  }
-
   ngAfterViewInit() {
      this.showSlides(this.slideIndex);
     //this.showSlidesNoTimeout(1)//test

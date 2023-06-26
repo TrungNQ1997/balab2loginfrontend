@@ -45,12 +45,15 @@
       </div>
 
       <div class="margin-tb-5 d-flex  " style="justify-content: space-between;width: 100%;">
-<ul class="no-pad no-mar" >
-        <mat-checkbox class="mar-right-10" color="primary" [(ngModel)]="isRemember"
-          (checked)="iRemember">{{'login.remember_pass'|translate}}</mat-checkbox>
-        </ul>
+<ul class="no-pad no-mar d-flex" >
+
+  <input class="mr-2 mb-2" type="checkbox" role="button" 
+  [(ngModel)]="isRemember"  id="isRemember"  >
+  <label class="form-text" role="button" for="isRemember">{{'login.remember_pass'|translate}}</label>
+   
+          </ul>
         <ul class="no-pad no-mar" >
-        <label class="font-menu p-top-2">{{'login.forgot_pass'|translate}}</label>
+        <label class="font-menu form-text">{{'login.forgot_pass'|translate}}</label>
       </ul>
       </div>
       <div *ngIf="showMes" class="div-notis">

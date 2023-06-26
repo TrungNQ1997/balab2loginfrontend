@@ -3,46 +3,41 @@
         
         <div class="d-flex mt-2 mb-2 font-weight-bold text-primary">
             Quản trị người dùng
-            
-
+             
         </div>
-
-
-
-        <div class="d-flex row-common" style="margin-bottom:10px">
-            <div class="d-flex col-xl-6  col-lg-4 col-md-3  p-left-0 justify-content-start">
-                <input type="text" class=" form-control margin-top-5 "  
-                maxlength="200" 
+ 
+        <div class="d-flex row-common container-search" style="margin-bottom:10px;justify-content: space-between;">
+          
+                <input type="text" class="input-search form-control margin-top-5 "  
+                maxlength="200" style=""
              [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập "  
                >
-            </div>
-            <div class="d-flex col-xl-6  col-lg-8 col-md-9  p-left-0 justify-content-end pr-0 respon-mobile">
-                <label class="mr-2  col-form-label">Ngày sinh từ</label>
-
-
+            
+            <div class="d-flex   p-left-0 justify-content-end pr-0 respon-mobile">
+            <div class="d-flex">
+                <label class="mr-2 ml-2 col-form-label">Ngày sinh từ</label>
+ 
                 <input type="text" 
-                style="width: 120px;"
-                       class="form-control   mr-2  "
+                style=" "
+                       class="form-control datepicker  mr-2  "
                        bsDatepicker
                         
                        [(ngModel)]="birthdayFrom" 
                        placeholder="Chọn ngày">
- 
-
+                      </div>
+                      <div class="d-flex date-to ">
 <label class="mr-2    col-form-label">Đến</label>
-
-
-
+ 
 <input type="text" 
-                style="width: 120px;"
-                       class="form-control   mr-2  "
+                style=" "
+                       class="form-control datepicker  mr-2  "
                        bsDatepicker
                         
                        [(ngModel)]="birthdayTo" 
                        placeholder="Chọn ngày">
- 
-
-<div class="d-flex respon-mobile">
+                      </div>
+  
+<div class="d-flex  div-gioi-tinh">
 <label class="   mr-2  col-form-label">Giới tính</label>
 <select class="w-auto mr-2 form-control"  role="button"   [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch" >
     <option *ngFor="let option of gioiTinhList" [value]="option.value">
@@ -56,12 +51,9 @@
                 </div>
             </div>
         </div>
-
-
-
-
-        <div class="d-flex row-common" style="margin-bottom:10px">
-            <div class="d-flex col-xl-6  col-lg-4 col-md-3  col-sm-5 col-5  p-left-0 justify-content-start">
+ 
+        <div class="d-flex row-common container-button" style="margin-bottom:10px">
+            <div class="d-flex col-xl-6  col-lg-4 col-md-3  col-sm-5 col-12  p-left-0 justify-content-start">
                 <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="add()">
                     <i class="fa-solid fa-plus p-right-5"></i>
                     Thêm</button>
@@ -71,7 +63,7 @@
                 </i>Xóa</button>
  
             </div>
-            <div class="col-xl-6  col-lg-8 col-md-9  col-sm-7 col-7  d-flex justify-content-end div-search pr-0">
+            <div class="col-xl-6  col-lg-8 col-md-9  col-sm-7 col-12  d-flex justify-content-end div-search pr-0 button-export">
                 <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="exportToExcel()">
                     <i class="fa-regular fa-file-excel pr-1"></i>
                     Xuất Excel</button>
@@ -104,7 +96,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of users"  >
-        <th class=" text-center "  >{{item.stt}}</th>
+        <td class=" text-center "  >{{item.stt}}</td>
         <td class=" text-center " ><input type="checkbox" role="button" (change)="changCheckBox()" [(ngModel)]="item.selected" ></td>
         
         <td class=" text-center " 
@@ -114,9 +106,9 @@
          [ngClass]="{'text-right': item.gioi_tinh == 1, 
          'text-left': item.gioi_tinh == 2, 'text-center': item.gioi_tinh == 3}"  >
          {{item.ho_ten}}</td>
-        <td class=" text-center " >{{item.ngay_sinh_text}}</td>
+        <td class=" text-center " >{{item.ngay_sinh | date: formatDate}}</td>
         <td class=" text-center " >{{item.gioi_tinh_text}}</td>
-        <td class=" text-center " >{{item.sdt}}</td>
+        <td class=" text-center " >{{item.sdt | phoneFormat }}</td>
         <td class=" text-center " >{{item.email}}</td>
         <td class=" text-center min-w-105" >
             <span class="bg-success  text-white p-2 rounded  "
@@ -140,11 +132,7 @@
   </table>
 </div>
 <!--end table bootstrap -->
-
-
-
-
-
+ 
 <nav aria-label="Page navigation example" class="bg-light d-flex" style="justify-content: space-between;">
     <ul class="pagination m-2">
        
@@ -177,8 +165,7 @@
         <option *ngFor="let option of listPaging" [value]="option.value">
             {{ option.value }}</option>
       </select>
-
-      
+ 
     </li>
     <li class="d-flex align-items-center">
         <label class="mb-0">Dòng mỗi trang</label>
@@ -192,12 +179,9 @@
          
     </ul>
   </nav>
-
  
             </div>
 
     </div>
 </div>
-
-
  

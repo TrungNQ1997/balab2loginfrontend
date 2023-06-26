@@ -1,24 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 @Injectable()
 export class SharedService {
-  private navbarVisibilitySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false);
-//   public navbarVisibility$ = this.navbarVisibilitySubject.asObservable();
-
-//   setNavbarVisibility(isVisible: boolean): void {
-//     this.navbarVisibilitySubject.next(isVisible);
-//   }
+ 
 
 private isNavbarVisibleSubject: Subject<boolean> = new Subject<boolean>();
   public isNavbarVisible$ = this.isNavbarVisibleSubject.asObservable();
   httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-    })
+    // headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*'
+    // })
 };
   private localStorageKey = 'isNavbarVisible'; // Key trong LocalStorage
   
@@ -50,27 +44,27 @@ private isNavbarVisibleSubject: Subject<boolean> = new Subject<boolean>();
 
 public callCheckLoginAndGetRole(token: any): Observable<any> {
    
-  var t: any;
-  t = {
+  var data: any;
+  data = {
       "token": token,
       "menu_id": 1
   }
 
   return this.http.post<any>('http://10.1.11.110:5017/' + 'user/checklogingetrole',
-      t, this.httpOptions)
+  data, this.httpOptions)
 
 }
 
 public callGetRole(token: any): Observable<any> {
      
-    var t: any;
-    t = {
+    var data: any;
+    data = {
         "user_id": localStorage.getItem("user_id"),
         "menu_id": 1
     }
 
     return this.http.post<any>('http://10.1.11.110:5017/' + 'user/getrole',
-        t, this.httpOptions)
+    data, this.httpOptions)
 
 }
 

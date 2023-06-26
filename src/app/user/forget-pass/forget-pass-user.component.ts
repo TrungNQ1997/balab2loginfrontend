@@ -1,10 +1,6 @@
-﻿import { Component, Inject, Input } from '@angular/core';
-
-import { Md5 } from 'ts-md5/dist/md5';
-
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+﻿import { Component, Input } from '@angular/core';
+ 
+import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -135,7 +131,7 @@ export class ForgetPassUserComponent {
                     this.user, this.sharedService.httpOptions)
                     .subscribe(response => {
 
-                        if (response.result == 0) {
+                        if (response.data.result == 0) {
                             this.toastr.success('Đổi mật khẩu thành công', 'Thông báo');
                             
                             this.modal.close("ok");

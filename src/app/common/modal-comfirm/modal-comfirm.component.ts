@@ -1,11 +1,5 @@
-﻿import { Component, Inject, Input } from '@angular/core';
- 
-
- 
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
- import{ListUserComponent} from '../../user/list/list-user.component';
+﻿import { Component, Input } from '@angular/core';
+  
  import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -28,7 +22,6 @@ export class ModalComfirmComponent {
 
     constructor(
         
-        private http: HttpClient,
         public modal: NgbActiveModal
         ) {
            

@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
 import 'hammerjs';
-import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { MatDialog, MatDialogConfig, MatTableDataSource } from "@angular/material";
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from "@angular/material";
 import { TranslateService } from '@ngx-translate/core';
 import { EditUserComponent } from '../edit/edit-user.component';
 
 import { ModalComfirmComponent } from '../../common/modal-comfirm/modal-comfirm.component';
-import { Observable } from 'rxjs';
-import { MatPaginator } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { MatColumnDef } from '@angular/material';
 import { ViewChildren, QueryList } from '@angular/core';
-import { CustomPaginatorIntl } from '../../CustomPaginatorIntl';
-import { MatPaginatorIntl } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
-import { not } from '@angular/compiler/src/output/output_ast';
 import { SharedService } from '../../service/shared.service';
 import * as XLSX from 'xlsx';
 import {   ElementRef } from '@angular/core';
@@ -32,14 +27,13 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListUserComponent {
     @ViewChild('table', { static: false }) table: ElementRef;
-
-    // @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
+  @ViewChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
 
     displayedColumns: string[] = ['selected', 'id', 'ho_ten', 'username', 'ngay_sinh_text', 'gioi_tinh_text', 'sdt', 'email', 'edit', 'delete'];
     dataSource: any;
     isUserIconVisible: boolean = false;
     pageSizeOptions: any;
+    formatDate = 'dd/MM/yyyy';
     isShowDelete = false;
     isRoleShow = false;
     isRoleAdmin = false;
@@ -70,6 +64,53 @@ export class ListUserComponent {
     ];
     users1 = this.users;
 
+    
+    constructor(private translateService: TranslateService,
+        private http: HttpClient,
+        private route: ActivatedRoute,
+        private router: Router, private toastr: ToastrService,
+        private sharedService: SharedService, private modalService: NgbModal
+    ) {
+        this.translateService.setDefaultLang('vi');
+
+        this.translateService.use('vi');
+
+    }
+ 
+    ngOnInit() {
+        this.checkLoginAndRole();
+        
+        this.birthdayFrom = "";
+        this.birthdayTo = "";
+        this.pageNumber = 0;
+        this.textSearch = "";
+        this.pageSize = 10;
+        this.totalNumberPage = 0;
+        this.totalCountListAll = 0;
+
+        this.pageSizeOptions = [5, 10, 20];
+        this.dataSource = new MatTableDataSource<any>();
+        this.gioiTinhSearch = 0;
+        this.getListUser();
+        this.listPaging = [
+            {
+                value: 5
+            },
+            {
+                value: 10
+            },
+            {
+                value: 20
+            }
+        ];
+        this.gioiTinhList = [
+            { value: 0, viewValue: "Tất cả" },
+            { value: 1, viewValue: "Nam" },
+            { value: 2, viewValue: "Nữ" },
+            { value: 3, viewValue: "Khác" }];
+
+    }
+ 
     ngAfterViewInit() {
         this.columnDefs.forEach((columnDef) => {
             columnDef.sticky = false;
@@ -114,8 +155,7 @@ export class ListUserComponent {
           printWindow.document.close();
         });
       }
-      
-      
+       
     exportToExcel(): void {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.users);
         const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
@@ -133,8 +173,7 @@ export class ListUserComponent {
         window.URL.revokeObjectURL(url);
         link.remove();
       }
-      
-
+       
     deleteUser($event, a) {
 
         var notis = "Bạn có đồng ý xóa người dùng này không?"
@@ -188,7 +227,7 @@ export class ListUserComponent {
         this.http.post<any>('http://10.1.11.110:5017/' + 'user/deleteUser',
             t, this.sharedService.httpOptions)
             .subscribe(response => {
-                if (response.result == 0) {
+                if (response.data.result == 0) {
                     this.toastr.success("Xóa thành công", "Thông báo")
                     this.getListUser();
                 } else {
@@ -214,7 +253,6 @@ export class ListUserComponent {
                 }
 
             })
-
  
             var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
     
@@ -247,7 +285,7 @@ export class ListUserComponent {
         this.http.post<any>('http://10.1.11.110:5017/' + 'user/deleteUser',
             t, this.sharedService.httpOptions)
             .subscribe(response => {
-                if (response.result == 0) {
+                if (response.data.result == 0) {
                     this.toastr.success("Xóa thành công", "Thông báo");
                     this.getListUser();
                 } else {
@@ -275,8 +313,7 @@ var dayFrom = "";
 if(this.birthdayFrom){
     dayFrom = new Date(this.birthdayFrom).toLocaleDateString();
 }
-
-
+ 
         t = {
             "user_id": "1",
             "page_number": this.pageNumber + 1,
@@ -292,9 +329,9 @@ if(this.birthdayFrom){
             t, this.sharedService.httpOptions)
             .subscribe(response => {
 
-                this.users = response.list;
+                this.users = response.data.list;
                 this.dataSource.data = this.users;
-                this.totalCountListAll = response.count[0].count;
+                this.totalCountListAll = response.data.count[0].count;
                 this.changCheckBox();
                 this.changePageSize();
                 // this.paginator.length = response.count[0].count;
@@ -330,8 +367,7 @@ changePageSize(){
             this.isShowDelete = false;
         }
     }
-
-
+ 
     selectPage(i){
         this.pageNumber = i;
         this.getListUser();
@@ -366,7 +402,7 @@ changePageSize(){
         var session = sessionStorage.getItem("login");
         if (session == "true") {
             this.sharedService.callGetRole(token).subscribe(result => {
-                this.isRoleAdmin = result.is_admin[0].is_admin
+                this.isRoleAdmin = result.data.is_admin[0].is_admin
                 if (this.isRoleAdmin) {
                     this.isRoleShow = true;
                     this.isRoleAdd = true;
@@ -374,11 +410,11 @@ changePageSize(){
                     this.isRoleDelete = true;
                 } else {
 
-                    if (result.role) {
-                        var roleShow = result.role.filter(m => m.action == "show");
-                        var roleAdd = result.role.filter(m => m.action == "add");
-                        var roleEdit = result.role.filter(m => m.action == "edit");
-                        var roleDelete = result.role.filter(m => m.action == "delete");
+                    if (result.data.role) {
+                        var roleShow = result.data.role.filter(m => m.action == "show");
+                        var roleAdd = result.data.role.filter(m => m.action == "add");
+                        var roleEdit = result.data.role.filter(m => m.action == "edit");
+                        var roleDelete = result.data.role.filter(m => m.action == "delete");
                         if (roleShow.length > 0) {
                             this.isRoleShow = true;
                         }
@@ -410,9 +446,9 @@ changePageSize(){
             var token = this.sharedService.getCookie("token");
             if (token) {
                 this.sharedService.callCheckLoginAndGetRole(token).subscribe(result => {
-                    if (result.is_login) {
+                    if (result.data.is_login) {
 
-                        this.isRoleAdmin = result.is_admin[0].is_admin
+                        this.isRoleAdmin = result.data.is_admin[0].is_admin
                         if (this.isRoleAdmin) {
                             this.isRoleShow = true;
                             this.isRoleAdd = true;
@@ -420,11 +456,11 @@ changePageSize(){
                             this.isRoleDelete = true;
                         } else {
 
-                            if (result.role) {
-                                var roleShow = result.role.filter(m => m.action == "show");
-                                var roleAdd = result.role.filter(m => m.action == "add");
-                                var roleEdit = result.role.filter(m => m.action == "edit");
-                                var roleDelete = result.role.filter(m => m.action == "delete");
+                            if (result.data.role) {
+                                var roleShow = result.data.role.filter(m => m.action == "show");
+                                var roleAdd = result.data.role.filter(m => m.action == "add");
+                                var roleEdit = result.data.role.filter(m => m.action == "edit");
+                                var roleDelete = result.data.role.filter(m => m.action == "delete");
                                 if (roleShow.length > 0) {
                                     this.isRoleShow = true;
                                 }
@@ -486,15 +522,11 @@ changePageSize(){
     }
 
     editUser(event: any, user: any) {
-
-
-
-
-        
+ 
         var modalRef = this.modalService.open(EditUserComponent,this.modalOptions);
     
         modalRef.componentInstance.data = {
-            data: user,
+            data: Object.assign({}, user) ,
                     title: 'Sửa người dùng',
                     statusForm: 'edit'
                 };
@@ -512,49 +544,5 @@ changePageSize(){
  
     }
 
-    ngOnInit() {
-        this.checkLoginAndRole();
-        
-        this.birthdayFrom = "";
-        this.birthdayTo = "";
-        this.pageNumber = 0;
-        this.textSearch = "";
-        this.pageSize = 10;
-        this.totalNumberPage = 0;
-        this.totalCountListAll = 0;
 
-        this.pageSizeOptions = [5, 10, 20];
-        this.dataSource = new MatTableDataSource<any>();
-        this.gioiTinhSearch = 0;
-        this.getListUser();
-        this.listPaging = [
-            {
-                value: 5
-            },
-            {
-                value: 10
-            },
-            {
-                value: 20
-            }
-        ];
-        this.gioiTinhList = [
-            { value: 0, viewValue: "Tất cả" },
-            { value: 1, viewValue: "Nam" },
-            { value: 2, viewValue: "Nữ" },
-            { value: 3, viewValue: "Khác" }];
-
-    }
-
-    constructor(private translateService: TranslateService,
-        private http: HttpClient,
-        private dialog: MatDialog, private route: ActivatedRoute,
-        private router: Router, private toastr: ToastrService,
-        private sharedService: SharedService, private modalService: NgbModal
-    ) {
-        this.translateService.setDefaultLang('vi');
-
-        this.translateService.use('vi');
-
-    }
 }

@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from '../app.component';
-import {    OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedService } from '../service/shared.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalComfirmComponent } from '../common/modal-comfirm/modal-comfirm.component';
 import { ForgetPassUserComponent } from '../user/forget-pass/forget-pass-user.component';
-import { MatDialog, MatDialogConfig, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-nav-menu',
@@ -30,6 +28,46 @@ export class NavMenuComponent {
     { val: "en", text: "English", img: "/assets/img/eng.jpg" }
   ];
   langModel = this.dropDownData[0];
+
+  
+  constructor(private translateService: TranslateService, 
+    private appComponent: AppComponent
+    ,private sharedService: SharedService,private router: Router, 
+    private route: ActivatedRoute 
+    , private modalService: NgbModal
+    ) {
+
+    this.translateService.setDefaultLang('vi');
+
+    // Nạp các bản dịch
+    this.translateService.use('vi');
+     
+  }
+
+
+  ngOnInit() {
+    this.langModel = this.dropDownData[0];
+    this.translateService.use(this.dropDownData[0].val);
+    
+    var visi = this.sharedService.getCookie("token");
+    var login = sessionStorage.getItem("login");
+    if(login){
+      this.isNavbarVisible = true;
+    } else {
+      if(visi){
+        this.isNavbarVisible = true;
+      }
+    }
+    
+    this.subscription = this.sharedService.isNavbarVisible$.subscribe(
+      (isVisible: boolean) => {
+        this.isNavbarVisible = isVisible;
+      }
+    );
+  }
+   
+
+
   collapse() {
     this.isExpanded = false;
 
@@ -131,40 +169,5 @@ logout(){
 
     this.router.navigate([''], { relativeTo: this.route });
 }
- 
-  ngOnInit() {
-    this.langModel = this.dropDownData[0];
-    this.translateService.use(this.dropDownData[0].val);
-    
-    var visi = this.sharedService.getCookie("token");
-    var login = sessionStorage.getItem("login");
-    if(login){
-      this.isNavbarVisible = true;
-    } else {
-      if(visi){
-        this.isNavbarVisible = true;
-      }
-    }
-    
-    this.subscription = this.sharedService.isNavbarVisible$.subscribe(
-      (isVisible: boolean) => {
-        this.isNavbarVisible = isVisible;
-      }
-    );
-  }
-   
-
-  constructor(private translateService: TranslateService, 
-    private appComponent: AppComponent
-    ,private sharedService: SharedService,private router: Router, 
-    private route: ActivatedRoute 
-    , private modalService: NgbModal
-    ) {
-
-    this.translateService.setDefaultLang('vi');
-
-    // Nạp các bản dịch
-    this.translateService.use('vi');
-     
-  }
+  
 }

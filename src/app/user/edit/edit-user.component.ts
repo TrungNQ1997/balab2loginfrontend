@@ -1,10 +1,6 @@
-﻿import { Component, Inject, Input } from '@angular/core';
-
-import { Md5 } from 'ts-md5/dist/md5';
-
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+﻿import { Component, Input } from '@angular/core';
+ 
+import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -44,7 +40,7 @@ export class EditUserComponent {
     showMes: boolean;
     gioiTinhList: any;
     constructor(
-        
+
         private http: HttpClient,
         private toastr: ToastrService,
         private sharedService: SharedService,
@@ -66,7 +62,7 @@ export class EditUserComponent {
             this.user.username = this.user.username.trim();
             this.user.email = this.user.email.trim();
         } else if (this.data.statusForm == 'add') {
-           this.refreshUser();
+            this.refreshUser();
         }
 
         this.gioiTinhList = [{ value: 1, viewValue: "Nam" },
@@ -77,19 +73,19 @@ export class EditUserComponent {
 
     checkChangeUsername() {
 
-        var t = this.sharedService.checkChangeProperty(this.regexPatternUsername,this.user,"username","txt-username",this,"showErrorTxtUsername");
-         
-        if(!t){
+        var t = this.sharedService.checkChangeProperty(this.regexPatternUsername, this.user, "username", "txt-username", this, "showErrorTxtUsername");
+
+        if (!t) {
             this.errorTxtUsername = "Tên đăng nhập từ 1 đến 50 ký tự, chỉ viết liền, không dấu"
         }
         return t;
- 
+
     }
 
     checkChangePass() {
-        var t = this.sharedService.checkChangeProperty(this.regexPatternPass,this.user,"password","txt-pass",this,"showErrorTxtPass");
-         
-        if(!t){
+        var t = this.sharedService.checkChangeProperty(this.regexPatternPass, this.user, "password", "txt-pass", this, "showErrorTxtPass");
+
+        if (!t) {
             this.errorTxtPass = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu";
         }
         return t;
@@ -100,22 +96,22 @@ export class EditUserComponent {
         let txtInput = document.getElementsByName("txt-ngay-sinh");
         if (this.user.ngay_sinh) {
 
-var t1 = new Date(this.user.ngay_sinh)
-if((new Date()).getFullYear() - t1.getFullYear() >= 18){
-    txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
-    this.showErrorTxtNgaySinh = false;
-    return true;
-} else {
-    txtInput[0].className += " is-invalid";
-    this.showErrorTxtNgaySinh = true;
+            var t1 = new Date(this.user.ngay_sinh)
+            if ((new Date()).getFullYear() - t1.getFullYear() >= 18) {
+                txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
+                this.showErrorTxtNgaySinh = false;
+                return true;
+            } else {
+                txtInput[0].className += " is-invalid";
+                this.showErrorTxtNgaySinh = true;
 
-    this.errorTxtNgaySinh = "Người dùng phải đủ 18 tuổi trở lên";
-    return false;
-}
+                this.errorTxtNgaySinh = "Người dùng phải đủ 18 tuổi trở lên";
+                return false;
+            }
 
-            
+
         } else {
- 
+
             txtInput[0].className += " is-invalid";
             this.showErrorTxtNgaySinh = true;
 
@@ -126,13 +122,13 @@ if((new Date()).getFullYear() - t1.getFullYear() >= 18){
 
     checkChangeSdt() {
 
-var t = this.sharedService.checkChangeProperty(this.regexPatternSdt,this.user,'sdt',"txt-sdt",this,"showErrorTxtSdt");
- 
-if(!t){
-    this.errorTxtSdt = "Số điện thoại tối đa 10 ký tự, chỉ nhập số";
-} 
-return t;
- 
+        var t = this.sharedService.checkChangeProperty(this.regexPatternSdt, this.user, 'sdt', "txt-sdt", this, "showErrorTxtSdt");
+
+        if (!t) {
+            this.errorTxtSdt = "Số điện thoại tối đa 10 ký tự, chỉ nhập số";
+        }
+        return t;
+
     }
     checkChangeRePass() {
 
@@ -178,7 +174,7 @@ return t;
 
             txtInput[0].className = txtInput[0].className.replace(/ is-invalid/g, "");
             this.showErrorTxtTen = false;
-return true;
+            return true;
         } else {
             txtInput[0].className += " is-invalid";
             this.showErrorTxtTen = true;
@@ -189,31 +185,30 @@ return true;
     }
 
     checkValid() {
-    
+
         var validNgaySinh = this.checkChangeNgaySinh()
         var validUsername = this.checkChangeUsername()
         var validMail = this.checkChangeMail()
         var validPass = true;
         var validRePass = true;
-        if(this.data.statusForm == 'add'){
+        if (this.data.statusForm == 'add') {
             validPass = this.checkChangePass();
             validRePass = this.checkChangeRePass()
-        }  
+        }
         var validSdt = this.checkChangeSdt()
         var validTen = this.checkChangeTen()
-         
-        if( validNgaySinh && validUsername 
-        && validMail && validPass && 
-        validRePass && validSdt && validTen )
-        {
+
+        if (validNgaySinh && validUsername
+            && validMail && validPass &&
+            validRePass && validSdt && validTen) {
             return true;
-        }else {
+        } else {
             return false;
         }
-         
+
     }
 
-    refreshUser(){
+    refreshUser() {
         this.user = new Object();
 
         this.user.ho_ten = "";
@@ -232,37 +227,35 @@ return true;
         if (valid) {
 
             if (this.data.statusForm == 'add') {
-  
-                    this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
-                        if (response.result == 0) {
-                            this.toastr.success('Thêm người dùng thành công', 'Thông báo');
-                            
-                             this.modal.close("ok");
+                this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
+
+                    if (response.data.result == 0) {
+                        this.toastr.success('Thêm người dùng thành công', 'Thông báo');
+
+                        this.modal.close("ok");
+                    } else {
+                        if (response.data.exception.includes("UNIQUE KEY")) {
+                            this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
                         } else {
-                            if(response.exception.includes("UNIQUE KEY"))
-                            {
-                                this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
-                            } else 
-                            {
-                                this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
-                            }
-                            
+                            this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
                         }
 
-                    });
+                    }
+
+                });
 
             } else if (this.data.statusForm == 'edit') {
-                 
+
                 this.user.user_id = '2';
 
                 this.http.post<any>('http://10.1.11.110:5017/' + 'user/edituser',
                     this.prepareData(), this.sharedService.httpOptions)
                     .subscribe(response => {
 
-                        if (response.result == 0) {
+                        if (response.data.result == 0) {
                             this.toastr.success('Sửa người dùng thành công', 'Thông báo');
-                             this.modal.close("ok");
+                            this.modal.close("ok");
                         } else {
                             this.toastr.error('Sửa người dùng thất bại ', 'Thông báo');
                         }
@@ -273,9 +266,9 @@ return true;
         }
     }
 
-    prepareData(){
-        if(this.user.ngay_sinh)
-        this.user.ngay_sinh = this.user.ngay_sinh.toLocaleDateString();
+    prepareData() {
+        if (this.user.ngay_sinh)
+            this.user.ngay_sinh = (new Date(this.user.ngay_sinh)).toLocaleDateString();
         return this.user
     }
 
@@ -284,49 +277,47 @@ return true;
         if (valid) {
 
             if (this.data.statusForm == 'add') {
- 
-                    this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
-                        if (response.result == 0) {
-                            this.toastr.success('Thêm người dùng thành công', 'Thông báo');
-                            this.is_load_list = true;
-                            this.refreshUser();
+                this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
+
+                    if (response.data.result == 0) {
+                        this.toastr.success('Thêm người dùng thành công', 'Thông báo');
+                        this.is_load_list = true;
+                        this.refreshUser();
+                    } else {
+                        if (response.data.exception.includes("UNIQUE KEY")) {
+                            this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
                         } else {
-                            if(response.exception.includes("UNIQUE KEY"))
-                            {
-                                this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
-                            } else 
-                            {
-                                this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
-                            }
-                            
+                            this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
                         }
 
-                    });
+                    }
+
+                });
 
             }
-           
+
         }
     }
 
     showPass1() {
 
         this.sharedService.showPass('#exampleInputPassword11');
-        
+
     }
 
     showPass2() {
         this.sharedService.showPass('#exampleInputPassword12');
-       
+
     }
 
     close() {
-        if(this.is_load_list){
-             this.modal.close("ok");
+        if (this.is_load_list) {
+            this.modal.close("ok");
         } else {
-             this.modal.close();
+            this.modal.close();
         }
-        
+
     }
 
 }

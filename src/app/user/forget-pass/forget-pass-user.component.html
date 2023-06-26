@@ -21,9 +21,9 @@
                     maxlength="100"  id="exampleInputPassword13"
                  [(ngModel)]="user.password_old" placeholder=" "  
                   (change)="checkChangePassOld()"  class="form-control" data-toggle="password">
-                    <div class="input-group-append">
+                    <div class="input-group-append" role="button" (click)="showPass3()" >
                       <span class="input-group-text">
-                        <i  (click)="showPass3()"  class="fa-regular fa-eye"></i>
+                        <i  class="fa-regular fa-eye"></i>
                       </span>
                     </div>
                   </div>
@@ -47,9 +47,9 @@
                 maxlength="100"  id="exampleInputPassword11"
              [(ngModel)]="user.password" placeholder=" "  
               (change)="checkChangePass()"  class="form-control" data-toggle="password">
-                <div class="input-group-append">
+                <div class="input-group-append" role="button" (click)="showPass1()" >
                   <span class="input-group-text">
-                    <i  (click)="showPass1()"  class="fa-regular fa-eye"></i>
+                    <i  class="fa-regular fa-eye"></i>
                   </span>
                 </div>
               </div>
@@ -73,9 +73,9 @@
                 maxlength="100"  id="exampleInputPassword12"
              [(ngModel)]="user.rePassword" placeholder=" "  
               (change)="checkChangeRePass()"  class="form-control" data-toggle="password">
-                <div class="input-group-append">
+                <div class="input-group-append" role="button" (click)="showPass2()" >
                   <span class="input-group-text">
-                    <i  (click)="showPass2()"  class="fa-regular fa-eye"></i>
+                    <i  class="fa-regular fa-eye"></i>
                   </span>
                 </div>
               </div>

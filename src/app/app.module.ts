@@ -3,47 +3,39 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient  } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-
+ 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { EditUserComponent } from './user/edit/edit-user.component';
 import { ListUserComponent } from './user/list/list-user.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
+ 
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MatSliderModule } from '@angular/material/slider';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalComfirmComponent } from './common/modal-comfirm/modal-comfirm.component';
 import {ForgetPassUserComponent} from './user/forget-pass/forget-pass-user.component'
-//angular material
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule } from "@angular/material";
-import { MatTableModule } from '@angular/material';
-import { MatPaginatorModule } from '@angular/material';
-import { CustomPaginatorIntl } from './CustomPaginatorIntl';
-import { MatPaginatorIntl } from '@angular/material';
+ // import { CustomPaginatorIntl } from './CustomPaginatorIntl';
+ 
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from './service/shared.service';
 import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { viLocale } from 'ngx-bootstrap/locale';
+import { PhoneFormatPipe } from './pipe/phone-format.pipe/phone-format.pipe';
+import { DateFormatPipe } from './pipe/date-format.pipe/date-format.pipe';
+import { SimpleComponent } from './simple/simple.component';
 defineLocale('vi', viLocale);
  export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({ 
-  declarations: [
+  declarations: [	
     AppComponent,
     NavMenuComponent,
     HomeComponent,
@@ -52,28 +44,23 @@ defineLocale('vi', viLocale);
         EditUserComponent,
         ListUserComponent,
         ModalComfirmComponent,
-        ForgetPassUserComponent
-     
-  ],
+        ForgetPassUserComponent,
+        PhoneFormatPipe,
+        DateFormatPipe,
+      SimpleComponent
+   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       HttpClientModule,
-      MatSliderModule,
-      FormsModule,
+       FormsModule,
       NgbModule,
       BsDatepickerModule.forRoot(),
-      MatCheckboxModule,
-      BrowserAnimationsModule,
+       BrowserAnimationsModule,
       ToastrModule.forRoot({
         timeOut: 3000,
       positionClass: 'toast-bottom-right'
       }),
-      MatDialogModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSelectModule,
-      MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
-    //FontAwesomeModule,
+       //FontAwesomeModule,
     TranslateModule.forRoot({
       defaultLanguage: 'vi',
       loader: {
@@ -85,7 +72,8 @@ defineLocale('vi', viLocale);
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
        
-        { path: 'list-user', component: ListUserComponent }
+        { path: 'list-user', component: ListUserComponent },
+        { path: 'simple', component: SimpleComponent }
         
     ])
   ],
@@ -96,7 +84,7 @@ defineLocale('vi', viLocale);
   ],
   providers: [
      SharedService,
-      { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
+      //{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
      ,{ provide: BsDatepickerConfig, useFactory: getDatepickerConfig }
 
   ],
@@ -104,7 +92,7 @@ defineLocale('vi', viLocale);
 })
 export class AppModule { 
   constructor( private bsLocaleService: BsLocaleService){
-    this.bsLocaleService.use('vi');//fecha en español, datepicker
+    this.bsLocaleService.use('vi'); 
   }
 
 }
