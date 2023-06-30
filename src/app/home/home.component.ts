@@ -67,19 +67,19 @@ export class HomeComponent {
   ]
   slideIndex = 1;
   username = "";
-  pass = "";
+  password = "";
   notis = "";
   showMes = false;
 
 
   constructor(private translate: TranslateService, private route: ActivatedRoute,
     private router: Router, private http: HttpClient, private toastr: ToastrService
-    ,private sharedService: SharedService) {
+    , private sharedService: SharedService) {
 
 
   }
 
-  
+
   ngOnInit() {
     this.isRemember = false;
     this.checkLoginAndRole();
@@ -112,7 +112,7 @@ export class HomeComponent {
 
   showPass() {
     this.sharedService.showPass('#exampleInputPassword1');
-     
+
   }
 
   showSlides(n: any) {
@@ -150,39 +150,39 @@ export class HomeComponent {
   currentSlide(n: any) {
     this.showSlidesNoTimeout(this.slideIndex = n);
   };
-  
+
   login() {
-    
+
     var data: any;
     data = {
       "username": this.username,
-      "pass": this.pass,
+      "password": this.password,
       "is_remember": this.isRemember
 
     }
 
     this.http.post<any>('http://10.1.11.110:5017/' + 'user/login',
-    data, this.sharedService.httpOptions)
+      data, this.sharedService.httpOptions)
       .subscribe(response => {
 
-        if (response.data.result == 1) {
-          var userInfo = response.data.userInfo[0];
-          if(this.isRemember == true){
-          var date = new Date(userInfo.expired_date);
+        if (response.data.count == 1) {
+          var userInfo = response.data.list[0];
+          if (this.isRemember == true) {
+            var date = new Date(userInfo.expired_date);
 
-          var hours1 = date.getHours();  
-          var minutes1 = date.getMinutes();  
+            var hours1 = date.getHours();
+            var minutes1 = date.getMinutes();
 
-          var datestr = date.toUTCString();
+            var datestr = date.toUTCString();
 
-          var formattedUTCString = datestr.replace(/(\d{2}:\d{2})/, hours1.toString().padStart(2, '0') + ':' + minutes1.toString().padStart(2, '0'));
+            var formattedUTCString = datestr.replace(/(\d{2}:\d{2})/, hours1.toString().padStart(2, '0') + ':' + minutes1.toString().padStart(2, '0'));
 
-          document.cookie = "token=" + userInfo.token + " ; expires= " + formattedUTCString;
-          }  
+            document.cookie = "token=" + userInfo.token + " ; expires= " + formattedUTCString;
+          }
           sessionStorage.setItem("login", "true");
           localStorage.setItem("username", userInfo.username);
           localStorage.setItem("user_id", userInfo.user_id);
-          this.sharedService.setIsNavbarVisible(true);  
+          this.sharedService.setIsNavbarVisible(true);
           this.toastr.success('Đăng nhập thành công', 'Thông báo');
           this.router.navigate(['list-user'], { relativeTo: this.route });
         } else {
@@ -198,86 +198,86 @@ export class HomeComponent {
       });
 
   }
- 
+
   checkLoginAndRole() {
 
     var session = sessionStorage.getItem("login");
     if (session == "true") {
- 
-        this.sharedService.callGetRole(token).subscribe(result => {
-            
-            if (result.data.is_admin[0].is_admin) {
-              
+
+      this.sharedService.callGetRole(token).subscribe(result => {
+
+        if (result.data.is_admin[0].is_admin) {
+
+          this.router.navigate(['list-user'], { relativeTo: this.route });
+
+        } else {
+
+          if (result.data.role) {
+            var roleShow = result.data.role.filter(m => m.action == "show");
+
+            if (roleShow.length > 0) {
               this.router.navigate(['list-user'], { relativeTo: this.route });
-               
+            }
+
+            if (roleShow.length = 0) {
+              this.router.navigate([''], { relativeTo: this.route });
+            }
+
+          }
+
+          else {
+            this.router.navigate([''], { relativeTo: this.route });
+          }
+
+        }
+
+      })
+    } else {
+
+      var token = this.sharedService.getCookie("token");
+      if (token) {
+        this.sharedService.callCheckLoginAndGetRole(token).subscribe(result => {
+          if (result.data.is_login) {
+
+
+            if (result.data.is_admin[0].is_admin) {
+              this.router.navigate(['list-user'], { relativeTo: this.route });
             } else {
 
-                if (result.data.role) {
-                    var roleShow = result.data.role.filter(m => m.action == "show");
-                     
-                    if (roleShow.length > 0) {
-                      this.router.navigate(['list-user'], { relativeTo: this.route });
-                    }
-                    
-                    if (roleShow.length = 0) {
-                        this.router.navigate([''], { relativeTo: this.route });
-                    }
+              if (result.data.role) {
+                var roleShow = result.data.role.filter(m => m.action == "show");
 
+                if (roleShow.length > 0) {
+                  this.router.navigate(['list-user'], { relativeTo: this.route });
                 }
 
                 else {
-                    this.router.navigate([''], { relativeTo: this.route });
+                  this.router.navigate([''], { relativeTo: this.route });
                 }
+
+              }
+
+              else {
+                this.router.navigate([''], { relativeTo: this.route });
+              }
 
             }
 
-        })
-    } else {
-
-        var token = this.sharedService.getCookie("token");
-        if (token) {
-            this.sharedService.callCheckLoginAndGetRole(token).subscribe(result => {
-                if (result.data.is_login) {
-
-                    
-                    if (result.data.is_admin[0].is_admin) {
-                      this.router.navigate(['list-user'], { relativeTo: this.route });
-                    } else {
-
-                        if (result.data.role) {
-                            var roleShow = result.data.role.filter(m => m.action == "show");
-                             
-                            if (roleShow.length > 0) {
-                              this.router.navigate(['list-user'], { relativeTo: this.route });
-                            }
-                              
-                            else {
-                                this.router.navigate([''], { relativeTo: this.route });
-                            }
-
-                        }
-
-                        else {
-                            this.router.navigate([''], { relativeTo: this.route });
-                        }
-
-                    }
-
-                } else {
-                    this.router.navigate([''], { relativeTo: this.route });
-                }
-            });
-
-        } else {
+          } else {
             this.router.navigate([''], { relativeTo: this.route });
-        }
+          }
+        });
+
+      } else {
+        this.router.navigate([''], { relativeTo: this.route });
+      }
 
     }
 
-}
-  
+  }
+
   ngAfterViewInit() {
-     this.showSlides(this.slideIndex);
+    this.showSlides(this.slideIndex);
     //this.showSlidesNoTimeout(1)//test
   }
 

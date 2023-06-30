@@ -1,27 +1,33 @@
 .div-flex-center {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
+
 .div-notis {
-    color: red;
-     
-    width: 100%;
-    
-  }
-  .color-red{
-    padding-left: 5px;
-    color: red;
-  }
-  .margin-top-5{
-margin-top: 5px;
-  }
-  .h-45{
-    height: 45px;
-  }
- .pad-top-10{
-    padding-top: 10px;
- }
- .div-edit-user{
+  color: red;
+
+  width: 100%;
+
+}
+
+.color-red {
+  padding-left: 5px;
+  color: red;
+}
+
+.margin-top-5 {
+  margin-top: 5px;
+}
+
+.h-45 {
+  height: 45px;
+}
+
+.pad-top-10 {
+  padding-top: 10px;
+}
+
+.div-edit-user {
   min-width: 540px;
   /* height: 330px; */
- }
+}

@@ -13,11 +13,11 @@ import { ViewChildren, QueryList } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
 import * as XLSX from 'xlsx';
-import {   ElementRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
- 
+
 
 
 @Component({
@@ -27,9 +27,6 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListUserComponent {
     @ViewChild('table', { static: false }) table: ElementRef;
-  @ViewChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
-
-    displayedColumns: string[] = ['selected', 'id', 'ho_ten', 'username', 'ngay_sinh_text', 'gioi_tinh_text', 'sdt', 'email', 'edit', 'delete'];
     dataSource: any;
     isUserIconVisible: boolean = false;
     pageSizeOptions: any;
@@ -41,22 +38,22 @@ export class ListUserComponent {
     isRoleEdit = false;
     isRoleDelete = false;
     isExpanded = false;
-    birthdayFrom="" ;
+    birthdayFrom = "";
     birthdayTo = "";
     pageNumber = 1;
     textSearch = "";
     pageSize: number;
-    rowStart:number = 0;
-    rowEnd:number = 0;
+    rowStart: number = 0;
+    rowEnd: number = 0;
     totalNumberPage = 0;
     totalCountListAll = 0;
     arrayPage: any = [];
     modalOptions: NgbModalOptions = {
         // size:'700px',
-        windowClass : "myCustomModalClass",
+        windowClass: "myCustomModalClass",
 
         centered: true // Căn giữa modal
-      };
+    };
     gioiTinhSearch: number;
     gioiTinhList: any;
     listPaging: any;
@@ -64,7 +61,7 @@ export class ListUserComponent {
     ];
     users1 = this.users;
 
-    
+
     constructor(private translateService: TranslateService,
         private http: HttpClient,
         private route: ActivatedRoute,
@@ -76,10 +73,10 @@ export class ListUserComponent {
         this.translateService.use('vi');
 
     }
- 
+
     ngOnInit() {
         this.checkLoginAndRole();
-        
+
         this.birthdayFrom = "";
         this.birthdayTo = "";
         this.pageNumber = 0;
@@ -110,11 +107,9 @@ export class ListUserComponent {
             { value: 3, viewValue: "Khác" }];
 
     }
- 
+
     ngAfterViewInit() {
-        this.columnDefs.forEach((columnDef) => {
-            columnDef.sticky = false;
-        });
+
     }
     onPaginateChange($event) {
         this.pageNumber = $event.pageIndex;
@@ -125,45 +120,45 @@ export class ListUserComponent {
     exportTableToPDF() {
         const doc = new jsPDF();
         const table = this.table.nativeElement;
-      
-        html2canvas(table).then((canvas) => {
-          const imageData = canvas.toDataURL('image/png');
-          const imgWidth = 210; // Width of A4 in mm (approximate)
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-          doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
-          
-          doc.save('table_data.pdf');
-        });
-      }
 
-      printTable() {
+        html2canvas(table).then((canvas) => {
+            const imageData = canvas.toDataURL('image/png');
+            const imgWidth = 210; // Width of A4 in mm (approximate)
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            doc.save('table_data.pdf');
+        });
+    }
+
+    printTable() {
         const doc = new jsPDF();
         const table = this.table.nativeElement;
-      
+
         html2canvas(table).then((canvas) => {
-          const imageData = canvas.toDataURL('image/png');
-          const imgWidth = 210; // Width of A4 in mm (approximate)
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-          doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
-          
-          doc.autoPrint();
-          const printWindow = window.open('', '_blank');
-          printWindow.document.open();
-          printWindow.document.write('<html><head><title>In</title></head><body>' + doc.output('datauristring') + '</body></html>');
-          printWindow.document.close();
+            const imageData = canvas.toDataURL('image/png');
+            const imgWidth = 210; // Width of A4 in mm (approximate)
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            doc.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            doc.autoPrint();
+            const printWindow = window.open('', '_blank');
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>In</title></head><body>' + doc.output('datauristring') + '</body></html>');
+            printWindow.document.close();
         });
-      }
-       
+    }
+
     exportToExcel(): void {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.users);
         const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
         this.saveAsExcelFile(excelBuffer, 'data');
-      }
-    
-      private saveAsExcelFile(buffer: any, fileName: string): void {
+    }
+
+    private saveAsExcelFile(buffer: any, fileName: string): void {
         const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });
         const url: string = window.URL.createObjectURL(data);
         const link: HTMLAnchorElement = document.createElement('a');
@@ -172,35 +167,35 @@ export class ListUserComponent {
         link.click();
         window.URL.revokeObjectURL(url);
         link.remove();
-      }
-       
+    }
+
     deleteUser($event, a) {
 
         var notis = "Bạn có đồng ý xóa người dùng này không?"
-       
-        var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
+
+        var modalRef = this.modalService.open(ModalComfirmComponent, this.modalOptions);
 
         modalRef.componentInstance.data = {
-                    id: 1,
-                    title: 'Xác nhận xóa',
-                    content: notis,
-                    contentBold: a.username
-                };
- 
+            id: 1,
+            title: 'Xác nhận xóa',
+            content: notis,
+            contentBold: a.username
+        };
+
         modalRef.result.then((result) => {
 
             if (result == "ok") {
-                        var t: any = new Object();
-                        t.array = [];
-                        t.array.push(a)
-        
-                        this.callDeleteUser(t);
-                    }
- 
+                var list: any = new Object();
+                list.array = [];
+                list.array.push(a)
+
+                this.callDeleteUser(list);
+            }
+
         }).catch((error) => {
-        
+
         });
- 
+
     }
 
     selectAll() {
@@ -212,12 +207,12 @@ export class ListUserComponent {
 
     callDeleteUser(users: any) {
 
-        var t: any;
-        t = new Object();
-        t.listDelete = [];
-        t.user_id = "2";
+        var data: any;
+        data = new Object();
+        data.users = [];
+        data.user_id = "2";
         users.array.forEach(element => {
-            t.listDelete.push({
+            data.users.push({
                 id: element.id,
                 username: element.username
 
@@ -225,13 +220,14 @@ export class ListUserComponent {
         });
 
         this.http.post<any>('http://10.1.11.110:5017/' + 'user/deleteUser',
-            t, this.sharedService.httpOptions)
+            data, this.sharedService.httpOptions)
             .subscribe(response => {
-                if (response.data.result == 0) {
+                if (!response.data.list.includes(0)) {
+                    this.toastr.error("Xóa thất bại", "Thông báo")
+
+                } else {
                     this.toastr.success("Xóa thành công", "Thông báo")
                     this.getListUser();
-                } else {
-                    this.toastr.error("Xóa thất bại", "Thông báo")
                 }
             });
 
@@ -253,44 +249,46 @@ export class ListUserComponent {
                 }
 
             })
- 
-            var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
-    
+
+            var modalRef = this.modalService.open(ModalComfirmComponent, this.modalOptions);
+
             modalRef.componentInstance.data = {
-                        id: 1,
-                        title: 'Xác nhận xóa',
-                        content: notis,
-                        contentBold: listUser 
-                    };
-     
+                id: 1,
+                title: 'Xác nhận xóa',
+                content: notis,
+                contentBold: listUser
+            };
+
             modalRef.result.then((result) => {
-    
+
                 if (result == "ok") {
                     this.callDeleteList();
-                        }
-     
+                }
+
             }).catch((error) => {
-            console.log(error)
+                console.log(error)
             });
-     
+
         }
     }
 
     callDeleteList() {
 
-        var t: any;
-        t = new Object();
-        t.listDelete = this.users.filter(m => m.selected == true);
-        t.user_id = "2";
+        var data: any;
+        data = new Object();
+        data.users = this.users.filter(m => m.selected == true);
+        data.user_id = "2";
         this.http.post<any>('http://10.1.11.110:5017/' + 'user/deleteUser',
-            t, this.sharedService.httpOptions)
+            data, this.sharedService.httpOptions)
             .subscribe(response => {
-                if (response.data.result == 0) {
-                    this.toastr.success("Xóa thành công", "Thông báo");
-                    this.getListUser();
-                } else {
+                if (!response.data.list.includes(0)) {
                     this.toastr.error("Xóa thất bại", "Thông báo");
+
+                } else {
+                    this.toastr.success("Xóa thành công", "Thông báo");
+
                 }
+                this.getListUser();
             });
     }
 
@@ -303,35 +301,51 @@ export class ListUserComponent {
 
     getListUser() {
 
-        var t: any;
+        var data: any;
 
         var dayTo = "";
-if(this.birthdayTo){
-    dayTo = new Date(this.birthdayTo).toLocaleDateString();
-}
-var dayFrom = "";
-if(this.birthdayFrom){
-    dayFrom = new Date(this.birthdayFrom).toLocaleDateString();
-}
- 
-        t = {
+        if (this.birthdayTo) {
+            try {
+                const offset = new Date(this.birthdayTo).getTimezoneOffset();
+                dayTo = new Date(new Date(this.birthdayTo).getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+
+            } catch (error) {
+                this.birthdayTo = "";
+            }
+        } else {
+            dayTo = null;
+        }
+        var dayFrom = "";
+        if (this.birthdayFrom) {
+            try {
+                const offset = new Date(this.birthdayFrom).getTimezoneOffset();
+                dayFrom = new Date(new Date(this.birthdayFrom).getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+
+            } catch (error) {
+                this.birthdayFrom = ""
+            }
+        } else {
+            dayFrom = null;
+        }
+
+        data = {
             "user_id": "1",
             "page_number": this.pageNumber + 1,
             "gioi_tinh_search": this.gioiTinhSearch,
-            "birthday_to": dayTo,
-            "birthday_from": dayFrom,
+            "birthday_to": this.birthdayTo == "" ? null : dayTo,
+            "birthday_from": this.birthdayFrom == "" ? null : dayFrom,
             "text_search": this.textSearch,
             "page_size": this.pageSize
 
         }
 
         this.http.post<any>('http://10.1.11.110:5017/' + 'user/getListUserFilter',
-            t, this.sharedService.httpOptions)
+            data, this.sharedService.httpOptions)
             .subscribe(response => {
 
                 this.users = response.data.list;
                 this.dataSource.data = this.users;
-                this.totalCountListAll = response.data.count[0].count;
+                this.totalCountListAll = response.data.count;
                 this.changCheckBox();
                 this.changePageSize();
                 // this.paginator.length = response.count[0].count;
@@ -339,26 +353,26 @@ if(this.birthdayFrom){
 
     }
 
-changePageSize(){
-    
-    this.totalNumberPage = Math.ceil(this.totalCountListAll/this.pageSize);
-    this.arrayPage = [];
-    for (var i = 0; i < this.totalNumberPage; i++) {
-        this.arrayPage.push({
-            value:i,
-            text:(i+1)
-        });
-      }
+    changePageSize() {
 
-      if(this.totalCountListAll == 0){
-        this.rowStart = 0;
-        this.rowEnd = 0;
-      } else {
-        this.rowStart = (this.pageSize * this.pageNumber) + 1;
-        this.rowEnd = this.rowStart + this.users.length -1;
-      }
-    
-}
+        this.totalNumberPage = Math.ceil(this.totalCountListAll / this.pageSize);
+        this.arrayPage = [];
+        for (var i = 0; i < this.totalNumberPage; i++) {
+            this.arrayPage.push({
+                value: i,
+                text: (i + 1)
+            });
+        }
+
+        if (this.totalCountListAll == 0) {
+            this.rowStart = 0;
+            this.rowEnd = 0;
+        } else {
+            this.rowStart = (this.pageSize * this.pageNumber) + 1;
+            this.rowEnd = this.rowStart + this.users.length - 1;
+        }
+
+    }
 
     changCheckBox() {
         if (this.users.filter(i => i.selected == true).length > 0) {
@@ -367,34 +381,34 @@ changePageSize(){
             this.isShowDelete = false;
         }
     }
- 
-    selectPage(i){
+
+    selectPage(i) {
         this.pageNumber = i;
         this.getListUser();
     }
 
-    nextPage(){
-        if(this.pageNumber < (this.totalNumberPage - 1))
-        this.pageNumber = this.pageNumber + 1;
+    nextPage() {
+        if (this.pageNumber < (this.totalNumberPage - 1))
+            this.pageNumber = this.pageNumber + 1;
         this.getListUser();
     }
-    prePage(){
-        if(this.pageNumber > 0)
-        this.pageNumber = this.pageNumber - 1;
+    prePage() {
+        if (this.pageNumber > 0)
+            this.pageNumber = this.pageNumber - 1;
         this.getListUser();
     }
-    maxPage(){
-        
+    maxPage() {
+
         this.pageNumber = this.totalNumberPage - 1;
         this.getListUser();
     }
-    minPage(){
-        
+    minPage() {
+
         this.pageNumber = 0;
         this.getListUser();
     }
     ChangeCbbPageSize() {
-        this.pageNumber=0;
+        this.pageNumber = 0;
         this.getListUser();
     }
     checkLoginAndRole() {
@@ -402,7 +416,7 @@ changePageSize(){
         var session = sessionStorage.getItem("login");
         if (session == "true") {
             this.sharedService.callGetRole(token).subscribe(result => {
-                this.isRoleAdmin = result.data.is_admin[0].is_admin
+                this.isRoleAdmin = result.data.is_admin
                 if (this.isRoleAdmin) {
                     this.isRoleShow = true;
                     this.isRoleAdd = true;
@@ -410,11 +424,11 @@ changePageSize(){
                     this.isRoleDelete = true;
                 } else {
 
-                    if (result.data.role) {
-                        var roleShow = result.data.role.filter(m => m.action == "show");
-                        var roleAdd = result.data.role.filter(m => m.action == "add");
-                        var roleEdit = result.data.role.filter(m => m.action == "edit");
-                        var roleDelete = result.data.role.filter(m => m.action == "delete");
+                    if (result.data.list) {
+                        var roleShow = result.data.list.filter(m => m.action == "show");
+                        var roleAdd = result.data.list.filter(m => m.action == "add");
+                        var roleEdit = result.data.list.filter(m => m.action == "edit");
+                        var roleDelete = result.data.list.filter(m => m.action == "delete");
                         if (roleShow.length > 0) {
                             this.isRoleShow = true;
                         }
@@ -500,48 +514,48 @@ changePageSize(){
     }
 
     add() {
- 
-        var modalRef = this.modalService.open(EditUserComponent,this.modalOptions);
-    
+
+        var modalRef = this.modalService.open(EditUserComponent, this.modalOptions);
+
         modalRef.componentInstance.data = {
             id: 1,
             title: 'Thêm người dùng',
             statusForm: 'add'
-                };
- 
+        };
+
         modalRef.result.then((result) => {
 
             if (result == "ok") {
                 this.getListUser();
-                    }
- 
+            }
+
         }).catch((error) => {
-        console.log(error)
+            console.log(error)
         });
 
     }
 
     editUser(event: any, user: any) {
- 
-        var modalRef = this.modalService.open(EditUserComponent,this.modalOptions);
-    
+
+        var modalRef = this.modalService.open(EditUserComponent, this.modalOptions);
+
         modalRef.componentInstance.data = {
-            data: Object.assign({}, user) ,
-                    title: 'Sửa người dùng',
-                    statusForm: 'edit'
-                };
- 
+            data: Object.assign({}, user),
+            title: 'Sửa người dùng',
+            statusForm: 'edit'
+        };
+
         modalRef.result.then((result) => {
 
             if (result == "ok") {
                 this.getListUser();
-                    }
- 
+            }
+
         }).catch((error) => {
-        console.log(error)
+            console.log(error)
         });
 
- 
+
     }
 
 

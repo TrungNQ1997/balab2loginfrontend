@@ -1,187 +1,172 @@
 ﻿<div class="">
-    <div class="div-container-user" style="padding-top:10px">
-        
-        <div class="d-flex mt-2 mb-2 font-weight-bold text-primary">
-            Quản trị người dùng
-             
-        </div>
- 
-        <div class="d-flex row-common container-search" style="margin-bottom:10px;justify-content: space-between;">
-          
-                <input type="text" class="input-search form-control margin-top-5 "  
-                maxlength="200" style=""
-             [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập "  
-               >
-            
-            <div class="d-flex   p-left-0 justify-content-end pr-0 respon-mobile">
-            <div class="d-flex">
-                <label class="mr-2 ml-2 col-form-label">Ngày sinh từ</label>
- 
-                <input type="text" 
-                style=" "
-                       class="form-control datepicker  mr-2  "
-                       bsDatepicker
-                        
-                       [(ngModel)]="birthdayFrom" 
-                       placeholder="Chọn ngày">
-                      </div>
-                      <div class="d-flex date-to ">
-<label class="mr-2    col-form-label">Đến</label>
- 
-<input type="text" 
-                style=" "
-                       class="form-control datepicker  mr-2  "
-                       bsDatepicker
-                        
-                       [(ngModel)]="birthdayTo" 
-                       placeholder="Chọn ngày">
-                      </div>
-  
-<div class="d-flex  div-gioi-tinh">
-<label class="   mr-2  col-form-label">Giới tính</label>
-<select class="w-auto mr-2 form-control"  role="button"   [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch" >
-    <option *ngFor="let option of gioiTinhList" [value]="option.value">
-        {{ option.viewValue }}</option>
-  </select>
-  <button *ngIf="isRoleEdit" 
-                class="btn btn-primary rounded" 
-                (click)="search()" style=" margin-right: 0px">
-                    <i class="fa-solid fa-magnifying-glass p-right-5"></i>
-                    Tìm</button>
-                </div>
-            </div>
-        </div>
- 
-        <div class="d-flex row-common container-button" style="margin-bottom:10px">
-            <div class="d-flex col-xl-6  col-lg-4 col-md-3  col-sm-5 col-12  p-left-0 justify-content-start">
-                <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="add()">
-                    <i class="fa-solid fa-plus p-right-5"></i>
-                    Thêm</button>
-            <button *ngIf="isRoleDelete && isShowDelete" class="btn btn-danger rounded " (click)="deleteList()">
-                <i class="fa-solid fa-trash-can p-right-5" accesskey="">
+  <div class="div-container-user" style="padding-top:10px">
 
-                </i>Xóa</button>
- 
-            </div>
-            <div class="col-xl-6  col-lg-8 col-md-9  col-sm-7 col-12  d-flex justify-content-end div-search pr-0 button-export">
-                <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="exportToExcel()">
-                    <i class="fa-regular fa-file-excel pr-1"></i>
-                    Xuất Excel</button>
-                    <button *ngIf="isRoleAdd" class="btn btn-primary rounded" (click)="exportTableToPDF()">
-                        <i class="fa-regular fa-file-pdf pr-1"></i>
-                        Xuất Pdf</button>
-                  
-            </div>
-        </div>
-
-        <div class="mat-elevation-z8">
-            <div class="table-scroll">
-<!-- table bootstrap -->
-<table class="table table-bordered table-hover custom-mat-table"  id="tableToExport" width="100%" #table>
-    <thead>
-      <tr>
-        <th scope="col" class="w-8 text-light   custom-header  text-center ">STT</th> 
-        <th scope="col" class="w-8 custom-header  text-light  text-center " role="button" (click)="selectAll()" >Chọn</th> 
-        
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Tên đăng nhập</th> 
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Họ tên</th> 
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Ngày sinh</th> 
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Giới tính</th> 
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Điện thoại</th> 
-        <th scope="col" class="w-10 custom-header  text-light  text-center ">Email</th> 
-        <th scope="col" class="w-8 custom-header  text-light  text-center ">Trạng thái</th> 
-        <th scope="col" class="w-8 custom-header  text-light  text-center ">Sửa</th> 
-        <th scope="col" class="w-8 custom-header  text-light  text-center ">Xóa</th> 
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of users"  >
-        <td class=" text-center "  >{{item.stt}}</td>
-        <td class=" text-center " ><input type="checkbox" role="button" (change)="changCheckBox()" [(ngModel)]="item.selected" ></td>
-        
-        <td class=" text-center " 
-         [ngClass]="{'text-primary': item.is_active == true,'text-danger': item.is_active == false}"  >
-         {{item.username}}</td>
-        <td class=" text-center " 
-         [ngClass]="{'text-right': item.gioi_tinh == 1, 
-         'text-left': item.gioi_tinh == 2, 'text-center': item.gioi_tinh == 3}"  >
-         {{item.ho_ten}}</td>
-        <td class=" text-center " >{{item.ngay_sinh | date: formatDate}}</td>
-        <td class=" text-center " >{{item.gioi_tinh_text}}</td>
-        <td class=" text-center " >{{item.sdt | phoneFormat }}</td>
-        <td class=" text-center " >{{item.email}}</td>
-        <td class=" text-center min-w-105" >
-            <span class="bg-success  text-white p-2 rounded  "
-            *ngIf="item.is_active == true"
-            >Hoạt động</span>
-            <span class="bg-danger  text-white p-2 rounded  "
-            *ngIf="item.is_active == false"
-            >Vô hiệu hóa</span>
-        </td>
-        <td class=" text-center " >  <i *ngIf="isRoleEdit" class="fa-regular fa-pen-to-square c-poiter"
-            (click)="editUser($event,item)"></i></td>
-        <td class=" text-center " >   <i *ngIf="isRoleDelete"  
-            class="fa-solid fa-trash-can c-poiter text-danger" (click)="deleteUser($event,item)"
-            accesskey="">
-
-        </i></td>
-         
-      </tr>
-      
-    </tbody>
-  </table>
-</div>
-<!--end table bootstrap -->
- 
-<nav aria-label="Page navigation example" class="bg-light d-flex" style="justify-content: space-between;">
-    <ul class="pagination m-2">
-       
-      <li class="page-item">
-        <a class="page-link" role="button"  (click)="minPage()" >
-            <i class="fa-solid fa-backward-step"></i>
-    </a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" role="button"  (click)="prePage()" >
-        <i class="fa-solid fa-play  " style="transform: rotate(180deg); "></i>
-    </a>
-      </li>
-      <li class="page-item" [ngClass]="{'active': pageNumber == page.value}" 
-      *ngFor="let page of arrayPage" >
-        <a class="page-link" role="button"  (click)="selectPage(page.value)" >{{page.text}}</a></li>
-       
-      <li class="page-item">
-        <a class="page-link"  role="button" (click)="nextPage()" >
-        <i class="fa-solid fa-play  "></i>
-    </a>
-      </li>
-      <li class="page-item  "  >
-        <a class="page-link" role="button"  (click)="maxPage()" >
-        <i class="fa-solid fa-forward-step"></i>
-    </a>
-      </li>
-<li class="ml-2 mr-2">
-      <select class="form-control mrl-2"  role="button"   [(ngModel)]="pageSize" (change)="ChangeCbbPageSize()">
-        <option *ngFor="let option of listPaging" [value]="option.value">
-            {{ option.value }}</option>
-      </select>
- 
-    </li>
-    <li class="d-flex align-items-center">
-        <label class="mb-0">Dòng mỗi trang</label>
-    </li>
-    </ul>
-    <ul class="flex-right m-2">
-        <li class="d-flex align-items-center h-100">
-            <label class="mr-2 mb-0">{{rowStart}} - {{rowEnd}} trên tổng {{totalCountListAll}} dòng</label>
-            <i class="fa-solid fa-rotate-right" role="button" (click)="getListUser()"></i>    
-        </li>
-         
-    </ul>
-  </nav>
- 
-            </div>
+    <div class="d-flex mt-2 mb-2 font-weight-bold text-primary">
+      Quản trị người dùng
 
     </div>
+
+    <div class="d-flex row-common container-search" style="margin-bottom:10px;justify-content: space-between;">
+
+      <input type="text" class="input-search form-control margin-top-5 " maxlength="200" style=""
+        [(ngModel)]="textSearch" placeholder="Tìm theo email, họ tên, sđt, tên đăng nhập ">
+
+      <div class="d-flex   p-left-0 justify-content-end pr-0 respon-mobile">
+        <div class="d-flex">
+          <label class="mr-2 ml-2 col-form-label">Ngày sinh từ</label>
+
+          <input type="text" style=" " class="form-control datepicker  mr-2  " bsDatepicker [(ngModel)]="birthdayFrom"
+            placeholder="Chọn ngày">
+        </div>
+        <div class="d-flex date-to ">
+          <label class="mr-2    col-form-label">Đến</label>
+
+          <input type="text" style=" " class="form-control datepicker  mr-2  " bsDatepicker [(ngModel)]="birthdayTo"
+            placeholder="Chọn ngày">
+        </div>
+
+        <div class="d-flex  div-gioi-tinh">
+          <div class="d-flex">
+            <label class="   mr-2  col-form-label">Giới tính</label>
+            <select class="w-auto mr-2 form-control" role="button" [(ngModel)]="gioiTinhSearch" name="gioiTinhSearch">
+              <option *ngFor="let option of gioiTinhList" [value]="option.value">
+                {{ option.viewValue }}</option>
+            </select>
+          </div>
+          <button *ngIf="isRoleEdit" class="btn btn-primary rounded btn-search" (click)="search()"
+            style=" margin-right: 0px">
+            <i class="fa-solid fa-magnifying-glass p-right-5"></i>
+            Tìm</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex row-common container-button" style="margin-bottom:10px">
+      <div class="d-flex col-xl-6  col-lg-4 col-md-3  col-sm-5 col-6  p-left-0 justify-content-start">
+        <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="add()">
+          <i class="fa-solid fa-plus p-right-5"></i>
+          Thêm</button>
+        <button *ngIf="isRoleDelete && isShowDelete" class="btn btn-danger rounded " (click)="deleteList()">
+          <i class="fa-solid fa-trash-can p-right-5" accesskey="">
+
+          </i>Xóa</button>
+
+      </div>
+      <div
+        class="col-xl-6  col-lg-8 col-md-9  col-sm-7 col-6  d-flex justify-content-end div-search pr-0 button-export">
+        <button *ngIf="isRoleAdd" class="btn btn-primary rounded mr-2" (click)="exportToExcel()">
+          <i class="fa-regular fa-file-excel pr-1"></i>
+          Xuất Excel</button>
+        <button *ngIf="isRoleAdd" class="btn btn-primary rounded" (click)="exportTableToPDF()">
+          <i class="fa-regular fa-file-pdf pr-1"></i>
+          Xuất Pdf</button>
+
+      </div>
+    </div>
+    <div class="pb-2">
+      <div class="mat-elevation-z8">
+        <div class="table-scroll">
+          <!-- table bootstrap -->
+          <table class="table table-bordered table-hover custom-mat-table" id="tableToExport" width="100%" #table>
+            <thead>
+              <tr>
+                <th scope="col" class="w-8 text-light   custom-header  text-center ">STT</th>
+                <th scope="col" class="w-8 custom-header  text-light  text-center " role="button" (click)="selectAll()">
+                  Chọn</th>
+
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Tên đăng nhập</th>
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Họ tên</th>
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Ngày sinh</th>
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Giới tính</th>
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Điện thoại</th>
+                <th scope="col" class="w-10 custom-header  text-light  text-center ">Email</th>
+                <th scope="col" class="w-8 custom-header  text-light  text-center ">Trạng thái</th>
+                <th scope="col" class="w-8 custom-header  text-light  text-center " *ngIf="isRoleEdit">Sửa</th>
+                <th scope="col" class="w-8 custom-header  text-light  text-center " *ngIf="isRoleDelete">Xóa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of users">
+                <td class=" text-center ">{{item.stt}}</td>
+                <td class=" text-center "><input type="checkbox" role="button" (change)="changCheckBox()"
+                    [(ngModel)]="item.selected"></td>
+
+                <td class=" text-center "
+                  [ngClass]="{'text-primary': item.is_active == true,'text-danger': item.is_active == false}">
+                  {{item.username}}</td>
+                <td class=" text-center " [ngClass]="{'text-right': item.gioi_tinh == 1, 
+         'text-left': item.gioi_tinh == 2, 'text-center': item.gioi_tinh == 3}">
+                  {{item.ho_ten}}</td>
+                <td class=" text-center ">{{item.ngay_sinh | date: formatDate}}</td>
+                <td class=" text-center ">{{item.gioi_tinh_text}}</td>
+                <td class=" text-center ">{{item.sdt | phoneFormat }}</td>
+                <td class=" text-center ">{{item.email}}</td>
+                <td class=" text-center min-w-105">
+                  <span class="bg-success  text-white p-2 rounded  " *ngIf="item.is_active == true">Hoạt động</span>
+                  <span class="bg-danger  text-white p-2 rounded  " *ngIf="item.is_active == false">Vô hiệu hóa</span>
+                </td>
+                <td class=" text-center " *ngIf="isRoleEdit"> <i class="fa-regular fa-pen-to-square c-poiter"
+                    (click)="editUser($event,item)"></i></td>
+                <td class=" text-center " *ngIf="isRoleDelete"> <i class="fa-solid fa-trash-can c-poiter text-danger"
+                    (click)="deleteUser($event,item)" accesskey="">
+
+                  </i></td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <!--end table bootstrap -->
+
+        <nav aria-label="Page navigation example" class="bg-light d-flex" style="justify-content: space-between;">
+          <ul class="pagination m-2">
+
+            <li class="page-item">
+              <a class="page-link" role="button" (click)="minPage()">
+                <i class="fa-solid fa-backward-step"></i>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" role="button" (click)="prePage()">
+                <i class="fa-solid fa-play  " style="transform: rotate(180deg); "></i>
+              </a>
+            </li>
+            <li class="page-item" [ngClass]="{'active': pageNumber == page.value}" *ngFor="let page of arrayPage">
+              <a class="page-link" role="button" (click)="selectPage(page.value)">{{page.text}}</a>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" role="button" (click)="nextPage()">
+                <i class="fa-solid fa-play  "></i>
+              </a>
+            </li>
+            <li class="page-item  ">
+              <a class="page-link" role="button" (click)="maxPage()">
+                <i class="fa-solid fa-forward-step"></i>
+              </a>
+            </li>
+            <li class="ml-2 mr-2">
+              <select class="form-control mrl-2" role="button" [(ngModel)]="pageSize" (change)="ChangeCbbPageSize()">
+                <option *ngFor="let option of listPaging" [value]="option.value">
+                  {{ option.value }}</option>
+              </select>
+
+            </li>
+            <li class="d-flex align-items-center">
+              <label class="mb-0">Dòng mỗi trang</label>
+            </li>
+          </ul>
+          <ul class="flex-right m-2">
+            <li class="d-flex align-items-center h-100">
+              <label class="mr-2 mb-0">{{rowStart}} - {{rowEnd}} trên tổng {{totalCountListAll}} dòng</label>
+              <i class="fa-solid fa-rotate-right" role="button" (click)="getListUser()"></i>
+            </li>
+
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </div>
 </div>
- 

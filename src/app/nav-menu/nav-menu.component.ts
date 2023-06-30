@@ -19,7 +19,7 @@ export class NavMenuComponent {
   isExpanded = false;
   modalOptions: NgbModalOptions = {
     // size:'700px',
-    windowClass : "myCustomModalClass",
+    windowClass: "myCustomModalClass",
 
     centered: true // Căn giữa modal
   };
@@ -29,43 +29,43 @@ export class NavMenuComponent {
   ];
   langModel = this.dropDownData[0];
 
-  
-  constructor(private translateService: TranslateService, 
+
+  constructor(private translateService: TranslateService,
     private appComponent: AppComponent
-    ,private sharedService: SharedService,private router: Router, 
-    private route: ActivatedRoute 
+    , private sharedService: SharedService, private router: Router,
+    private route: ActivatedRoute
     , private modalService: NgbModal
-    ) {
+  ) {
 
     this.translateService.setDefaultLang('vi');
 
     // Nạp các bản dịch
     this.translateService.use('vi');
-     
+
   }
 
 
   ngOnInit() {
     this.langModel = this.dropDownData[0];
     this.translateService.use(this.dropDownData[0].val);
-    
+
     var visi = this.sharedService.getCookie("token");
     var login = sessionStorage.getItem("login");
-    if(login){
+    if (login) {
       this.isNavbarVisible = true;
     } else {
-      if(visi){
+      if (visi) {
         this.isNavbarVisible = true;
       }
     }
-    
+
     this.subscription = this.sharedService.isNavbarVisible$.subscribe(
       (isVisible: boolean) => {
         this.isNavbarVisible = isVisible;
       }
     );
   }
-   
+
 
 
   collapse() {
@@ -78,32 +78,32 @@ export class NavMenuComponent {
   onOptionsSelected(value: string) {
     this.translateService.use(value);
   }
-  ngOnChanges(){
-    
+  ngOnChanges() {
+
   }
 
-  onChangePass(){
+  onChangePass() {
 
 
-    var modalRef = this.modalService.open(ForgetPassUserComponent,this.modalOptions);
-    
+    var modalRef = this.modalService.open(ForgetPassUserComponent, this.modalOptions);
+
     modalRef.componentInstance.data = {
       data: "",
       title: 'Đổi mật khẩu',
       statusForm: 'edit'
-            };
+    };
 
     modalRef.result.then((result) => {
 
-        if (result == "ok") {
-             
-                }
+      if (result == "ok") {
+
+      }
 
     }).catch((error) => {
-    console.log(error)
+      console.log(error)
     });
 
- 
+
   }
 
   toggleMenu() {
@@ -133,41 +133,41 @@ export class NavMenuComponent {
     const cookies = document.cookie.split(";");
 
     for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i];
-        const eqPos = cookie.indexOf("=");
-        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
-}
-logout(){
-  var notis = "Bạn có đồng ý thoát không?"
-  var modalRef = this.modalService.open(ModalComfirmComponent,this.modalOptions);
-    
-  modalRef.componentInstance.data = {
-    id: 1,
-            title: 'Xác nhận thoát',
-            content: notis
-          };
+  }
+  logout() {
+    var notis = "Bạn có đồng ý thoát không?"
+    var modalRef = this.modalService.open(ModalComfirmComponent, this.modalOptions);
 
-  modalRef.result.then((result) => {
+    modalRef.componentInstance.data = {
+      id: 1,
+      title: 'Xác nhận thoát',
+      content: notis
+    };
+
+    modalRef.result.then((result) => {
 
       if (result == "ok") {
         this.callLogout();
-              }
+      }
 
-  }).catch((error) => {
-  console.log(error)
-  });
- 
- 
-}
+    }).catch((error) => {
+      console.log(error)
+    });
+
+
+  }
   callLogout() {
     localStorage.clear();
     sessionStorage.clear();
     this.deleteAllCookies();
-    this.sharedService.setIsNavbarVisible(false);  
+    this.sharedService.setIsNavbarVisible(false);
 
     this.router.navigate([''], { relativeTo: this.route });
-}
-  
+  }
+
 }

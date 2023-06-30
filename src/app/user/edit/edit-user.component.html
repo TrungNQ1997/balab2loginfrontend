@@ -1,12 +1,12 @@
-﻿  
-        <div class="div-edit-user" style="width: 790px;">
-      <div class="modal-header bg-primary text-light">
+﻿<div class="div-edit-user" style="width: 790px;">
+    <div class="modal-header bg-primary text-light">
         <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">{{data.title}}</h5>
-        <button type="button"(click)="close()" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1;" >
-          <i class="fa-solid fa-xmark"></i>
+        <button type="button" (click)="close()" class="close text-white" data-dismiss="modal" aria-label="Close"
+            style="opacity: 1;">
+            <i class="fa-solid fa-xmark"></i>
         </button>
-      </div>
-      <div class="modal-body bg-white">
+    </div>
+    <div class="modal-body bg-white">
         <div class="d-flex">
             <div class="col-6">
                 <div class="d-flex form-group ">
@@ -14,66 +14,56 @@
                         <label>Tên đăng nhập</label>
                         <label class="color-red">*</label>
                     </div>
-                    <input type="text" class="form-control margin-top-5 " name="txt-username" 
-                     [disabled]="data.statusForm == 'edit'"   maxlength="50" 
-                     [(ngModel)]="user.username" placeholder=" " required="true" (change)="checkChangeUsername()"
-                      aria-label="Username" aria-describedby="basic-addon1">
-         
+                    <input type="text" class="form-control margin-top-5 " name="txt-username"
+                        [disabled]="data.statusForm == 'edit'" maxlength="50" [(ngModel)]="user.username"
+                        placeholder=" " required="true" (change)="checkChangeUsername()" aria-label="Username"
+                        aria-describedby="basic-addon1">
+
                 </div>
                 <div class="col-12">
-                <label  *ngIf="showErrorTxtUsername"  class="text-danger">{{errorTxtUsername}}</label>
-            </div>
+                    <label *ngIf="showErrorTxtUsername" class="text-danger">{{errorTxtUsername}}</label>
+                </div>
                 <div class="d-flex form-group ">
                     <div class=" form-text div-flex-center col-5 ">
                         <label>Ngày sinh</label>
                         <label class="color-red">*</label>
                     </div>
 
-                    <input type="text" 
-                    
-                           class="form-control     "
-                           bsDatepicker
-                           name="txt-ngay-sinh" 
-                           
-                           [(ngModel)]="user.ngay_sinh" 
-                           (ngModelChange)="checkChangeNgaySinh()" 
-                           placeholder="Chọn ngày">
- 
-                    </div>
+                    <input type="text" class="form-control     " bsDatepicker name="txt-ngay-sinh"
+                        [(ngModel)]="user.ngay_sinh" (ngModelChange)="checkChangeNgaySinh()" placeholder="Chọn ngày">
+
+                </div>
                 <div class="col-12">
-                    <label  *ngIf="showErrorTxtNgaySinh"  class="text-danger">{{errorTxtNgaySinh}}</label>
+                    <label *ngIf="showErrorTxtNgaySinh" class="text-danger">{{errorTxtNgaySinh}}</label>
                 </div>
                 <div class="d-flex form-group ">
                     <div class=" form-text div-flex-center col-5 ">
                         <label>Email</label>
                     </div>
-                    <input type="text" class="form-control margin-top-5" name="txt-mail" 
-                       maxlength="200" 
-                    [(ngModel)]="user.email" placeholder=" "  
-                     (change)="checkChangeMail()" >
-        
-                 </div>
-                <div class="col-12">
-                    <label  *ngIf="showErrorTxtMail"  class="text-danger">{{errorTxtMail}}</label>
+                    <input type="text" class="form-control margin-top-5" name="txt-mail" maxlength="200"
+                        [(ngModel)]="user.email" placeholder=" " (change)="checkChangeMail()">
+
                 </div>
-        
+                <div class="col-12">
+                    <label *ngIf="showErrorTxtMail" class="text-danger">{{errorTxtMail}}</label>
+                </div>
+
                 <div class="d-flex form-group">
                     <div class="div-flex-center col-5 ">
-                         <label role="button"  for="isAdmin">Là Admin</label>
+                        <label role="button" for="isAdmin">Là Admin</label>
                     </div>
-                    <input class="mb-2 " role="button"  type="checkbox" [(ngModel)]="user.is_admin"     id="isAdmin"  >
-                   
-            </div>
-            <div class="d-flex form-group  ">
-                <div class="form-check-label div-flex-center col-5 ">
-                         <label role="button"  for="isActive">Hoạt động</label>
+                    <input class="mb-2 " role="button" type="checkbox" [(ngModel)]="user.is_admin" id="isAdmin">
+
                 </div>
-        
-                <input class="mb-2 " type="checkbox" role="button" 
-                 [(ngModel)]="user.is_active"  id="isActive"  >
-         
-            </div>
-        
+                <div class="d-flex form-group  ">
+                    <div class="form-check-label div-flex-center col-5 ">
+                        <label role="button" for="isActive">Hoạt động</label>
+                    </div>
+
+                    <input class="mb-2 " type="checkbox" role="button" [(ngModel)]="user.is_active" id="isActive">
+
+                </div>
+
             </div>
             <div class="col-6">
                 <div class="d-flex form-group ">
@@ -81,43 +71,39 @@
                         <label>Họ tên nhân viên</label>
                         <label class="color-red">*</label>
                     </div>
-                    <input type="text" class="form-control margin-top-5" name="txt-ten" 
-                       maxlength="200" 
-                    [(ngModel)]="user.ho_ten" placeholder=" "  
-                     (change)="checkChangeTen()">
-                  
+                    <input type="text" class="form-control margin-top-5" name="txt-ten" maxlength="200"
+                        [(ngModel)]="user.ho_ten" placeholder=" " (change)="checkChangeTen()">
+
                 </div>
                 <div class="col-12">
-                    <label  *ngIf="showErrorTxtTen"  class="text-danger">{{errorTxtTen}}</label>
+                    <label *ngIf="showErrorTxtTen" class="text-danger">{{errorTxtTen}}</label>
                 </div>
                 <div class="d-flex form-group ">
                     <div class=" form-text div-flex-center col-5 ">
                         <label>Giới tính</label>
                         <label class="color-red">*</label>
                     </div>
-                    <select class="form-control margin-top-5"  [(ngModel)]="user.gioi_tinh" >
+                    <select class="form-control margin-top-5" [(ngModel)]="user.gioi_tinh">
                         <option *ngFor="let option of gioiTinhList" [value]="option.value">
                             {{ option.viewValue }}</option>
-                      </select>
-                    
-                      
-        
+                    </select>
+
+
+
                 </div>
                 <div class="d-flex form-group ">
                     <div class=" form-text div-flex-center col-5 ">
                         <label>Điện thoại</label>
                         <label class="color-red">*</label>
                     </div>
-                    <input type="text" class="form-control margin-top-5" name="txt-sdt" 
-                       maxlength="10" 
-                    [(ngModel)]="user.sdt" placeholder=" "  
-                     (change)="checkChangeSdt()">
-                        </div>
-                <div class="col-12">
-                    <label  *ngIf="showErrorTxtSdt"  class="text-danger">{{errorTxtSdt}}</label>
+                    <input type="text" class="form-control margin-top-5" name="txt-sdt" maxlength="10"
+                        [(ngModel)]="user.sdt" placeholder=" " (change)="checkChangeSdt()">
                 </div>
-               
-                <div class="d-flex form-group "  *ngIf="data.statusForm == 'add'" >
+                <div class="col-12">
+                    <label *ngIf="showErrorTxtSdt" class="text-danger">{{errorTxtSdt}}</label>
+                </div>
+
+                <div class="d-flex form-group " *ngIf="data.statusForm == 'add'">
                     <div class="form-text div-flex-center col-5 ">
                         <label>Mật khẩu</label>
                         <label class="color-red">*</label>
@@ -125,23 +111,21 @@
 
 
                     <div class="input-group">
-                        <input type="password"  
-                        name="txt-pass" 
-                        maxlength="100"  id="exampleInputPassword11"
-                     [(ngModel)]="user.password" placeholder=" "  
-                      (change)="checkChangePass()"   class="form-control" data-toggle="password">
-                        <div class="input-group-append"  (click)="showPass1()"  role="button" >
-                          <span class="input-group-text">
-                            <i role="button"  class="fa-regular fa-eye"></i>
-                          </span>
+                        <input type="password" name="txt-pass" maxlength="100" id="exampleInputPassword11"
+                            [(ngModel)]="user.password" placeholder=" " (change)="checkChangePass()"
+                            class="form-control" data-toggle="password">
+                        <div class="input-group-append" (click)="showPass1()" role="button">
+                            <span class="input-group-text">
+                                <i role="button" class="fa-regular fa-eye"></i>
+                            </span>
                         </div>
-                      </div>
+                    </div>
 
-                      </div>
-                <div class="col-12">
-                    <label  *ngIf="showErrorTxtPass"  class="text-danger">{{errorTxtPass}}</label>
                 </div>
-                <div class="d-flex form-group " *ngIf="data.statusForm == 'add'" >
+                <div class="col-12">
+                    <label *ngIf="showErrorTxtPass" class="text-danger">{{errorTxtPass}}</label>
+                </div>
+                <div class="d-flex form-group " *ngIf="data.statusForm == 'add'">
                     <div class="form-text div-flex-center col-5">
                         <label>Nhập lại mật khẩu</label>
                         <label class="color-red">*</label>
@@ -149,39 +133,36 @@
 
 
                     <div class="input-group">
-                        <input type="password"  
-                        name="txt-repass" 
-                        maxlength="100"  id="exampleInputPassword12"
-                     [(ngModel)]="user.rePassword" placeholder=" "  
-                      (change)="checkChangeRePass()"  class="form-control" data-toggle="password">
-                        <div class="input-group-append"  role="button"  (click)="showPass2()" >
-                          <span class="input-group-text">
-                            <i  class="fa-regular fa-eye"></i>
-                          </span>
+                        <input type="password" name="txt-repass" maxlength="100" id="exampleInputPassword12"
+                            [(ngModel)]="user.rePassword" placeholder=" " (change)="checkChangeRePass()"
+                            class="form-control" data-toggle="password">
+                        <div class="input-group-append" role="button" (click)="showPass2()">
+                            <span class="input-group-text">
+                                <i class="fa-regular fa-eye"></i>
+                            </span>
                         </div>
-                      </div>
+                    </div>
 
- 
-            </div>
+
+                </div>
                 <div class="col-12">
-                    <label  *ngIf="showErrorTxtRePass"  class="text-danger">{{errorTxtRePass}}</label>
+                    <label *ngIf="showErrorTxtRePass" class="text-danger">{{errorTxtRePass}}</label>
                 </div>
             </div>
         </div>
-      </div>
-      <div class="modal-footer bg-white justify-content-center">
-         
-
-        <button class="btn btn-primary rounded"
-        (click)="save()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
-       
-        <button class="btn btn-primary  rounded " *ngIf="data.statusForm == 'add'" 
-        (click)="saveAdd()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu và thêm</button>
-       
-        <button class="btn btn-light rounded" (click)="close()">
-           <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
-
- 
-      </div>
     </div>
-   
+    <div class="modal-footer bg-white justify-content-center">
+
+
+        <button class="btn btn-primary rounded" (click)="save()"><i
+                class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
+
+        <button class="btn btn-primary  rounded " *ngIf="data.statusForm == 'add'" (click)="saveAdd()"><i
+                class="fa-regular fa-floppy-disk p-right-5"></i>Lưu và thêm</button>
+
+        <button class="btn btn-light rounded" (click)="close()">
+            <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
+
+
+    </div>
+</div>

@@ -8,8 +8,8 @@
 
       <img class="img-news" src="{{ban.linkImg}}" />
 
-      <div class="col-6 div-content-news "  >
-        <div class="p-rela"  >
+      <div class="col-6 div-content-news ">
+        <div class="p-rela">
           <div class="title-news">{{ban.title}}</div>
 
           <div class="des-news">
@@ -29,8 +29,8 @@
     </div>
 
     <div class="div-login">
-      <img id="img"   draggable="false" class="style-scope yt-img-shadow img-login" alt="" width="80"
-      src="http://gps3.binhanh.vn/assets/images/login/logo.svg" />
+      <img id="img" draggable="false" class="style-scope yt-img-shadow img-login" alt="" width="80"
+        src="http://gps3.binhanh.vn/assets/images/login/logo.svg" />
       <div class="div-username">
         <input type="text" class="form-control border-radius-20 margin-tb-5 p-left-30" maxlength="50"
           [(ngModel)]="username" id="exampleInputEmail1" placeholder="{{'login.username' | translate}}"
@@ -39,22 +39,21 @@
       </div>
       <div class="div-pass">
         <input type="password" class="form-control border-radius-20 margin-tb-5 p-left-right-30" maxlength="200"
-          [(ngModel)]="pass" placeholder="{{'login.pass' | translate}}" id="exampleInputPassword1" />
+          [(ngModel)]="password" placeholder="{{'login.pass' | translate}}" id="exampleInputPassword1" />
         <i class="fa-solid fa-lock icon-login"></i>
         <i (click)="showPass()" class="fa-regular fa-eye icon-login-end"></i>
       </div>
 
       <div class="margin-tb-5 d-flex  " style="justify-content: space-between;width: 100%;">
-<ul class="no-pad no-mar d-flex" >
+        <ul class="no-pad no-mar d-flex">
 
-  <input class="mr-2 mb-2" type="checkbox" role="button" 
-  [(ngModel)]="isRemember"  id="isRemember"  >
-  <label class="form-text" role="button" for="isRemember">{{'login.remember_pass'|translate}}</label>
-   
-          </ul>
-        <ul class="no-pad no-mar" >
-        <label class="font-menu form-text">{{'login.forgot_pass'|translate}}</label>
-      </ul>
+          <input class="mr-2 mb-2" type="checkbox" role="button" [(ngModel)]="isRemember" id="isRemember">
+          <label class="form-text" role="button" for="isRemember">{{'login.remember_pass'|translate}}</label>
+
+        </ul>
+        <ul class="no-pad no-mar">
+          <label class="font-menu form-text">{{'login.forgot_pass'|translate}}</label>
+        </ul>
       </div>
       <div *ngIf="showMes" class="div-notis">
         <label>{{notis}}</label>
@@ -84,7 +83,7 @@
   <div class="div-container-brans">
 
     <div class="div-xl-bran col-lg-md-3 col-sm-4 col-12   div-bran" *ngFor="let branch of listBranch">
-<!-- col-lg-md-3 col-sm-4 col-12 -->
+      <!-- col-lg-md-3 col-sm-4 col-12 -->
       <div class="title-bran">
         {{branch.title}}</div>
       <br />

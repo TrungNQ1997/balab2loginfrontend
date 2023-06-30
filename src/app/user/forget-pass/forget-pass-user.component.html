@@ -1,101 +1,94 @@
-﻿  
-<div class="div-change-pass" style="width: 500px;">
-    <div class="modal-header bg-primary text-light">
-      <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">{{data.title}}</h5>
-      <button type="button"(click)="close()" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1;" >
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    <div class="modal-body bg-white">
-        <div class="col-12">
-            <div class="d-flex form-group "  >
-                <div class="form-text div-flex-center col-5 pl-0">
-                    <label>Mật khẩu cũ</label>
-                    <label class="color-red">*</label>
-                </div>
-    
-    
-                <div class="input-group">
-                    <input type="password"  
-                    name="txt-pass-old" 
-                    maxlength="100"  id="exampleInputPassword13"
-                 [(ngModel)]="user.password_old" placeholder=" "  
-                  (change)="checkChangePassOld()"  class="form-control" data-toggle="password">
-                    <div class="input-group-append" role="button" (click)="showPass3()" >
-                      <span class="input-group-text">
-                        <i  class="fa-regular fa-eye"></i>
-                      </span>
-                    </div>
-                  </div>
-       </div>
-    
-            <div class="col-12 pl-0">
-                <label  *ngIf="showErrorTxtPassOld"  class="text-danger">{{errorTxtPassOld}}</label>
-            </div>
-     
-           
-        <div class="d-flex form-group "   >
-            <div class="form-text div-flex-center col-5 pl-0">
-                <label>Mật khẩu mới</label>
-                <label class="color-red">*</label>
-            </div>
-
-
-            <div class="input-group">
-                <input type="password"  
-                name="txt-pass" 
-                maxlength="100"  id="exampleInputPassword11"
-             [(ngModel)]="user.password" placeholder=" "  
-              (change)="checkChangePass()"  class="form-control" data-toggle="password">
-                <div class="input-group-append" role="button" (click)="showPass1()" >
-                  <span class="input-group-text">
-                    <i  class="fa-regular fa-eye"></i>
-                  </span>
-                </div>
-              </div>
- 
-        </div>
-  
-            <div class="col-12 pl-0">
-                <label  *ngIf="showErrorTxtPass"  class="text-danger">{{errorTxtPass}}</label>
-            </div>
-           
-        <div class="d-flex form-group "   >
-            <div class="form-text div-flex-center col-5 pl-0">
-                <label>Nhập lại mật khẩu mới</label>
-                <label class="color-red">*</label>
-            </div>
-
-
-            <div class="input-group">
-                <input type="password"  
-                name="txt-repass" 
-                maxlength="100"  id="exampleInputPassword12"
-             [(ngModel)]="user.rePassword" placeholder=" "  
-              (change)="checkChangeRePass()"  class="form-control" data-toggle="password">
-                <div class="input-group-append" role="button" (click)="showPass2()" >
-                  <span class="input-group-text">
-                    <i  class="fa-regular fa-eye"></i>
-                  </span>
-                </div>
-              </div>
- 
-        </div>
-
-            <div class="col-12 pl-0">
-                <label  *ngIf="showErrorTxtRePass"  class="text-danger">{{errorTxtRePass}}</label>
-            </div>
-    </div>
-    
-    </div>
-    <div class="modal-footer bg-white justify-content-center">
-        
-        <button class="btn btn-primary rounded" 
-        (click)="save()"><i class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
-        
-        <button class="btn btn-light rounded" (click)="close()">
-           <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
-   
-
-    </div>
+﻿<div class="div-change-pass" style="width: 500px;">
+  <div class="modal-header bg-primary text-light">
+    <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">{{data.title}}</h5>
+    <button type="button" (click)="close()" class="close text-white" data-dismiss="modal" aria-label="Close"
+      style="opacity: 1;">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
+  <div class="modal-body bg-white">
+    <div class="col-12">
+      <div class="d-flex form-group ">
+        <div class="form-text div-flex-center col-5 pl-0">
+          <label>Mật khẩu cũ</label>
+          <label class="color-red">*</label>
+        </div>
+
+
+        <div class="input-group">
+          <input type="password" name="txt-pass-old" maxlength="100" id="exampleInputPassword13"
+            [(ngModel)]="user.password_old" placeholder=" " (change)="checkChangePassOld()" class="form-control"
+            data-toggle="password">
+          <div class="input-group-append" role="button" (click)="showPass3()">
+            <span class="input-group-text">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 pl-0">
+        <label *ngIf="showErrorTxtPassOld" class="text-danger">{{errorTxtPassOld}}</label>
+      </div>
+
+
+      <div class="d-flex form-group ">
+        <div class="form-text div-flex-center col-5 pl-0">
+          <label>Mật khẩu mới</label>
+          <label class="color-red">*</label>
+        </div>
+
+
+        <div class="input-group">
+          <input type="password" name="txt-pass" maxlength="100" id="exampleInputPassword11" [(ngModel)]="user.password"
+            placeholder=" " (change)="checkChangePass()" class="form-control" data-toggle="password">
+          <div class="input-group-append" role="button" (click)="showPass1()">
+            <span class="input-group-text">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-12 pl-0">
+        <label *ngIf="showErrorTxtPass" class="text-danger">{{errorTxtPass}}</label>
+      </div>
+
+      <div class="d-flex form-group ">
+        <div class="form-text div-flex-center col-5 pl-0">
+          <label>Nhập lại mật khẩu mới</label>
+          <label class="color-red">*</label>
+        </div>
+
+
+        <div class="input-group">
+          <input type="password" name="txt-repass" maxlength="100" id="exampleInputPassword12"
+            [(ngModel)]="user.rePassword" placeholder=" " (change)="checkChangeRePass()" class="form-control"
+            data-toggle="password">
+          <div class="input-group-append" role="button" (click)="showPass2()">
+            <span class="input-group-text">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-12 pl-0">
+        <label *ngIf="showErrorTxtRePass" class="text-danger">{{errorTxtRePass}}</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer bg-white justify-content-center">
+
+    <button class="btn btn-primary rounded" (click)="save()"><i
+        class="fa-regular fa-floppy-disk p-right-5"></i>Lưu</button>
+
+    <button class="btn btn-light rounded" (click)="close()">
+      <i class="fa-solid fa-ban p-right-5"></i>Đóng</button>
+
+
+  </div>
+</div>

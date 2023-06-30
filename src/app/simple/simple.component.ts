@@ -7,15 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SimpleComponent implements OnInit {
 
-  numberDiv:number = 49;
-arrayDiv:number[] = [];
+  numberDiv: number = 100;
+  arrayDiv: number[] = [];
   constructor() { }
 
 
 
   ngOnInit() {
-    for(var i = 1;i <= this.numberDiv;i++){
-this.arrayDiv.push(i);
+    for (var i = 1; i <= this.numberDiv; i++) {
+      this.arrayDiv.push(i);
     }
   }
 

@@ -1,5 +1,5 @@
 ﻿import { Component, Input } from '@angular/core';
- 
+
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../service/shared.service';
@@ -19,7 +19,7 @@ export class EditUserComponent {
     regexPatternSdt = /^[0-9]{1,10}$/;
     regexPatternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,200}$/;
     errorTxtUsername: string;
-    is_load_list: boolean = false;
+    isLoadList: boolean = false;
     showErrorTxtNgaySinh: boolean = false;
     errorTxtNgaySinh: string;
     showErrorTxtSdt: boolean = false;
@@ -73,22 +73,22 @@ export class EditUserComponent {
 
     checkChangeUsername() {
 
-        var t = this.sharedService.checkChangeProperty(this.regexPatternUsername, this.user, "username", "txt-username", this, "showErrorTxtUsername");
+        var check = this.sharedService.checkChangeProperty(this.regexPatternUsername, this.user, "username", "txt-username", this, "showErrorTxtUsername");
 
-        if (!t) {
+        if (!check) {
             this.errorTxtUsername = "Tên đăng nhập từ 1 đến 50 ký tự, chỉ viết liền, không dấu"
         }
-        return t;
+        return check;
 
     }
 
     checkChangePass() {
-        var t = this.sharedService.checkChangeProperty(this.regexPatternPass, this.user, "password", "txt-pass", this, "showErrorTxtPass");
+        var check = this.sharedService.checkChangeProperty(this.regexPatternPass, this.user, "password", "txt-pass", this, "showErrorTxtPass");
 
-        if (!t) {
+        if (!check) {
             this.errorTxtPass = "Mật khẩu tối thiểu 6 ký tự, tối đa 100 ký tự, chỉ viết liền, không dấu";
         }
-        return t;
+        return check;
     }
 
     checkChangeNgaySinh() {
@@ -122,12 +122,12 @@ export class EditUserComponent {
 
     checkChangeSdt() {
 
-        var t = this.sharedService.checkChangeProperty(this.regexPatternSdt, this.user, 'sdt', "txt-sdt", this, "showErrorTxtSdt");
+        var check = this.sharedService.checkChangeProperty(this.regexPatternSdt, this.user, 'sdt', "txt-sdt", this, "showErrorTxtSdt");
 
-        if (!t) {
+        if (!check) {
             this.errorTxtSdt = "Số điện thoại tối đa 10 ký tự, chỉ nhập số";
         }
-        return t;
+        return check;
 
     }
     checkChangeRePass() {
@@ -230,12 +230,12 @@ export class EditUserComponent {
 
                 this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
-                    if (response.data.result == 0) {
+                    if (response.data.is_error == false) {
                         this.toastr.success('Thêm người dùng thành công', 'Thông báo');
 
                         this.modal.close("ok");
                     } else {
-                        if (response.data.exception.includes("UNIQUE KEY")) {
+                        if (response.data.message.includes("UNIQUE KEY")) {
                             this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
                         } else {
                             this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
@@ -253,7 +253,7 @@ export class EditUserComponent {
                     this.prepareData(), this.sharedService.httpOptions)
                     .subscribe(response => {
 
-                        if (response.data.result == 0) {
+                        if (response.data.is_error == false) {
                             this.toastr.success('Sửa người dùng thành công', 'Thông báo');
                             this.modal.close("ok");
                         } else {
@@ -267,8 +267,14 @@ export class EditUserComponent {
     }
 
     prepareData() {
-        if (this.user.ngay_sinh)
-            this.user.ngay_sinh = (new Date(this.user.ngay_sinh)).toLocaleDateString();
+        if (this.user.ngay_sinh) {
+
+            const offset = new Date(this.user.ngay_sinh).getTimezoneOffset();
+            this.user.ngay_sinh = new Date(new Date(this.user.ngay_sinh).getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+
+
+            // this.user.ngay_sinh = (new Date(this.user.ngay_sinh)).toLocaleDateString();
+        }
         return this.user
     }
 
@@ -280,12 +286,12 @@ export class EditUserComponent {
 
                 this.sharedService.callAddUser(this.prepareData()).subscribe(response => {
 
-                    if (response.data.result == 0) {
+                    if (response.data.is_error == false) {
                         this.toastr.success('Thêm người dùng thành công', 'Thông báo');
-                        this.is_load_list = true;
+                        this.isLoadList = true;
                         this.refreshUser();
                     } else {
-                        if (response.data.exception.includes("UNIQUE KEY")) {
+                        if (response.data.message.includes("UNIQUE KEY")) {
                             this.toastr.error('Username bị trùng', 'Thêm người dùng thất bại');
                         } else {
                             this.toastr.error('Thêm người dùng thất bại ', 'Thông báo');
@@ -312,7 +318,7 @@ export class EditUserComponent {
     }
 
     close() {
-        if (this.is_load_list) {
+        if (this.isLoadList) {
             this.modal.close("ok");
         } else {
             this.modal.close();
